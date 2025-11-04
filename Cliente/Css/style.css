@@ -1,0 +1,360 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.fondo::before {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background-image: url(/Cliente/Recursos/gente_LOW.jpg);
+  background-size: cover;
+  background-position: center;
+  filter: blur(8px);
+  z-index: -1;
+  content: ""; /* Faltaba esto para pseudo-elemento */
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  font-family: 'Open Sans', sans-serif;
+  display: flex;
+  flex-direction: column;
+}
+
+.contenido-principal {
+  flex: 1;
+}
+
+.video {
+  margin-top: 40px;
+  width: 1500px;
+}
+
+.contenedor {
+  padding: 60px 0;
+  width: 100%;
+  max-width: 1700px;
+  margin: auto;
+  overflow: hidden;
+}
+
+.titulo {
+  color: #004e92;
+  font-size: 45px;
+  text-align: center;
+  margin-bottom: 60px;
+}
+
+header {
+  width: 100%;
+  height: 100px;
+  background: linear-gradient(to right, hsla(240, 100%, 14%, 0.6), hsla(0, 0%, 63%, 0.6)), url(/Cliente/Recursos/gente_LOW.jpg);
+  background-size: cover;
+  background-attachment: fixed;
+  position: relative;
+}
+
+nav {
+  text-align: right;
+  padding: 30px 50px 0 0;
+}
+
+nav > a {
+  color: #fff;
+  font-weight: 300;
+  text-decoration: none;
+  margin-right: 10px;
+}
+
+nav > a:hover {
+  text-decoration: underline;
+}
+
+header .textos-header {
+  display: flex;
+  height: 300px;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  text-align: center;
+  color: #fff;
+}
+
+.textos-header h1 {
+  font-size: 50px;
+  color: #fff;
+}
+
+@media (max-width: 700px) {
+  .textos-header h1 {
+    font-size: 30px;
+  }
+}
+
+.textos-header h2 {
+  font-size: 25px;
+  font-weight: 300;
+}
+
+.textos-header h5 {
+  font-size: 20px;
+}
+
+.wave {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+}
+
+.contenedor-sobre-nosotros {
+  display: flex;
+  justify-content: space-evenly;
+  height: 500px;
+}
+
+.imgNosotros {
+  width: 100%;
+  height: 500px;
+}
+
+.nosotros .contenedor-texto {
+  width: 48%;
+}
+
+.contenedor-texto h3 {
+  margin-bottom: 15px;
+}
+
+.contenedor-texto h3 span {
+  background: #4d0686;
+  color: #fff;
+  border-radius: 50%;
+  display: inline-block;
+  text-align: center;
+  width: 30px;
+  height: 30px;
+  padding: 2px;
+  box-shadow: 0 0 6px 0 rgba(0, 0, 0, 0.5);
+  margin-right: 8px;
+}
+
+.contenedor-texto p {
+  padding: 0 0 30px 15px;
+  font-weight: 300;
+  text-align: justify;
+}
+
+.portafolio {
+  background: #f2f2f2;
+}
+
+.galeriaImg {
+  display: flex;
+  justify-content: space-evenly;
+  flex-wrap: wrap;
+}
+
+.img-port {
+  width: 24%;
+  margin-bottom: 10px;
+  overflow: hidden;
+  position: relative;
+  cursor: pointer;
+  box-shadow: 0 0 6px 0 rgba(0, 0, 0, 0.5);
+  height: 200px;
+}
+
+.img-port > img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.form-center {
+  min-height: 200px;
+  margin: 40px 0;
+  display: flex;
+  justify-content: center;
+}
+
+.hover-galeria img {
+  width: 50px;
+}
+
+.hover-galeria p {
+  color: #fff;
+}
+
+.img-port:hover .hover-galeria {
+  transform: scale(1);
+}
+
+footer {
+  background: #414141;
+  padding: 0;
+  margin: auto;
+  overflow: hidden;
+}
+
+.contenedor-footer {
+  display: flex;
+  width: 90%;
+  justify-content: space-evenly;
+  margin: auto;
+  padding-bottom: 50px;
+  border-bottom: 1px solid #ccc;
+}
+
+.contenedor-foo {
+  text-align: center;
+}
+
+.contenedor-foo h4 {
+  color: #fff;
+  border-bottom: 3px solid #f8cdda;
+  padding-bottom: 5px;
+  margin-bottom: 10px;
+}
+
+.contenedor-foo p {
+  color: #ccc;
+}
+
+.titulo-final {
+  text-align: center;
+  font-size: 45px;
+  margin: 20px 0 0 0;
+  color: #9e9797;
+}
+
+/* Recorte de img de youtube */
+.video-img-wrapper {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16/9;
+  overflow: hidden;
+}
+
+.video-img-wrapper img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.card-link .card {
+  transition: border 0.3s, box-shadow 0.3s;
+}
+
+.card-link:hover .card {
+  border: 1px solid #020202;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+  cursor: pointer;
+}
+
+/* Estilo de la tabla */
+.table tbody tr.selected {
+  background-color: #adb5bd;
+}
+
+/* Botones de Aprobar */
+.aprobar-btn {
+  background-color: rgb(110, 192, 206);
+  color: aliceblue;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.aprobar-btn:hover {
+  background-color: rgb(80, 160, 180);
+  color: #fff;
+  cursor: pointer;
+}
+
+.rechazar-btn {
+  background-color: rgb(206, 110, 110);
+  color: aliceblue;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.rechazar-btn:hover {
+  background-color: rgb(153, 82, 82);
+  color: #fff;
+  cursor: pointer;
+}
+
+/* Subtabla */
+.subtabla-carreras table {
+  border-collapse: separate;
+  border-spacing: 0;
+  margin-left: 32px;
+  width: 90%;
+  border-left: 2px solid #ccc;
+  border-right: 2px solid #ccc;
+  background: transparent;
+}
+
+.subtabla-carreras th,
+.subtabla-carreras td {
+  border-left: none;
+  border-right: none;
+  border-bottom: 1px solid #ccc;
+  background: transparent;
+  vertical-align: middle;
+}
+
+/* Evita doble borde izquierdo en la primera columna */
+.subtabla-carreras th:first-child,
+.subtabla-carreras td:first-child {
+  border-left: none;
+  border-right: none;
+}
+
+/* Color al pasar el cursor */
+.fila-principal:hover,
+.fila-carrera:hover,
+.fila-ua:hover {
+  background-color: #d8e2eb;
+  cursor: pointer;
+}
+
+/* Color al seleccionar */
+.fila-principal.selected,
+.fila-carrera.selected,
+.fila-ua.selected {
+  background-color: #a8a8a8;
+}
+
+.Last-selected {
+  background-color: #57595e !important;
+  color: #fff;
+}
+
+.fila-principal.selected .btn-editar,
+.fila-principal.selected .btn-eliminar {
+  display: inline-block !important;
+}
+
+.mi-modal {
+  min-height: 1500px;
+}
+
+@keyframes shake {
+  0% { transform: translateX(0); }
+  20% { transform: translateX(-5px); }
+  40% { transform: translateX(5px); }
+  60% { transform: translateX(-5px); }
+  80% { transform: translateX(5px); }
+  100% { transform: translateX(0); }
+}
+
+.shake {
+  animation: shake 0.4s;
+}

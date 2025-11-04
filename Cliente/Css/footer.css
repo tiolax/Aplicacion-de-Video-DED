@@ -1,0 +1,31 @@
+/*Footer*/
+footer{
+  background: #414141;
+  padding: 0;
+  width: 100%;
+  overflow: hidden;
+}
+.contenedor-footer{
+  display:  flex;
+  width: 90%;
+  justify-content: space-evenly;
+  margin: auto;
+  padding-bottom: 50px;
+  border-bottom: 1px solid #ccc;
+}
+.contenedor-foo{
+  text-align: center;
+
+}
+.contenedor-foo h4{
+color: #fff;
+border-bottom: 3px solid #f8cdda;
+padding-bottom: 5px;
+margin-bottom: 10px
+
+}
+.contenedor-foo p{
+color: #ccc;
+}
+
+

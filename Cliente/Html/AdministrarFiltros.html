@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="/Cliente/Css/footer.css">
+    <link rel="stylesheet" href="/Cliente/Css/AdministrarFiltros.css">
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
+
+    <title>Administrador de Filtros</title>
+</head>
+
+<body>
+    <div id="navbar"></div>
+    <main class ="contenido-principal">
+ <div class="container-fluid contenedor p-3 ">
+<div class="row contenedor p-2">
+  <div class="col-12">
+
+    <div class="p-4">
+      <h1 class="m-0">Administración de Filtros</h1>
+    </div>
+
+    <div class="d-flex flex-wrap align-items-center justify-content-between px-4">
+     
+      <div class="input-group w-auto flex-grow-1 me-3" style="max-width:400px;">
+        <input id="PalabraFiltro" class="form-control" type="search" placeholder="Buscar" aria-label="Buscar">
+        <button id="btnbuscar" class="btn btn-outline-secondary" type="button">
+          <i class="bi bi-search"></i>
+        </button>
+      </div>
+
+      <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#modalAgregarFacultad">
+        Agregar Facultad
+      </button>
+    </div>
+  </div>
+</div>
+
+<div class = "tabla-wrapper">
+<table class="table table-bordered" id="tablaFacultades">
+  <thead class="thead-dark bg-dark-subtle">
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Facultad</th>
+      <th scope="col">Usuario Asignado</th>
+      <th scope="col">N. Carreras</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody id = "tablafacu">
+  </tbody>
+</table>
+</div>
+<section class="px-3 mt-4" id="seccion-palabras-clave">
+  <div class="d-flex align-items-center justify-content-between mb-2">
+    <h5 class="m-0">Palabras clave</h5>
+
+    
+
+    <div class="input-group" style="max-width: 380px;">
+      <input type="text" class="form-control" id="inputNuevaPalabra" placeholder="Nueva palabra...">
+      <button class="btn btn-secondary" id="btnAgregarPalabra">
+        <i class="bi bi-plus-circle"></i> Agregar palabra
+      </button>
+    </div>
+  </div>
+<div id="error-msgp" class="text-danger mt-2 d-flex justify-content-end me-3 mb-2"></div>
+
+ <div class="bank-palabras border rounded-3 p-2">
+  <div class="row" id="listaPalabras"></div>
+  <!-- Vista vacía -->
+  <div class="text-body-secondary small text-center py-3 d-none" id="emptyBankMsg">
+    Aún no hay palabras. Agrega la primera con el botón de arriba.
+  </div>
+</div>
+
+</section>
+
+  </div>
+
+<!--Ventanas Modales para los botones-->
+<!--Modal de Registro de Facultades-->
+
+<div class="modal fade" id="modalAgregarFacultad" tabindex="-1" aria-labelledby="modalAgregarFacultad" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalAgregarFacultad">Nueva Facultad</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+      </div>
+      <div class="modal-body">
+        <div class="mb-3">
+          <label for="nombreFacultad" class="form-label">Nombre de la Facultad</label>
+          <input type="text" class="form-control" id="nombreFacultad" placeholder="Ingresa un título">
+        </div>
+        <div class="p-2 d-flex align-items-center">
+          <div id="error-msgf" class="text-danger mt-2"></div>
+        </div>
+        <p style="color: rgb(90, 90, 90);"></p>
+        <div class="text-center">
+          <button id="btnGuardarFacultad" type="button" class="btn btn-dark w-100">Guardar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!--Modal de Registro de Programas-->
+<div class="modal fade" id="modalAgregarPrograma" tabindex="-1" aria-labelledby="modalAgregarPrograma" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 id="tituloModalAgregarCarrera" class="modal-title"></h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+      </div>
+      <div class="modal-body">
+
+        <div class="mb-3">
+          <label for="nombrePrograma" class="form-label">Nombre del Programa</label>
+          <input type="text" class="form-control" id="nombrePrograma" placeholder="Ingresa un título">
+        </div>
+
+        <div class="p-2 d-flex align-items-center">
+          <div id="error-msgc" class="text-danger mt-2"></div>
+        </div>
+
+        <p style="color: rgb(90, 90, 90);">
+          Asegúrese de agregar el programa a la Facultad correspondiente
+        </p>
+
+        <div class="text-center">
+          <button type="button" class="btn btn-dark w-100" id="btnGuardarPrograma">Guardar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!--Modal de Registro de UA-->
+<div class="modal fade" id="modalAgregarUA" tabindex="-1" aria-labelledby="modalAgregarUA" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered ">
+    <div class="modal-content ">
+      <div class="modal-header ">
+        <h5 id="tituloModalAgregarUa" class="modal-title"></h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+      </div>
+      <div class="modal-body">
+
+        <div class="mb-3">
+          <label for="nombreUA" class="form-label">Nombre de la Unidad de Aprendizaje</label>
+          <input type="text" class="form-control" id="nombreUA" placeholder="Ingresa un título">
+        </div>
+
+        <div class="mb-3">
+          <label for="modalidad" class="form-label">Selecciona la Modalidad</label>
+          <select class="form-select" id="modalidad" required>
+            <option value="En linea">En linea</option>
+            <option value="Mixta">Mixta</option>
+          </select>
+        </div>
+
+        <div class="p-2 d-flex align-items-center"><div id="error-msgu" class="text-danger mt-2"></div></div>
+ 
+        <p style="color: rgb(90, 90, 90);">Asegurese de agregar la Unidad de Aprendizaje al Programa correspondiente</p>
+        <div class="text-center">
+          <button type="button" class="btn btn-dark w-100" id="btnGuardarUA">Guardar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!--Modal de Editar Facu-->
+<div class="modal fade" id="modalEditarFacultad" tabindex="-1" aria-labelledby="modalEditarFacultad" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="TitulomodalEditarFacultad">Editar Facultad</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+      </div>
+      <div class="modal-body">
+
+        <div class="mb-3">
+          <label for="nombreEditFacultad" class="form-label">Nombre de la Facultad</label>
+          <input type="text" class="form-control" id="nombreEditFacultad" placeholder="Ingresa un título">
+        </div>
+        <div class="p-2 d-flex align-items-center"><div id="error-msgef" class="text-danger mt-2"></div></div>
+
+        <p style="color: rgb(90, 90, 90);"></p>
+        <div class="text-center">
+          <button id="btnEditarFacultad" class="btn btn-dark w-100">Guardar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!--Modal de Editar Carrera-->
+<div class="modal fade" id="modalEditarPrograma" tabindex="-1" aria-labelledby="modalEditarPrograma" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 id="tituloModalEditarCarrera" class="modal-title">Editar</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+      </div>
+      <div class="modal-body">
+
+        <div class="mb-3">
+          <label for="nombreEditarPrograma" class="form-label">Nombre del Programa</label>
+          <input type="text" class="form-control" id="nombreEditarPrograma" placeholder="Ingresa un título">
+        </div>
+        <div class="p-2 d-flex align-items-center">
+          <div id="error-msgec" class="text-danger mt-2"></div>
+        </div>
+
+        <p style="color: rgb(90, 90, 90);"></p>
+        <div class="text-center">
+          <button id="btnEditarPrograma" class="btn btn-dark w-100">Guardar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!--Modal de Editar Palabra-->
+<div class="modal fade" id="modalEditarPalabra" tabindex="-1" aria-labelledby="modalEditarPalabra" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 id="titulomodalEditarPalabra" class="modal-title">Editar</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+      </div>
+      <div class="modal-body">
+
+        <div class="mb-3">
+          <label for="nombrePalabraEditada" class="form-label">Actualizar Palabra</label>
+          <input type="text" class="form-control" id="nombrePalabraEditada" placeholder="Ingresa un título">
+        </div>
+        <div class="p-2 d-flex align-items-center">
+          <div id="error-msgep" class="text-danger mt-2"></div>
+        </div>
+        <p style="color: rgb(90, 90, 90);"></p>
+        <div class="text-center">
+          <button id="btnEditarPalabra" class="btn btn-dark w-100">Guardar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!--Modal de Editar UA-->
+<div class="modal fade" id="modalEditarUA" tabindex="-1" aria-labelledby="modalEditarUA" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 id="tituloModalEditarUa" class="modal-title"></h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+      </div>
+      <div class="modal-body">
+
+        <div class="mb-3">
+          <label for="nombreUAedit" class="form-label">Nombre de la Unidad de Aprendizaje</label>
+          <input type="text" class="form-control" id="nombreUAedit" placeholder="Ingresa un título">
+        </div>
+
+        <div class="mb-3">
+          <label for="modalidadedit" class="form-label">Selecciona la Modalidad</label>
+          <select class="form-select" id="modalidadedit" required>
+            <option value="En linea">En linea</option>
+            <option value="Mixta">Mixta</option>
+          </select>
+        </div>
+
+        <div class="p-2 d-flex align-items-center">
+          <div id="error-msgeu" class="text-danger mt-2"></div>
+        </div>
+
+        <p style="color: rgb(90, 90, 90);"></p>
+        <div class="text-center">
+          <button id="btnEditarUa" type="button" class="btn btn-dark w-100">Guardar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!--Modal Aviso-->
+<div class="modal fade" id="modalAviso" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      
+      <div class="modal-header bg-secondary text-white">
+        <h5 class="modal-title" id="modalLabel">Aviso</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+      </div>
+      
+      <div class="modal-body text-center" id = "textmodalAviso">  
+      </div>
+      
+      <div class="modal-footer justify-content-center">
+        <button id="btnaceptar" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Aceptar</button>
+      </div>
+      
+    </div>
+  </div>
+</div>
+
+
+
+
+<!--Modal Alerta nivel 1-->
+<div class="modal fade" id="modalConfirmacion" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      
+      <div class="modal-header bg-secondary text-white">
+        <h5 class="modal-title" id="modalLabel">Aviso</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+      </div>
+      
+      <div class="modal-body text-center" id = "textModalnivel1">  
+      </div>
+      
+      <div class="modal-footer justify-content-center">
+        <button  type="button" class="btn btn-danger" id="btnConfirmar">Continuar</button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+      </div>
+      
+    </div>
+  </div>
+</div>
+<!--Modal Alerta nivel 2-->
+<div class="modal fade" id="modalConfirmacion2" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      
+      <div class="modal-header bg-secondary text-white">
+        <h5 class="modal-title" id="modalLabel2">Aviso</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+      </div>
+      
+      <div class="modal-body text-center">
+        <p>Está eliminado las materias y videos correspondientes de <b id = "textomodalEliminarCarreraCascada"></b> ¿Desea continuar?</p>
+      </div>
+      
+      <div class="modal-footer justify-content-center">
+        <button  type="button" class="btn btn-danger" id="btnConfirmar2">Continuar</button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!--Modal Contra-->
+<div class="modal fade" id="modalContra" tabindex="-1" aria-labelledby="modalContra" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 id="titulomodalContra" class="modal-title">Confirmar Contraseña</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+      </div>
+      <div class="modal-body">
+
+        <div class="mb-3">
+          <label for="nombreModalContra" class="form-label">Confirmar Contraseña</label>
+          <input type="text" class="form-control" id="nombreModalContra" placeholder="contraseña del administrador">
+        </div>
+        <div class="p-2 d-flex align-items-center">
+          <div id="error-msgcontra" class="text-danger mt-2"></div>
+        </div>
+
+        <p style="color: rgb(90, 90, 90);"></p>
+        <div class="text-center">
+          <button id="btnConfirmarContra" class="btn btn-dark w-100">Confirmar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+</main>
+    <div id="footer"></div>
+        <script src="/Cliente/Js/config.js"></script> 
+   <script  type="module" src="/Cliente/Js/Footer_Navbar.js"></script> 
+   <script  type="module" src="/Cliente/Js/AdministrarFiltros.js"></script> 
+</body>
+</html>

@@ -1,0 +1,79 @@
+
+  <nav id="navbar" class="navbar navbar-expand-lg">
+    <div class="container-fluid">
+    
+      <a id ="navbarinicio" class="navbar-brand pe-4" href="/Cliente/Html/inicio.html">Inicio</a>
+
+
+
+<div id="navbar-search" class="flex-grow-1 mx-3 my-2 my-lg-0" role="search" aria-label="Búsqueda">
+  <div class="input-group">
+    <input
+      id="navbar-search-input"
+      type="search"
+      class="form-control"
+      placeholder="Buscar videos…"
+      autocomplete="off"
+      aria-label="Buscar"
+    />
+    <button id="navbar-search-btn" type="button" class="btn btn-outline-secondary">
+      <i class="bi bi-search"></i>
+      <span class="visually-hidden">Buscar</span>
+    </button>
+  </div>
+</div>
+
+
+
+
+<!-- boton subir video grande-->
+      <div class=" d-flex align-items-center pe-5 d-none d-lg-block">
+    <div class="d-flex align-items-center pe-5 d-none d-lg-block">
+  <a href="/Cliente/Html/registrarvideo.html" class="btn btn-secondary">Subir Video</a>
+</div>
+      </div>
+
+<!-- boton subir video chico -->
+   <div class="d-flex align-items-center  d-lg-none me-2">
+      <a  href="/Cliente/Html/registrarvideo.html" type="button" class="btn btn-secondary rounded-circle" style="width: 35px; height: 35px; display: flex; align-items: center; justify-content: center;">
+        <i class="bi bi-plus fs-4"></i>
+      </a>
+    </div>
+
+<!-- desplegable icono de perfil -->
+  <div class="dropdown">
+  <a href="#" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    <i class="bi bi-person-circle fs-4"></i>
+  </a>
+  <ul  class="dropdown-menu dropdown-menu-end p-3" style="min-width: 250px;">
+    
+    <li class="d-flex align-items-center mb-2">
+      <i class="bi bi-person-circle fs-3 me-2"></i>
+      <div>
+        <strong id="Nombre_UsuarioSesion">Nombre de Usuario</strong><br>
+        <small id = "Facultad_UsuaruiSesion" class="text-muted">Facultad de ejemplo</small>
+      </div>
+    </li>
+
+    <li><hr class="dropdown-divider"></li>
+    <div  id="Opciones_Navbar">
+    <!-- Opciones -->
+    </div>
+    <li><hr class="dropdown-divider"></li>
+
+    <!-- Cerrar sesión -->
+    <li><button id="cerrarSesion" class="dropdown-item text-muted" >Cerrar sesión </button></li>
+  </ul>
+</div>
+
+</div>
+</nav>
+
+<style>
+  @media (min-width: 992px) {
+    #navbar-search .input-group { max-width: 560px; }
+  }
+  #navbar-search-btn i { pointer-events: none; }
+</style>
+
+

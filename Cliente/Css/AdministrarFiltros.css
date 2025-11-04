@@ -1,0 +1,176 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  height: 100%;
+}
+
+body {
+  font-family: 'Open Sans', sans-serif;
+  display: flex;
+  flex-direction: column;
+}
+
+.contenido-principal {
+  flex: 1;
+}
+
+.contenedor {
+  padding: 60px 0;
+  width: 100%;
+  max-width: 1700px;
+  margin: auto;
+  overflow: hidden;
+}
+
+.table,
+.subtabla-carreras table {
+  border-collapse: collapse;
+  width: 100%;
+  background: white;
+  margin-left: 32px;
+}
+
+/* Quita bordes de todas las celdas, deja solo el bottom */
+.table th,
+.table td,
+.subtabla-carreras th,
+.subtabla-carreras td {
+  border: none;
+  border-bottom: 1px solid #ccc;
+  background: transparent;
+  vertical-align: middle;
+}
+
+/* Encabezado con background a todo el ancho */
+.table thead th,
+.subtabla-carreras thead th {
+  background-color: #e9ecef; /* Usa el mismo color de Bootstrap bg-dark-subtle */
+}
+
+/* Hover y selección */
+.fila-principal:hover,
+.fila-carrera:hover,
+.fila-ua:hover {
+  background-color: #d8e2eb;
+  cursor: pointer;
+}
+
+.fila-principal.selected,
+.fila-carrera.selected,
+.fila-ua.selected {
+  background-color: #a8a8a8;
+}
+
+.Last-selected {
+  background-color: #57595e !important;
+  color: #fff;
+}
+
+/* Botones ocultos/visibles */
+.fila-principal.selected .btn-editar,
+.fila-principal.selected .btn-eliminar,
+.fila-ua.selected .btn-editar,
+.fila-ua.selected .btn-eliminar,
+.fila-carrera.selected .btn-editar,
+.fila-carrera.selected .btn-eliminar {
+  display: inline-block !important;
+}
+
+.btn-editar,
+.btn-eliminar {
+  display: none;
+  border: none;
+  background: none;
+  cursor: pointer;
+  font-size: 1.2em;
+  margin-right: 10px; 
+  transition: transform 0.15s ease, color 0.15s ease;
+}
+
+.btn-eliminar {
+  margin-right: 0;
+}
+
+/* Animación de hover para ambos botones */
+.fila-principal.selected .btn-editar:hover,
+.fila-principal.selected .btn-eliminar:hover,
+.fila-carrera.selected .btn-editar:hover,
+.fila-carrera.selected .btn-eliminar:hover,
+.fila-ua.selected .btn-editar:hover,
+.fila-ua.selected .btn-eliminar:hover   {
+  transform: scale(1.3) rotate(-8deg);
+}
+
+
+/* Contenedor con scroll cuando la tabla excede el alto */
+.tabla-wrapper {
+  max-height: 620px;        
+  overflow: auto;           
+  margin-left: 32px;         
+  border: 1px solid #dee2e6; 
+  border-radius: .5rem;      
+}
+
+/* Quita el margen inferior que pone Bootstrap a la tabla */
+.tabla-wrapper .table { 
+  margin-bottom: 0;
+}
+
+.tabla-wrapper thead th {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  background: #e9ecef;
+}
+
+.table { margin-left: 0 !important; } 
+
+/* ===== Palabras clave ===== */
+.bank-palabras{
+  max-height: 220px;          /* Limita el alto visible del banco */
+  overflow-y: auto;  
+  overflow-x: hidden;
+  background-color: #fff;     /* Visual limpio */
+}
+
+.bank-palabras::-webkit-scrollbar{
+  width: 8px;
+}
+.bank-palabras::-webkit-scrollbar-thumb{
+  background: #c9c9c9;
+  border-radius: 8px;
+}
+.bank-palabras::-webkit-scrollbar-track{
+  background: #f1f1f1;
+}
+
+/* Botones compactos en cada ítem */
+.keyword-actions .btn{
+  --bs-btn-padding-y: .15rem;
+  --bs-btn-padding-x: .45rem;
+  --bs-btn-font-size: .8rem;
+}
+
+
+.btn-editark,
+.btn-eliminark {
+  display: none;
+  border: none;
+  background: none;
+  cursor: pointer;
+  font-size: 1.2em;
+  margin-right: 10px; 
+  transition: transform 0.15s ease, color 0.15s ease;
+}
+
+.btn-eliminark {
+  margin-right: 0;
+}
+
+.btn-editark:hover,.btn-eliminark:hover   {
+  transform: scale(1.3) rotate(-8deg);
+}

@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+     <link rel="stylesheet" href="/Cliente/Css/style.css">
+    <link rel="stylesheet" href="/Cliente/Css/footer.css">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
+
+    <title>Lista de Usuarios</title>
+</head>
+<body>
+      <div id="navbar"></div>
+    <main class="contenido-principal">
+
+
+        <div class=" container-fluid contenedor p-3">
+          <div class="row p-3"><h5>Lista de Usuarios</h5>
+            <div></div>
+          </div>
+
+           <div class=" d-flex align-items-center justify-content-center col-12 bg-dark-subtle" style="height: 50px;">
+            <button class=" btn p-2 m-2 rounded border">Estatus</button> <!--hacerlos botones-->
+            <div class="btn p-2 m-2 rounded border" >Fecha de Registro</div>
+            <div class="btn p-2 m-2 rounded border">Ultima conexion</div>
+            <div class="btn p-2 m-2 rounded border">Total de videos</div>
+            <div class="input-group w-25">
+                <input class="form-control bg-dark-subtle" type="search" placeholder="Buscar" aria-label="Buscar">
+          <button class="btn btn-outline-secondary" type="submit">
+            <i class="bi bi-search"></i>
+          </button>
+            </div>
+             <div><button class="btn p-2 m-2 rounded border" style="background-color: rgb(110, 192, 206); color: aliceblue;">Actualizar</button></div>
+
+            <div><button class="btn p-2 m-2 rounded border" style="background-color: rgb(206, 110, 110); color: aliceblue;"> Dar de Baja</button></div>
+        </div>
+
+<table class="table table-bordered bg-dark-subtle">
+  <thead class="thead-dark bg-dark-subtle">
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Nombre</th>
+      <th scope="col">Facultad</th>
+      <th scope="col">Fecha de registro</th>
+      <th scope="col">Ultima conexion</th>
+      <th scope="col">Total de videos</th>
+      <th scope="col">Estatus</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th scope="row">1</th>
+      <td>User1</td>
+      <td>Facultad por defecto</td>
+      <td>10/10/10</td>
+      <td>10/10/10</td>
+      <td>10</td>
+      <td>BAJA</td>
+    </tr>
+
+     <tr>
+      <th scope="row">2</th>
+       <td>User2</td>
+      <td>Facultad por defecto</td>
+      <td>10/10/10</td>
+      <td>10/10/10</td>
+      <td>10</td>
+      <td>ACTIVO</td>
+      
+    </tr>
+
+  <tr>
+      <th scope="row">3</th>
+       <td>User3</td>
+      <td>Facultad por defecto</td>
+      <td>10/10/10</td>
+      <td>10/10/10</td>
+      <td>10</td>
+      <td>ACTIVO</td>
+      
+    </tr>
+
+
+  </tbody>
+</table>
+<div class="d-flex justify-content-center"><button type="button" class="btn btn-secondary">Agregar Usuario</button>
+</div>
+        </div>
+    </main>
+        <div id="footer"></div>
+</body>
+
+<script>
+         fetch('footer.html')
+        .then(response => response.text())
+        .then(html =>{
+            document.getElementById('footer').innerHTML = html;
+        });
+
+    fetch('Navbar.html')
+        .then(response => response.text())
+        .then(html =>{
+            document.getElementById('navbar').innerHTML = html;
+        });
+
+  document.addEventListener("DOMContentLoaded", function () {
+    const rows = document.querySelectorAll(".table tbody tr");
+
+    rows.forEach(row => {
+      row.addEventListener("click", function () {
+        // Quitar la clase "selected" de todas las filas
+        rows.forEach(r => r.classList.remove("selected"));
+        
+        // Agregar clase "selected" a la fila clickeada
+        this.classList.add("selected");
+      });
+    });
+  });
+
+
+
+</script>
+
+</html>
