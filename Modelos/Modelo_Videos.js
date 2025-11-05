@@ -17,6 +17,14 @@ export async function obtenerPorUrl(url){
         where:{identificador:url }
     })
 }
+
+export async function obtenerPorUsuario(usuario_id){
+    return await prisma.video.findMany({
+        where:{usuario_id:usuario_id }
+    })
+}
+
+
 export async function  listarVideos(input = {})
 {
 
