@@ -1,8 +1,8 @@
-export async function ObtenerVideosPorUsuario(id_usuario){
+export async function ObtenerVideosPorUsuario(usuario_id){
             const res = await fetch(`${window.API_URL}/videos/por-usuario`,{
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({id_usuario}),
+            body: JSON.stringify({usuario_id}),
             })
             const data = await res.json();
             return data;

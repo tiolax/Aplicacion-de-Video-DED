@@ -158,7 +158,7 @@ return res.status(200).json({
 
 export const ObtenerVideosPorUsuario = async(req,res) => {
 
-  const VideosEncontrados = await ModelVideo.obtenerPorUsuario(req.usuario_id);
+  const VideosEncontrados = await ModelVideo.obtenerPorUsuario(req.body.usuario_id);
     return res.status(200).json({
         success: true,
         videos: VideosEncontrados

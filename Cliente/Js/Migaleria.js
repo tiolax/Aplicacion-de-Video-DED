@@ -25,8 +25,21 @@ const usuarioActual = (() => {
     return {};
   }
 })();
+
+console.log("Usuario actual: ",usuarioActual);
+
+let NombredelaFacultaddelUsusario = null;
+let FacultaddelUsuario = null;
+
+
+if(usuarioActual.admin){
+  NombredelaFacultaddelUsusario = "Cuenta de Administrador";
+}else{
 const idFacultadelusuario = usuarioActual.facultad;
-const FacultaddelUsuario = await ObtenerFacultadporId(idFacultadelusuario);
+FacultaddelUsuario = await ObtenerFacultadporId(idFacultadelusuario);
+NombredelaFacultaddelUsusario = FacultaddelUsuario.nombre;
+}
+
 
 function pintarPerfil(totalVideos = 0) {
   contenedorPerfil.innerHTML = "";
@@ -34,7 +47,7 @@ function pintarPerfil(totalVideos = 0) {
   col.innerHTML = `
     <div class="p-4">
       <h1 class="m-0">${usuarioActual?.nombre ?? "Mi perfil"}</h1>
-      <h5 class="m-0">${FacultaddelUsuario.nombre ?? ""}</h5>
+      <h5 class="m-0">${NombredelaFacultaddelUsusario ?? ""}</h5>
       ${totalVideos} ${totalVideos === 1 ? "Video" : "Videos"}
     </div>
   `;
@@ -181,7 +194,7 @@ btnReset?.addEventListener("click", () => {
 (async () => {
   try {
     renderSkeleton(8);
-
+      console.log("usuario actual id: ",usuarioActual.id);
     const idUsuario = usuarioActual?.id ?? 1;
     const respuesta = await ObtenerVideosPorUsuario(idUsuario);
     const videos = respuesta?.videos ?? respuesta ?? [];

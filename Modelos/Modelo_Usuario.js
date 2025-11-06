@@ -25,6 +25,7 @@ export  function obtenerPorNombre(nombre_de_usuario){
         where:{nombre_de_usuario},
         select:{
          nombre_de_usuario:true,
+         id:true,
          password: true,
          admin:true,
          facultad_id:true,

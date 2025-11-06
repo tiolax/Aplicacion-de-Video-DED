@@ -95,7 +95,7 @@ export function FacultadUsuario_Sesion(){
 
         const registrarvideo = document.createElement("a");
         registrarvideo.className = "dropdown-item";
-        registrarvideo.href = "/Cliente/Html/Videopendientes.html";
+        registrarvideo.href = "/Cliente/Html/registrarvideo.html";
         registrarvideo.textContent = "Registrar Video";  
 
 

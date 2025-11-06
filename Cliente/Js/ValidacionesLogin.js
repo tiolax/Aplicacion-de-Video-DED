@@ -19,7 +19,6 @@ document.querySelector('form').addEventListener("submit", async(e) =>{
             body: JSON.stringify({ nombre, password }),
             })
             const data = await res.json();
-
               if(data.success){
                 localStorage.setItem("Usuario_SesionIniciada", JSON.stringify(data.usuarioEcontrado));
                 window.location.href = "/Cliente/Html/inicio.html";

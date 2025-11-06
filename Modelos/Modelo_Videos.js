@@ -18,9 +18,9 @@ export async function obtenerPorUrl(url){
     })
 }
 
-export async function obtenerPorUsuario(usuario_id){
+export async function obtenerPorUsuario(usu_id){
     return await prisma.video.findMany({
-        where:{usuario_id:usuario_id }
+        where:{usuario_id:usu_id }
     })
 }
 
