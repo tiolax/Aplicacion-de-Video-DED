@@ -18,11 +18,14 @@ export async function EliminarVideoPorId(id){
             return data;
 }
 
-export async function EditarVideos(id,titulo,descripcion,ua_id,palabras,fase){
+export async function EditarVideos(id,titulo,descripcion,ua_id,palabras){
+
+        console.log("Esto recibo: ",titulo,id,descripcion,ua_id,palabras);
+
             const res = await fetch(`${window.API_URL}/videos/actualizar`,{
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ id, titulo, descripcion, ua_id, palabras }),
+            body: JSON.stringify({ id, titulo, descripcion, ua_id, palabras}),
             })
             const data = await res.json();
             return data;

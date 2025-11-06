@@ -7,8 +7,6 @@ method: "GET",
 const data = await res.json();
 return data.Facultades;
 }
-
-
 export async function ObtenerCarreras(facu){
     const res = await fetch (`${window.API_URL}/carreras/porfacu`, {
     method: "POST",

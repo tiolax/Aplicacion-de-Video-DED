@@ -16,6 +16,11 @@ let editingTr = null;      // <tr> asociado en la tabla
 const $  = (sel, root = document) => root.querySelector(sel);
 const $$ = (sel, root = document) => Array.from(root.querySelectorAll(sel));
 
+
+const callEditar = ({ id, titulo, descripcion, ua_id, palabras,fase }) =>
+  EditarVideos(id, titulo, descripcion, ua_id, palabras,fase);
+
+
 const getTbody = () =>
   $("#tbody-pendientes") ||
   $("table.table tbody") ||
@@ -219,66 +224,60 @@ tbody.innerHTML = videosEnriquecidos.map((v, i) => rowTemplate(v, i + 1)).join("
       });
     });
 
-    $$('button[data-action="edit"]', tbody).forEach(btn => {
-      btn.addEventListener("click", async (e) => {
-        e.preventDefault(); e.stopPropagation();
+$$('button[data-action="edit"]', tbody).forEach(btn => {
+  btn.addEventListener("click", async (e) => {
+    e.preventDefault(); e.stopPropagation();
 
-        const tr = btn.closest("tr");
-        if (!tr) return;
+    const tr = btn.closest("tr");
+    if (!tr) return;
 
-        try {
-          editingTr    = tr;
-          editingVideo = JSON.parse(tr.getAttribute("data-video") || "{}");
-          $("#editVideoId").value      = editingVideo.id || "";
-          $("#editTitulo").value       = editingVideo.titulo || "";
-          $("#editDescripcion").value  = editingVideo.descripcion || "";
-          await renderPalabrasEnModal(editingVideo.palabras || []);
-          //await renderUasEnModal(editingVideo.ua_id, editingVideo.carrera_id);
+    try {
+      editingTr    = tr;
+      editingVideo = JSON.parse(tr.getAttribute("data-video") || "{}");
 
-const carreraId    = editingVideo.carrera_id ?? null;
-const carreraNom   = editingVideo.carrera_nombre ?? null;
-const uaActualId   = editingVideo.ua_id ?? null;
+      // Prefill de campos base
+      $("#editVideoId").value      = editingVideo.id || "";
+      $("#editTitulo").value       = editingVideo.titulo || "";
+      $("#editDescripcion").value  = editingVideo.descripcion || "";
 
-// Pinta combos
-await renderCarrerasEnModal(carreraId, carreraNom);
-await renderUasEnModal(uaActualId, carreraId);
+      // Palabras (checkboxes)
+      await renderPalabrasEnModal(editingVideo.palabras || []);
 
-const carrera_id = Number(document.getElementById("editCarreraSelect").value) || null;
-const ua_id      = Number(document.getElementById("editUaSelect").value);
+      // Carrera/UA desde los datos guardados en la fila
+      const carreraId  = editingVideo.carrera_id ?? null;
+      const carreraNom = editingVideo.carrera_nombre ?? null;
+      const uaActualId = editingVideo.ua_id ?? null;
 
-// ...
-const res = await EditarVideos({
-  id: editingVideo.id,
-  titulo: editingVideo.titulo,
-  descripcion: editingVideo.descripcion,
-  ua_id,
-  carrera_id,          // 👈 opcional si lo persistes
-  palabras: editingVideo.palabras,
+      await renderCarrerasEnModal(carreraId, carreraNom);
+      await renderUasEnModal(uaActualId, carreraId);
+
+      // Al cambiar carrera → recargar UAs
+      const selCarrera = document.getElementById("editCarreraSelect");
+      if (selCarrera) {
+        selCarrera.onchange = async (ev) => {
+          const nuevaCarreraId = Number(ev.target.value) || null;
+          await renderUasEnModal(null, nuevaCarreraId);
+        };
+      }
+
+      // Limpia error
+      const err = $("#editError");
+      if (err) err.textContent = "";
+
+      // Abre modal de edición
+      bootstrap.Modal.getOrCreateInstance($("#editModal")).show();
+    } catch (err) {
+      console.error("Error preparando edición:", err);
+    }
+  });
 });
 
-
-          const err = $("#editError");
-          if (err) err.textContent = "";
-
-          bootstrap.Modal.getOrCreateInstance($("#editModal")).show();
-        } catch (err) {
-          console.error("Error preparando edición:", err);
-        }
-      });
-    });
 
   } catch (err) {
     console.error("Error cargando videos pendientes:", err);
     renderEmpty(getTbody(), "Ocurrió un error al cargar los videos.");
   }
 }
-
-
-
-
-
-
-
 
 /* =========================================================
     MODAL ELIMINAR
@@ -453,6 +452,8 @@ $("#btnSubmitEdit")?.addEventListener("click", () => {
   const ua_id        = Number($("#editUaSelect").value);
   const palabras     = $$(`#editTemasContainer input[type="checkbox"]:checked`).map(i => Number(i.value));
 
+
+ 
   // Validaciones mínimas
   if (!id)          { err.textContent = "ID de video inválido."; return; }
   if (!titulo)      { err.textContent = "Escribe un título.";    return; }
@@ -468,29 +469,22 @@ $("#btnConfirmEdit")?.addEventListener("click", async () => {
   const btn       = $("#btnConfirmEdit");
   const confirmEl = $("#confirmEditModal");
   const editEl    = $("#editModal");
-const carrera_id = Number(document.getElementById("editCarreraSelect").value) || null;
-const ua_id      = Number(document.getElementById("editUaSelect").value);
 
-// ...
-const res = await EditarVideos({
-  id: editingVideo.id,
-  titulo: editingVideo.titulo,
-  descripcion: editingVideo.descripcion,
-  ua_id,
-  carrera_id,          // 👈 opcional si lo persistes
-  palabras: editingVideo.palabras,
-});
+  // Lee selects por si usuario los cambió tras validar:
+  const carrera_id = Number($("#editCarreraSelect")?.value) || null;
+  const ua_id      = Number($("#editUaSelect")?.value) || editingVideo.ua_id;
 
   try {
     btn.disabled = true;
     btn.textContent = "Guardando…";
 
-    const res = await EditarVideos({
-      id: editingVideo.id,
-      titulo: editingVideo.titulo,
+    // Llamada POSICIONAL al fetch (usa el helper)
+    const res = await callEditar({
+      id:          editingVideo.id,
+      titulo:      editingVideo.titulo,
       descripcion: editingVideo.descripcion,
-      ua_id: editingVideo.ua_id,
-      palabras: editingVideo.palabras,
+      ua_id,
+      palabras:    editingVideo.palabras,
     });
 
     if (!res?.success) {
@@ -500,22 +494,32 @@ const res = await EditarVideos({
       return;
     }
 
+    // Cierra modales
     bootstrap.Modal.getOrCreateInstance(confirmEl).hide();
     bootstrap.Modal.getOrCreateInstance(editEl).hide();
 
+    // Refresco mínimo de la fila
     if (editingTr) {
       const titleDiv = $(".fw-semibold", editingTr);
       if (titleDiv) titleDiv.textContent = editingVideo.titulo;
 
-      editingTr.setAttribute("data-video", JSON.stringify({
+      // opcional: nombre de carrera/ua desde los selects
+      const selCarr = $("#editCarreraSelect");
+      const selUa   = $("#editUaSelect");
+
+      const nuevoDataVideo = {
         ...JSON.parse(editingTr.getAttribute("data-video") || "{}"),
-        titulo:      editingVideo.titulo,
-        descripcion: editingVideo.descripcion,
-        ua_id:       editingVideo.ua_id,
-        palabras:    editingVideo.palabras,
-      }));
+        titulo:          editingVideo.titulo,
+        descripcion:     editingVideo.descripcion,
+        ua_id,           // la UA guardada
+        carrera_id,      // si decides persistirla o al menos conservarla en la fila
+        carrera_nombre:  selCarr?.selectedOptions?.[0]?.text ?? editingVideo.carrera_nombre ?? null,
+        // ua_nombre:     selUa?.selectedOptions?.[0]?.text ?? editingVideo.ua_nombre ?? null, // si lo quieres
+        palabras:        editingVideo.palabras,
+      };
+      editingTr.setAttribute("data-video", JSON.stringify(nuevoDataVideo));
     }
-  } catch {
+  } catch (e) {
     const err = $("#editError");
     if (err) err.textContent = "Error de red al guardar. Intenta de nuevo.";
   } finally {

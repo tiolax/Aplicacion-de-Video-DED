@@ -33,9 +33,9 @@ export const crearVideo = async (req,res) => {
                     })) 
 
         }}
-      const videocreado =  ModelVideo.CrearVideo(data);
+      const videocreado = await ModelVideo.CrearVideo(data);
       if(!videocreado){
-        res.json(401).json({
+        res.status(401).json({
           success: false,
           mensaje: "Error del servidor"
         })
@@ -74,23 +74,37 @@ export const EliminarVideo = async (req, res) => {
 
 export const ActualizarVideo = async (req,res) => {
 try{
+const id = Number(req.body.id);
+    if (!Number.isFinite(id)) {
+      return res.status(400).json({ success: false, message: "ID inválido" });
+    }
 
-const data = {
-  titulo: req.body.titulo,
-  descripcion: req.body.descripcion,
-  fase: req.body.fase,
-          ua:      {
-                    connect: {id:req.body.ua_id}
-                 },
-        palabras: {
-                    create: listPalabras.map((pid) => ({
-                    palabra_clave: {
-                      connect: { id: pid }
-                    }
-                    })) 
-        }
+const titulo      = typeof req.body.titulo === "string" ? req.body.titulo.trim() : undefined;
+const descripcion = typeof req.body.descripcion === "string" ? req.body.descripcion.trim() : undefined;
+const ua_id       = req.body.ua_id !== undefined ? Number(req.body.ua_id) : undefined;
+
+   const palabrasIds = Array.isArray(req.body.palabras)
+      ? req.body.palabras.map(n => Number(n)).filter(Number.isFinite)
+      : [];
+
+  const data = {};
+    if (titulo !== undefined && titulo !== "") data.titulo = titulo;
+    if (descripcion !== undefined && descripcion !== "") data.descripcion = descripcion;
+    if (Number.isFinite(ua_id)) {
+      data.ua = { connect: { id: ua_id } };
+    }
+data.aprobado=0;
+if (palabrasIds.length > 0) {
+  data.palabras = {
+    deleteMany: {}, // borra vínculos actuales de este video
+    create: palabrasIds.map(pid => ({
+      palabra_clave: { connect: { id: pid } }
+    }))
+  };
 }
- const actualizado = await ModelVideo.Actualizar(req.body.id,data);
+
+
+ const actualizado = await ModelVideo.Actualizar(id,data);
      if (actualizado) {
       return res.status(200).json({
         success: true,
