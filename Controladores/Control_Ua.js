@@ -67,6 +67,15 @@ const UasFormateadas = Uas.map(ua => ({
     })
 }
 
+export const ObtenerporId = async (req,res) => {
+const Ua = await UaModel.obtenerPorId(req.body.id_ua);
+const UaEncontrada = { ...Ua, nombre:capitalizarTitulo(Ua.nombre) };
+console.log("nombre antes del capitalizado: ",Ua.nombre);
+return res.status(200).json({
+  success: true,
+  ua: UaEncontrada,
+})
+}
 
 export const ActualizarUa = async (req,res) => {
     const ua = req.body.nombre.toLowerCase();

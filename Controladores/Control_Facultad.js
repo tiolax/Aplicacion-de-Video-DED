@@ -76,6 +76,16 @@ export const ObtenerFacu_Info = async (req,res) => {
                 Facultades:facultadesFormateadas
             });
 }
+//Obtener por Id
+export const ObtenerFacuPorId = async (req,res) => {
+        const FacultadEncontrada = await FacultadModel.obtenerPorId(req.body.id_facultad);
+        return res.status(200).json({
+            success: true,
+            facultad: FacultadEncontrada
+        });
+}
+
+
 
 
 ///funciones auxiliares

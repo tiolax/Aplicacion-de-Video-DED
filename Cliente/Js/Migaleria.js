@@ -1,5 +1,20 @@
 // /Cliente/Js/Migaleria.js
-import { ObtenerVideosPorUsuario } from "./Fecth_Migaleria.js";
+import { ObtenerVideosPorUsuario,ObtenerFacultadporId ,ObtenerUaporId} from "./Fecth_Migaleria.js";
+
+
+// --- caché de UAs por id ---
+const uaCache = new Map();
+async function getUaNombreById(id) {
+  if (!id) return "UA no encontrada";
+  if (uaCache.has(id)) return uaCache.get(id);
+  const ua = await ObtenerUaporId(id);               // ← trae { id, nombre, ... }
+ const info = {
+    uaNombre: ua?.nombre || "UA no encontrada",
+    carreraNombre: ua?.carrera?.nombre || "Carrera no encontrada",
+  };
+  uaCache.set(id,info);
+  return info;
+}
 
 // --- Perfil / encabezado ---
 const contenedorPerfil = document.getElementById("datos_perfil");
@@ -10,6 +25,8 @@ const usuarioActual = (() => {
     return {};
   }
 })();
+const idFacultadelusuario = usuarioActual.facultad;
+const FacultaddelUsuario = await ObtenerFacultadporId(idFacultadelusuario);
 
 function pintarPerfil(totalVideos = 0) {
   contenedorPerfil.innerHTML = "";
@@ -17,7 +34,7 @@ function pintarPerfil(totalVideos = 0) {
   col.innerHTML = `
     <div class="p-4">
       <h1 class="m-0">${usuarioActual?.nombre ?? "Mi perfil"}</h1>
-      <h5 class="m-0">${usuarioActual?.facultad ?? ""}</h5>
+      <h5 class="m-0">${FacultaddelUsuario.nombre ?? ""}</h5>
       ${totalVideos} ${totalVideos === 1 ? "Video" : "Videos"}
     </div>
   `;
@@ -29,19 +46,12 @@ const grid = document.getElementById("grid_videos");
 
 // Helpers para tomar autor y carrera aunque cambien los nombres de campo
 function getAutor(video) {
-  return (
-    video.autor ??
-    video.ua_id ??
-    "Undad de Aprendiazje no Encontrada"
-  );
+  return video.uaNombre || "UA no encontrada";
 }
 
 function getCarrera(video) {
   return (
-    video.carrera ??
-    video.usuario?.carrera ??
-    video.user?.carrera ??
-    video.creador?.carrera ??
+    video.carreraNombre ??
     "Carrera no especificada"
   );
 }
@@ -133,6 +143,7 @@ function aplicaFiltro(q) {
     const campos = [
       v.titulo,
       v.descripcion,
+      v.uaNombre,
       getAutor(v),
       getCarrera(v),
     ]
@@ -172,12 +183,23 @@ btnReset?.addEventListener("click", () => {
     renderSkeleton(8);
 
     const idUsuario = usuarioActual?.id ?? 1;
-    const respuesta = await ObtenerVideosPorUsuario(idUsuario); // { videos: [...] } esperado
+    const respuesta = await ObtenerVideosPorUsuario(idUsuario);
     const videos = respuesta?.videos ?? respuesta ?? [];
 
     videosOriginal = Array.isArray(videos) ? videos : [];
-    videosFiltrados = [...videosOriginal];
+    const uaIds = [...new Set(videosOriginal.map(v => v.ua_id).filter(Boolean))];
 
+    //precarga nombres y llena caché
+    await Promise.all(uaIds.map(id => getUaNombreById(id)));
+    videosOriginal = videosOriginal.map(v => ({
+      ...v,
+    ...(uaCache.get(v.ua_id) || {
+        uaNombre: "UA no encontrada",
+        carreraNombre: "Carrera no encontrada",
+      }),
+    }));
+
+    videosFiltrados = [...videosOriginal];
     renderVideos(videosFiltrados);
   } catch (err) {
     console.error("Error cargando videos:", err);

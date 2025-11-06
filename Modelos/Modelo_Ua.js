@@ -36,9 +36,20 @@ export async function ObtenerUAsPorCarrera(idCarrera) {
 
 export async function obtenerPorId(id) {
     return await prisma.uA.findUnique({
-        where: {id}
+        where: {id},
+        select: {
+            id:true,
+            nombre:true,
+            carrera:
+            {select:
+                {
+                    nombre:true,
+                }
+            }
+        }
     })
 }
+
 
 export async function obtenerPorNombre(nombre){
        return await prisma.uA.findMany({
