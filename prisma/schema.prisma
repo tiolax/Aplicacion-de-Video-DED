@@ -26,18 +26,18 @@ model Usuario {
 }
 
 model Video {
-  id                 Int      @id @default(autoincrement())  
+  id                 Int        @id @default(autoincrement())  
   titulo             String                                   
   descripcion        String                                  
-  identificador      String   @unique                        
-  fecha_de_registro  DateTime  @default(now())
+  identificador      String     @unique                        
+  fecha_de_registro  DateTime   @default(now())
   fase               String   
-  aprobado           Boolean
+  aprobado           Int
+  comentario         String?
+
 
   usuario_id         Int
   usuario            Usuario @relation(fields: [usuario_id],references: [id])      
-
-
   ua_id             Int
   ua                UA        @relation(fields: [ua_id],references: [id])
 

@@ -134,6 +134,7 @@ exports.Prisma.VideoScalarFieldEnum = {
   fecha_de_registro: 'fecha_de_registro',
   fase: 'fase',
   aprobado: 'aprobado',
+  comentario: 'comentario',
   usuario_id: 'usuario_id',
   ua_id: 'ua_id'
 };

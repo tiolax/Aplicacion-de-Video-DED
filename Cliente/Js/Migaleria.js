@@ -26,8 +26,6 @@ const usuarioActual = (() => {
   }
 })();
 
-console.log("Usuario actual: ",usuarioActual);
-
 let NombredelaFacultaddelUsusario = null;
 let FacultaddelUsuario = null;
 
@@ -87,8 +85,9 @@ function plantillaTarjeta(video) {
           </div>
           <div class="card-body">
             <h6 class="card-title mb-1 text-truncate" title="${titulo}">${titulo}</h6>
-            <p class="mb-0 small text-muted text-truncate" title="${autor}">UA: ${autor}</p>
-            <p class="mb-0 small text-muted text-truncate" title="${carrera}">Programa: ${carrera}</p>
+           
+            <p class="mb-0 small text-muted text-truncate" title="${autor}"> ${autor}</p>
+            <p class="mb-0 small text-muted text-truncate" title="${carrera}"> <i class="bi bi-journal-bookmark"> </i>${carrera}</p>
           </div>
         </div>
       </a>
@@ -194,7 +193,6 @@ btnReset?.addEventListener("click", () => {
 (async () => {
   try {
     renderSkeleton(8);
-      console.log("usuario actual id: ",usuarioActual.id);
     const idUsuario = usuarioActual?.id ?? 1;
     const respuesta = await ObtenerVideosPorUsuario(idUsuario);
     const videos = respuesta?.videos ?? respuesta ?? [];

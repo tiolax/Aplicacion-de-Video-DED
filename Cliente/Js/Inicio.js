@@ -11,7 +11,7 @@ const searchBanner = document.getElementById("SearchBanner");
     sort_by: "fecha_de_registro",
     sort_dir: "desc",
      q: null,
-     aprobado: true,
+     aprobado: 1,
      carrera_id: null,
      facultad_id:null,
      ua_id:null,
@@ -184,7 +184,7 @@ if (searchBanner) {
 (async function boot() {
   const q = getInitialQuery();
   state.q = q; // guarda la búsqueda inicial en el estado
-  await cargar({ page: 1, aprobado: true, q });
+  await cargar({ page: 1, aprobado: 1, q });
 })();
 
 //////Funcion para evitar xss(mensaje de info de busqueda)//////
@@ -213,7 +213,7 @@ async function resetFiltrosYBusqueda() {
   // 1) limpiar estado (ajústalo a tus defaults reales)
   state.page = 1;
   state.q = null;
-  state.aprobado = true;
+  state.aprobado = 1;
   state.carrera_id = null;
   state.facultad_id = null;
   state.ua_id = null;
@@ -237,7 +237,7 @@ async function resetFiltrosYBusqueda() {
   await cargar({
     page: 1,
     q: undefined,
-    aprobado: true,
+    aprobado: 1,
     carrera_id: null,
     facultad_id: null,
     ua_id: null,

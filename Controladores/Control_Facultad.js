@@ -86,8 +86,6 @@ export const ObtenerFacuPorId = async (req,res) => {
 }
 
 
-
-
 ///funciones auxiliares
 function capitalizarTitulo(frase) {
   const excepciones = ["de","en","y","a"];

@@ -42,7 +42,7 @@ export async function obtenerPorId(id) {
             nombre:true,
             carrera:
             {select:
-                {
+                {   id:true,
                     nombre:true,
                 }
             }

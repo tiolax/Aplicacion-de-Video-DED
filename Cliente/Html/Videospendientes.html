@@ -34,60 +34,116 @@
     </tr>
   </thead>
   <tbody>
-    <tr style="background-color: rgb(238, 186, 186);">
-      <th scope="row">1</th>
-      <td>                              
-        <img src="/Cliente/Recursos/gente_LOW.jpg" class="card-img-top" style="width: 120px;" alt="Video">
-        Titulo de video             
-      </td>
-      <td>Notas de correccion</td>
-      <td>Rechazado</td>
-    </tr>
-
-     <tr>
-      <th scope="row">2</th>
-      <td>                              
-        <img src="/Cliente/Recursos/gente_LOW.jpg" class="card-img-top" style="width: 120px;" alt="Video">
-        Titulo de video             
-      </td>
-      <td>Notas de correccion</td>
-      <td>Aprobado</td>
-    </tr>
-    
-    <tr >
-      <th scope="row">3</th>
-      <td>                              
-        <img src="/Cliente/Recursos/gente_LOW.jpg" class="card-img-top" style="width: 120px;" alt="Video">
-        Titulo de video             
-      </td>
-      <td></td>
-      <td>En revision</td>
-    </tr>
 
   </tbody>
 </table>
+
+<!-- Modal: Confirmar eliminación -->
+<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content border-0 shadow">
+      <div class="modal-header">
+        <h5 class="modal-title" id="deleteModalLabel">Eliminar video</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+      </div>
+      <div class="modal-body">
+        <p class="mb-1">¿Seguro que deseas eliminar este video?</p>
+        <p class="text-muted small m-0">
+          <span class="fw-semibold">Título:</span>
+          <span id="deleteModalVideoTitle">—</span>
+        </p>
+        <div id="deleteModalMsg" class="text-danger small mt-2" style="display:none;"></div>
+      </div>
+      <div class="modal-footer">
+        <button id="btnCancelDelete" type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancelar</button>
+        <button id="btnConfirmDelete" type="button" class="btn btn-danger">Eliminar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal: Editar Video -->
+<div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content border-0 shadow">
+      <div class="modal-header">
+        <h5 class="modal-title" id="editModalLabel">Editar video</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+      </div>
+
+      <div class="modal-body">
+        <input type="hidden" id="editVideoId">
+
+        <div class="mb-3">
+          <label for="editTitulo" class="form-label">Título</label>
+          <input type="text" class="form-control" id="editTitulo">
+        </div>
+
+        <div class="mb-3">
+          <label for="editDescripcion" class="form-label">Descripción</label>
+          <textarea class="form-control" id="editDescripcion" rows="3"></textarea>
+        </div>
+
+<div class="mb-3">
+  <label for="editCarreraSelect" class="form-label">Programa (Carrera)</label>
+  <select id="editCarreraSelect" class="form-select">
+    <option disabled selected value="">Cargando programas...</option>
+  </select>
+  <div class="form-text" id="editCarreraHint"></div>
+</div>
+
+
+
+        <div class="mb-3">
+          <label for="editUaSelect" class="form-label">Unidad de Aprendizaje (UA)</label>
+          <select id="editUaSelect" class="form-select">
+            <option disabled selected value="">Cargando UAs...</option>
+          </select>
+          <div class="form-text" id="editUaHint"></div>
+        </div>
+
+        <div class="mb-2">
+          <label class="form-label">Temas (palabras)</label>
+          <div id="editTemasContainer" class="border rounded p-2" style="max-height:150px; overflow-y:auto;"></div>
+        </div>
+
+        <div id="editError" class="text-danger small mt-1"></div>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancelar</button>
+        <button id="btnSubmitEdit" type="button" class="btn btn-primary">Guardar cambios</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal: Confirmar Edición -->
+<div class="modal fade" id="confirmEditModal" tabindex="-1" aria-labelledby="confirmEditLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content border-0 shadow">
+      <div class="modal-header">
+        <h5 class="modal-title" id="confirmEditLabel">Confirmar edición</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+      </div>
+      <div class="modal-body">
+        ¿Deseas guardar los cambios de este video?
+      </div>
+      <div class="modal-footer">
+        <button id="btnCancelConfirmEdit" type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancelar</button>
+        <button id="btnConfirmEdit" type="button" class="btn btn-primary">Sí, guardar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 
 
  </div>
     </main>
     <div id="footer"></div>
-
+    <script src="/Cliente/Js/config.js"></script> 
+    <script  type="module" src="/Cliente/Js/Footer_Navbar.js"></script> 
+    <script type="module" src="/Cliente/Js/VideosEnEspera.js"></script> 
 </body>
-
-<script>
-     fetch('footer.html')
-        .then(response => response.text())
-        .then(html =>{
-            document.getElementById('footer').innerHTML = html;
-        });
-
-    fetch('Navbar.html')
-        .then(response => response.text())
-        .then(html =>{
-            document.getElementById('navbar').innerHTML = html;
-        });
-
-</script>
-
-
 </html>

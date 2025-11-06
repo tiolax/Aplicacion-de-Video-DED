@@ -84,7 +84,7 @@ function wireResetButton() {
 
     // Cargar sin filtros
     cargar({
-      page: 1, aprobado: true,
+      page: 1, aprobado: 1,
       facultad_id: undefined,
       carrera_id:  undefined,
       ua_id:       undefined,
@@ -270,7 +270,7 @@ function wireBusquedaPorIcono(contenedorFiltros) {
       UISelections.carreraId  = null;
       UISelections.uaId       = null;
       updateIndicator();
-      cargar({ page: 1, aprobado: true, facultad_id: undefined, carrera_id: undefined, ua_id: undefined });
+      cargar({ page: 1, aprobado: 1, facultad_id: undefined, carrera_id: undefined, ua_id: undefined });
       return;
     }
 
@@ -283,7 +283,7 @@ function wireBusquedaPorIcono(contenedorFiltros) {
       UISelections.carreraId = null;
       UISelections.facultadId = null;
       updateIndicator();
-      cargar({ page: 1, aprobado: true, ua_id: id, carrera_id: undefined, facultad_id: undefined });
+      cargar({ page: 1, aprobado: 1, ua_id: id, carrera_id: undefined, facultad_id: undefined });
       return;
     }
     if (tipo === "carrera" && id) {
@@ -291,7 +291,7 @@ function wireBusquedaPorIcono(contenedorFiltros) {
       UISelections.uaId = null;
       UISelections.facultadId = null;
       updateIndicator();
-      cargar({ page: 1, aprobado: true, carrera_id: id, ua_id: undefined, facultad_id: undefined });
+      cargar({ page: 1, aprobado: 1, carrera_id: id, ua_id: undefined, facultad_id: undefined });
       return;
     }
     if (tipo === "facultad" && id) {
@@ -299,7 +299,7 @@ function wireBusquedaPorIcono(contenedorFiltros) {
       UISelections.carreraId = null;
       UISelections.uaId = null;
       updateIndicator();
-      cargar({ page: 1, aprobado: true, facultad_id: id, carrera_id: undefined, ua_id: undefined });
+      cargar({ page: 1, aprobado: 1, facultad_id: id, carrera_id: undefined, ua_id: undefined });
       return;
     }
   });
@@ -319,7 +319,7 @@ function wireTemas(contenedorTemas) {
       li.classList.remove("active");
       UISelections.temaId = null;
       updateIndicator();
-      cargar({ page: 1, aprobado: true, palabras: undefined });
+      cargar({ page: 1, aprobado: 1, palabras: undefined });
       return;
     }
 
@@ -331,7 +331,7 @@ function wireTemas(contenedorTemas) {
     if (Number.isFinite(temaId)) {
       UISelections.temaId = temaId;
       updateIndicator();
-      cargar({ page: 1, aprobado: true, palabras: [temaId] });
+      cargar({ page: 1, aprobado: 1, palabras: [temaId] });
     }
   });
 }
@@ -383,7 +383,7 @@ function wireFiltroFecha() {
     UISelections.date_to   = date_to;
     updateIndicator();
 
-    cargar({ page: 1, aprobado: true, date_from, date_to });
+    cargar({ page: 1, aprobado: 1, date_from, date_to });
   };
 
   // Clicks rápidos con toggle
@@ -400,7 +400,7 @@ function wireFiltroFecha() {
       UISelections.date_from = undefined;
       UISelections.date_to   = undefined;
       updateIndicator();
-      cargar({ page: 1, aprobado: true, date_from: undefined, date_to: undefined });
+      cargar({ page: 1, aprobado: 1, date_from: undefined, date_to: undefined });
       return;
     }
 
@@ -431,7 +431,7 @@ function wireFiltroFecha() {
       UISelections.date_to   = date_to;
       updateIndicator();
 
-      cargar({ page: 1, aprobado: true, date_from, date_to });
+      cargar({ page: 1, aprobado: 1, date_from, date_to });
     });
   }
 }

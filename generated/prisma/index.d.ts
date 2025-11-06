@@ -2779,12 +2779,14 @@ export namespace Prisma {
 
   export type VideoAvgAggregateOutputType = {
     id: number | null
+    aprobado: number | null
     usuario_id: number | null
     ua_id: number | null
   }
 
   export type VideoSumAggregateOutputType = {
     id: number | null
+    aprobado: number | null
     usuario_id: number | null
     ua_id: number | null
   }
@@ -2796,7 +2798,8 @@ export namespace Prisma {
     identificador: string | null
     fecha_de_registro: Date | null
     fase: string | null
-    aprobado: boolean | null
+    aprobado: number | null
+    comentario: string | null
     usuario_id: number | null
     ua_id: number | null
   }
@@ -2808,7 +2811,8 @@ export namespace Prisma {
     identificador: string | null
     fecha_de_registro: Date | null
     fase: string | null
-    aprobado: boolean | null
+    aprobado: number | null
+    comentario: string | null
     usuario_id: number | null
     ua_id: number | null
   }
@@ -2821,6 +2825,7 @@ export namespace Prisma {
     fecha_de_registro: number
     fase: number
     aprobado: number
+    comentario: number
     usuario_id: number
     ua_id: number
     _all: number
@@ -2829,12 +2834,14 @@ export namespace Prisma {
 
   export type VideoAvgAggregateInputType = {
     id?: true
+    aprobado?: true
     usuario_id?: true
     ua_id?: true
   }
 
   export type VideoSumAggregateInputType = {
     id?: true
+    aprobado?: true
     usuario_id?: true
     ua_id?: true
   }
@@ -2847,6 +2854,7 @@ export namespace Prisma {
     fecha_de_registro?: true
     fase?: true
     aprobado?: true
+    comentario?: true
     usuario_id?: true
     ua_id?: true
   }
@@ -2859,6 +2867,7 @@ export namespace Prisma {
     fecha_de_registro?: true
     fase?: true
     aprobado?: true
+    comentario?: true
     usuario_id?: true
     ua_id?: true
   }
@@ -2871,6 +2880,7 @@ export namespace Prisma {
     fecha_de_registro?: true
     fase?: true
     aprobado?: true
+    comentario?: true
     usuario_id?: true
     ua_id?: true
     _all?: true
@@ -2969,7 +2979,8 @@ export namespace Prisma {
     identificador: string
     fecha_de_registro: Date
     fase: string
-    aprobado: boolean
+    aprobado: number
+    comentario: string | null
     usuario_id: number
     ua_id: number
     _count: VideoCountAggregateOutputType | null
@@ -3001,6 +3012,7 @@ export namespace Prisma {
     fecha_de_registro?: boolean
     fase?: boolean
     aprobado?: boolean
+    comentario?: boolean
     usuario_id?: boolean
     ua_id?: boolean
     usuario?: boolean | UsuarioDefaultArgs<ExtArgs>
@@ -3017,6 +3029,7 @@ export namespace Prisma {
     fecha_de_registro?: boolean
     fase?: boolean
     aprobado?: boolean
+    comentario?: boolean
     usuario_id?: boolean
     ua_id?: boolean
     usuario?: boolean | UsuarioDefaultArgs<ExtArgs>
@@ -3031,6 +3044,7 @@ export namespace Prisma {
     fecha_de_registro?: boolean
     fase?: boolean
     aprobado?: boolean
+    comentario?: boolean
     usuario_id?: boolean
     ua_id?: boolean
     usuario?: boolean | UsuarioDefaultArgs<ExtArgs>
@@ -3045,11 +3059,12 @@ export namespace Prisma {
     fecha_de_registro?: boolean
     fase?: boolean
     aprobado?: boolean
+    comentario?: boolean
     usuario_id?: boolean
     ua_id?: boolean
   }
 
-  export type VideoOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "titulo" | "descripcion" | "identificador" | "fecha_de_registro" | "fase" | "aprobado" | "usuario_id" | "ua_id", ExtArgs["result"]["video"]>
+  export type VideoOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "titulo" | "descripcion" | "identificador" | "fecha_de_registro" | "fase" | "aprobado" | "comentario" | "usuario_id" | "ua_id", ExtArgs["result"]["video"]>
   export type VideoInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     usuario?: boolean | UsuarioDefaultArgs<ExtArgs>
     ua?: boolean | UADefaultArgs<ExtArgs>
@@ -3079,7 +3094,8 @@ export namespace Prisma {
       identificador: string
       fecha_de_registro: Date
       fase: string
-      aprobado: boolean
+      aprobado: number
+      comentario: string | null
       usuario_id: number
       ua_id: number
     }, ExtArgs["result"]["video"]>
@@ -3514,7 +3530,8 @@ export namespace Prisma {
     readonly identificador: FieldRef<"Video", 'String'>
     readonly fecha_de_registro: FieldRef<"Video", 'DateTime'>
     readonly fase: FieldRef<"Video", 'String'>
-    readonly aprobado: FieldRef<"Video", 'Boolean'>
+    readonly aprobado: FieldRef<"Video", 'Int'>
+    readonly comentario: FieldRef<"Video", 'String'>
     readonly usuario_id: FieldRef<"Video", 'Int'>
     readonly ua_id: FieldRef<"Video", 'Int'>
   }
@@ -9410,6 +9427,7 @@ export namespace Prisma {
     fecha_de_registro: 'fecha_de_registro',
     fase: 'fase',
     aprobado: 'aprobado',
+    comentario: 'comentario',
     usuario_id: 'usuario_id',
     ua_id: 'ua_id'
   };
@@ -9594,7 +9612,8 @@ export namespace Prisma {
     identificador?: StringFilter<"Video"> | string
     fecha_de_registro?: DateTimeFilter<"Video"> | Date | string
     fase?: StringFilter<"Video"> | string
-    aprobado?: BoolFilter<"Video"> | boolean
+    aprobado?: IntFilter<"Video"> | number
+    comentario?: StringNullableFilter<"Video"> | string | null
     usuario_id?: IntFilter<"Video"> | number
     ua_id?: IntFilter<"Video"> | number
     usuario?: XOR<UsuarioScalarRelationFilter, UsuarioWhereInput>
@@ -9610,6 +9629,7 @@ export namespace Prisma {
     fecha_de_registro?: SortOrder
     fase?: SortOrder
     aprobado?: SortOrder
+    comentario?: SortOrderInput | SortOrder
     usuario_id?: SortOrder
     ua_id?: SortOrder
     usuario?: UsuarioOrderByWithRelationInput
@@ -9627,7 +9647,8 @@ export namespace Prisma {
     descripcion?: StringFilter<"Video"> | string
     fecha_de_registro?: DateTimeFilter<"Video"> | Date | string
     fase?: StringFilter<"Video"> | string
-    aprobado?: BoolFilter<"Video"> | boolean
+    aprobado?: IntFilter<"Video"> | number
+    comentario?: StringNullableFilter<"Video"> | string | null
     usuario_id?: IntFilter<"Video"> | number
     ua_id?: IntFilter<"Video"> | number
     usuario?: XOR<UsuarioScalarRelationFilter, UsuarioWhereInput>
@@ -9643,6 +9664,7 @@ export namespace Prisma {
     fecha_de_registro?: SortOrder
     fase?: SortOrder
     aprobado?: SortOrder
+    comentario?: SortOrderInput | SortOrder
     usuario_id?: SortOrder
     ua_id?: SortOrder
     _count?: VideoCountOrderByAggregateInput
@@ -9662,7 +9684,8 @@ export namespace Prisma {
     identificador?: StringWithAggregatesFilter<"Video"> | string
     fecha_de_registro?: DateTimeWithAggregatesFilter<"Video"> | Date | string
     fase?: StringWithAggregatesFilter<"Video"> | string
-    aprobado?: BoolWithAggregatesFilter<"Video"> | boolean
+    aprobado?: IntWithAggregatesFilter<"Video"> | number
+    comentario?: StringNullableWithAggregatesFilter<"Video"> | string | null
     usuario_id?: IntWithAggregatesFilter<"Video"> | number
     ua_id?: IntWithAggregatesFilter<"Video"> | number
   }
@@ -9974,7 +9997,8 @@ export namespace Prisma {
     identificador: string
     fecha_de_registro?: Date | string
     fase: string
-    aprobado: boolean
+    aprobado: number
+    comentario?: string | null
     usuario: UsuarioCreateNestedOneWithoutVideosInput
     ua: UACreateNestedOneWithoutVideosInput
     palabras?: VideoPalabraClaveCreateNestedManyWithoutVideoInput
@@ -9987,7 +10011,8 @@ export namespace Prisma {
     identificador: string
     fecha_de_registro?: Date | string
     fase: string
-    aprobado: boolean
+    aprobado: number
+    comentario?: string | null
     usuario_id: number
     ua_id: number
     palabras?: VideoPalabraClaveUncheckedCreateNestedManyWithoutVideoInput
@@ -9999,7 +10024,8 @@ export namespace Prisma {
     identificador?: StringFieldUpdateOperationsInput | string
     fecha_de_registro?: DateTimeFieldUpdateOperationsInput | Date | string
     fase?: StringFieldUpdateOperationsInput | string
-    aprobado?: BoolFieldUpdateOperationsInput | boolean
+    aprobado?: IntFieldUpdateOperationsInput | number
+    comentario?: NullableStringFieldUpdateOperationsInput | string | null
     usuario?: UsuarioUpdateOneRequiredWithoutVideosNestedInput
     ua?: UAUpdateOneRequiredWithoutVideosNestedInput
     palabras?: VideoPalabraClaveUpdateManyWithoutVideoNestedInput
@@ -10012,7 +10038,8 @@ export namespace Prisma {
     identificador?: StringFieldUpdateOperationsInput | string
     fecha_de_registro?: DateTimeFieldUpdateOperationsInput | Date | string
     fase?: StringFieldUpdateOperationsInput | string
-    aprobado?: BoolFieldUpdateOperationsInput | boolean
+    aprobado?: IntFieldUpdateOperationsInput | number
+    comentario?: NullableStringFieldUpdateOperationsInput | string | null
     usuario_id?: IntFieldUpdateOperationsInput | number
     ua_id?: IntFieldUpdateOperationsInput | number
     palabras?: VideoPalabraClaveUncheckedUpdateManyWithoutVideoNestedInput
@@ -10025,7 +10052,8 @@ export namespace Prisma {
     identificador: string
     fecha_de_registro?: Date | string
     fase: string
-    aprobado: boolean
+    aprobado: number
+    comentario?: string | null
     usuario_id: number
     ua_id: number
   }
@@ -10036,7 +10064,8 @@ export namespace Prisma {
     identificador?: StringFieldUpdateOperationsInput | string
     fecha_de_registro?: DateTimeFieldUpdateOperationsInput | Date | string
     fase?: StringFieldUpdateOperationsInput | string
-    aprobado?: BoolFieldUpdateOperationsInput | boolean
+    aprobado?: IntFieldUpdateOperationsInput | number
+    comentario?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type VideoUncheckedUpdateManyInput = {
@@ -10046,7 +10075,8 @@ export namespace Prisma {
     identificador?: StringFieldUpdateOperationsInput | string
     fecha_de_registro?: DateTimeFieldUpdateOperationsInput | Date | string
     fase?: StringFieldUpdateOperationsInput | string
-    aprobado?: BoolFieldUpdateOperationsInput | boolean
+    aprobado?: IntFieldUpdateOperationsInput | number
+    comentario?: NullableStringFieldUpdateOperationsInput | string | null
     usuario_id?: IntFieldUpdateOperationsInput | number
     ua_id?: IntFieldUpdateOperationsInput | number
   }
@@ -10432,6 +10462,20 @@ export namespace Prisma {
     _max?: NestedIntNullableFilter<$PrismaModel>
   }
 
+  export type StringNullableFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel> | null
+    in?: string[] | null
+    notIn?: string[] | null
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    contains?: string | StringFieldRefInput<$PrismaModel>
+    startsWith?: string | StringFieldRefInput<$PrismaModel>
+    endsWith?: string | StringFieldRefInput<$PrismaModel>
+    not?: NestedStringNullableFilter<$PrismaModel> | string | null
+  }
+
   export type UsuarioScalarRelationFilter = {
     is?: UsuarioWhereInput
     isNot?: UsuarioWhereInput
@@ -10460,12 +10504,14 @@ export namespace Prisma {
     fecha_de_registro?: SortOrder
     fase?: SortOrder
     aprobado?: SortOrder
+    comentario?: SortOrder
     usuario_id?: SortOrder
     ua_id?: SortOrder
   }
 
   export type VideoAvgOrderByAggregateInput = {
     id?: SortOrder
+    aprobado?: SortOrder
     usuario_id?: SortOrder
     ua_id?: SortOrder
   }
@@ -10478,6 +10524,7 @@ export namespace Prisma {
     fecha_de_registro?: SortOrder
     fase?: SortOrder
     aprobado?: SortOrder
+    comentario?: SortOrder
     usuario_id?: SortOrder
     ua_id?: SortOrder
   }
@@ -10490,14 +10537,33 @@ export namespace Prisma {
     fecha_de_registro?: SortOrder
     fase?: SortOrder
     aprobado?: SortOrder
+    comentario?: SortOrder
     usuario_id?: SortOrder
     ua_id?: SortOrder
   }
 
   export type VideoSumOrderByAggregateInput = {
     id?: SortOrder
+    aprobado?: SortOrder
     usuario_id?: SortOrder
     ua_id?: SortOrder
+  }
+
+  export type StringNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel> | null
+    in?: string[] | null
+    notIn?: string[] | null
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    contains?: string | StringFieldRefInput<$PrismaModel>
+    startsWith?: string | StringFieldRefInput<$PrismaModel>
+    endsWith?: string | StringFieldRefInput<$PrismaModel>
+    not?: NestedStringNullableWithAggregatesFilter<$PrismaModel> | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedStringNullableFilter<$PrismaModel>
+    _max?: NestedStringNullableFilter<$PrismaModel>
   }
 
   export type UsuarioListRelationFilter = {
@@ -10795,6 +10861,10 @@ export namespace Prisma {
     connectOrCreate?: VideoPalabraClaveCreateOrConnectWithoutVideoInput | VideoPalabraClaveCreateOrConnectWithoutVideoInput[]
     createMany?: VideoPalabraClaveCreateManyVideoInputEnvelope
     connect?: VideoPalabraClaveWhereUniqueInput | VideoPalabraClaveWhereUniqueInput[]
+  }
+
+  export type NullableStringFieldUpdateOperationsInput = {
+    set?: string | null
   }
 
   export type UsuarioUpdateOneRequiredWithoutVideosNestedInput = {
@@ -11252,13 +11322,45 @@ export namespace Prisma {
     not?: NestedFloatNullableFilter<$PrismaModel> | number | null
   }
 
+  export type NestedStringNullableFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel> | null
+    in?: string[] | null
+    notIn?: string[] | null
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    contains?: string | StringFieldRefInput<$PrismaModel>
+    startsWith?: string | StringFieldRefInput<$PrismaModel>
+    endsWith?: string | StringFieldRefInput<$PrismaModel>
+    not?: NestedStringNullableFilter<$PrismaModel> | string | null
+  }
+
+  export type NestedStringNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel> | null
+    in?: string[] | null
+    notIn?: string[] | null
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    contains?: string | StringFieldRefInput<$PrismaModel>
+    startsWith?: string | StringFieldRefInput<$PrismaModel>
+    endsWith?: string | StringFieldRefInput<$PrismaModel>
+    not?: NestedStringNullableWithAggregatesFilter<$PrismaModel> | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedStringNullableFilter<$PrismaModel>
+    _max?: NestedStringNullableFilter<$PrismaModel>
+  }
+
   export type VideoCreateWithoutUsuarioInput = {
     titulo: string
     descripcion: string
     identificador: string
     fecha_de_registro?: Date | string
     fase: string
-    aprobado: boolean
+    aprobado: number
+    comentario?: string | null
     ua: UACreateNestedOneWithoutVideosInput
     palabras?: VideoPalabraClaveCreateNestedManyWithoutVideoInput
   }
@@ -11270,7 +11372,8 @@ export namespace Prisma {
     identificador: string
     fecha_de_registro?: Date | string
     fase: string
-    aprobado: boolean
+    aprobado: number
+    comentario?: string | null
     ua_id: number
     palabras?: VideoPalabraClaveUncheckedCreateNestedManyWithoutVideoInput
   }
@@ -11326,7 +11429,8 @@ export namespace Prisma {
     identificador?: StringFilter<"Video"> | string
     fecha_de_registro?: DateTimeFilter<"Video"> | Date | string
     fase?: StringFilter<"Video"> | string
-    aprobado?: BoolFilter<"Video"> | boolean
+    aprobado?: IntFilter<"Video"> | number
+    comentario?: StringNullableFilter<"Video"> | string | null
     usuario_id?: IntFilter<"Video"> | number
     ua_id?: IntFilter<"Video"> | number
   }
@@ -11677,7 +11781,8 @@ export namespace Prisma {
     identificador: string
     fecha_de_registro?: Date | string
     fase: string
-    aprobado: boolean
+    aprobado: number
+    comentario?: string | null
     usuario: UsuarioCreateNestedOneWithoutVideosInput
     palabras?: VideoPalabraClaveCreateNestedManyWithoutVideoInput
   }
@@ -11689,7 +11794,8 @@ export namespace Prisma {
     identificador: string
     fecha_de_registro?: Date | string
     fase: string
-    aprobado: boolean
+    aprobado: number
+    comentario?: string | null
     usuario_id: number
     palabras?: VideoPalabraClaveUncheckedCreateNestedManyWithoutVideoInput
   }
@@ -11796,7 +11902,8 @@ export namespace Prisma {
     identificador: string
     fecha_de_registro?: Date | string
     fase: string
-    aprobado: boolean
+    aprobado: number
+    comentario?: string | null
     usuario: UsuarioCreateNestedOneWithoutVideosInput
     ua: UACreateNestedOneWithoutVideosInput
   }
@@ -11808,7 +11915,8 @@ export namespace Prisma {
     identificador: string
     fecha_de_registro?: Date | string
     fase: string
-    aprobado: boolean
+    aprobado: number
+    comentario?: string | null
     usuario_id: number
     ua_id: number
   }
@@ -11849,7 +11957,8 @@ export namespace Prisma {
     identificador?: StringFieldUpdateOperationsInput | string
     fecha_de_registro?: DateTimeFieldUpdateOperationsInput | Date | string
     fase?: StringFieldUpdateOperationsInput | string
-    aprobado?: BoolFieldUpdateOperationsInput | boolean
+    aprobado?: IntFieldUpdateOperationsInput | number
+    comentario?: NullableStringFieldUpdateOperationsInput | string | null
     usuario?: UsuarioUpdateOneRequiredWithoutVideosNestedInput
     ua?: UAUpdateOneRequiredWithoutVideosNestedInput
   }
@@ -11861,7 +11970,8 @@ export namespace Prisma {
     identificador?: StringFieldUpdateOperationsInput | string
     fecha_de_registro?: DateTimeFieldUpdateOperationsInput | Date | string
     fase?: StringFieldUpdateOperationsInput | string
-    aprobado?: BoolFieldUpdateOperationsInput | boolean
+    aprobado?: IntFieldUpdateOperationsInput | number
+    comentario?: NullableStringFieldUpdateOperationsInput | string | null
     usuario_id?: IntFieldUpdateOperationsInput | number
     ua_id?: IntFieldUpdateOperationsInput | number
   }
@@ -11893,7 +12003,8 @@ export namespace Prisma {
     identificador: string
     fecha_de_registro?: Date | string
     fase: string
-    aprobado: boolean
+    aprobado: number
+    comentario?: string | null
     ua_id: number
   }
 
@@ -11903,7 +12014,8 @@ export namespace Prisma {
     identificador?: StringFieldUpdateOperationsInput | string
     fecha_de_registro?: DateTimeFieldUpdateOperationsInput | Date | string
     fase?: StringFieldUpdateOperationsInput | string
-    aprobado?: BoolFieldUpdateOperationsInput | boolean
+    aprobado?: IntFieldUpdateOperationsInput | number
+    comentario?: NullableStringFieldUpdateOperationsInput | string | null
     ua?: UAUpdateOneRequiredWithoutVideosNestedInput
     palabras?: VideoPalabraClaveUpdateManyWithoutVideoNestedInput
   }
@@ -11915,7 +12027,8 @@ export namespace Prisma {
     identificador?: StringFieldUpdateOperationsInput | string
     fecha_de_registro?: DateTimeFieldUpdateOperationsInput | Date | string
     fase?: StringFieldUpdateOperationsInput | string
-    aprobado?: BoolFieldUpdateOperationsInput | boolean
+    aprobado?: IntFieldUpdateOperationsInput | number
+    comentario?: NullableStringFieldUpdateOperationsInput | string | null
     ua_id?: IntFieldUpdateOperationsInput | number
     palabras?: VideoPalabraClaveUncheckedUpdateManyWithoutVideoNestedInput
   }
@@ -11927,7 +12040,8 @@ export namespace Prisma {
     identificador?: StringFieldUpdateOperationsInput | string
     fecha_de_registro?: DateTimeFieldUpdateOperationsInput | Date | string
     fase?: StringFieldUpdateOperationsInput | string
-    aprobado?: BoolFieldUpdateOperationsInput | boolean
+    aprobado?: IntFieldUpdateOperationsInput | number
+    comentario?: NullableStringFieldUpdateOperationsInput | string | null
     ua_id?: IntFieldUpdateOperationsInput | number
   }
 
@@ -12033,7 +12147,8 @@ export namespace Prisma {
     identificador: string
     fecha_de_registro?: Date | string
     fase: string
-    aprobado: boolean
+    aprobado: number
+    comentario?: string | null
     usuario_id: number
   }
 
@@ -12043,7 +12158,8 @@ export namespace Prisma {
     identificador?: StringFieldUpdateOperationsInput | string
     fecha_de_registro?: DateTimeFieldUpdateOperationsInput | Date | string
     fase?: StringFieldUpdateOperationsInput | string
-    aprobado?: BoolFieldUpdateOperationsInput | boolean
+    aprobado?: IntFieldUpdateOperationsInput | number
+    comentario?: NullableStringFieldUpdateOperationsInput | string | null
     usuario?: UsuarioUpdateOneRequiredWithoutVideosNestedInput
     palabras?: VideoPalabraClaveUpdateManyWithoutVideoNestedInput
   }
@@ -12055,7 +12171,8 @@ export namespace Prisma {
     identificador?: StringFieldUpdateOperationsInput | string
     fecha_de_registro?: DateTimeFieldUpdateOperationsInput | Date | string
     fase?: StringFieldUpdateOperationsInput | string
-    aprobado?: BoolFieldUpdateOperationsInput | boolean
+    aprobado?: IntFieldUpdateOperationsInput | number
+    comentario?: NullableStringFieldUpdateOperationsInput | string | null
     usuario_id?: IntFieldUpdateOperationsInput | number
     palabras?: VideoPalabraClaveUncheckedUpdateManyWithoutVideoNestedInput
   }
@@ -12067,7 +12184,8 @@ export namespace Prisma {
     identificador?: StringFieldUpdateOperationsInput | string
     fecha_de_registro?: DateTimeFieldUpdateOperationsInput | Date | string
     fase?: StringFieldUpdateOperationsInput | string
-    aprobado?: BoolFieldUpdateOperationsInput | boolean
+    aprobado?: IntFieldUpdateOperationsInput | number
+    comentario?: NullableStringFieldUpdateOperationsInput | string | null
     usuario_id?: IntFieldUpdateOperationsInput | number
   }
 

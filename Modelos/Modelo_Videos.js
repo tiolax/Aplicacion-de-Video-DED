@@ -7,9 +7,19 @@ export async function CrearVideo(data) {
         data:data
     })
 }
-export async function EliminarVideo(identificador) {
+
+
+export async function Actualizar(id, data) {
+    return prisma.video.update({
+        where:{id},
+        data
+    })
+}
+
+
+export async function EliminarVideo(id) {
     return await prisma.video.delete({
-        where: {identificador}
+        where: {id}
     })
 }
 export async function obtenerPorUrl(url){
@@ -17,6 +27,8 @@ export async function obtenerPorUrl(url){
         where:{identificador:url }
     })
 }
+
+
 
 export async function obtenerPorUsuario(usu_id){
     return await prisma.video.findMany({
@@ -36,7 +48,7 @@ export async function  listarVideos(input = {})
 
     const where = {};
 
-    if(typeof aprobado !== "undefined") where.aprobado = aprobado;
+    if (aprobado !== undefined) where.aprobado = aprobado;
     if(ua_id) where.ua_id = ua_id;
 
   if (carrera_id) {

@@ -5,12 +5,12 @@ export const crearVideo = async (req,res) => {
   const identificador = req.body.identificador;   
   const videoencontrado = await ModelVideo.obtenerPorUrl(identificador);
   const listPalabras = req.body.palabras;
-  let aprobado = false;
+  let aprobado = 0;
     if(videoencontrado){
          res.status(401).json({success: false, mensaje: "Video ya cargado, intente con una url diferente",duplavideo: videoencontrado.identificador });
     }else{ 
       if(req.body.admin){
-        aprobado = true;
+        aprobado = 1;
       }
     const data = {
         titulo: req.body.titulo,
@@ -49,8 +49,8 @@ export const crearVideo = async (req,res) => {
 
 export const EliminarVideo = async (req, res) => {
   try {
-    const url = req.body.url;
-    const eliminado = await ModelVideo.EliminarVideo(url);
+    const id = req.body.id;
+    const eliminado = await ModelVideo.EliminarVideo(id);
 
     if (eliminado) {
       return res.status(200).json({
@@ -72,6 +72,44 @@ export const EliminarVideo = async (req, res) => {
   }
 };
 
+export const ActualizarVideo = async (req,res) => {
+try{
+
+const data = {
+  titulo: req.body.titulo,
+  descripcion: req.body.descripcion,
+  fase: req.body.fase,
+          ua:      {
+                    connect: {id:req.body.ua_id}
+                 },
+        palabras: {
+                    create: listPalabras.map((pid) => ({
+                    palabra_clave: {
+                      connect: { id: pid }
+                    }
+                    })) 
+        }
+}
+ const actualizado = await ModelVideo.Actualizar(req.body.id,data);
+     if (actualizado) {
+      return res.status(200).json({
+        success: true,
+        message: "Video actualizado con éxito"
+      });
+    } else {
+      return res.status(404).json({
+        success: false,
+        message: "Video no encontrado o no se pudo actualizar"
+      });
+    }
+}catch(error) {
+    return res.status(500).json({
+      success: false,
+      message: "Error del servidor al intentar editar el video"
+    });
+}
+}
+
 export const ObtenerVideos = async(req,res) => {
 try{
   const page = Math.max(1,parseInt(req.query.page ?? "1",10));
@@ -80,8 +118,9 @@ try{
   const sort_dir =(req.query.sort_dir ?? "desc");
 
   const q = req.query.q?.toString();
-  const aprobado = typeof req.query.aprobado !== "undefined"
-    ? req.query.aprobado === "true"
+const aprobado =
+  (req.query.aprobado !== undefined && req.query.aprobado !== "")
+    ? Number(req.query.aprobado)
     : undefined;
   const ua_id = req.query.ua_id ? parseInt(req.query.ua_id,10): undefined;
   const carrera_id = req.query.carrera_id ? parseInt(req.query.carrera_id,10) : undefined;
@@ -133,7 +172,7 @@ return res.status(200).json({
     page,per_page,total,total_pages,sort_by,sort_dir,
        applied_filters: {
         q: q ?? null,
-        aprobado: typeof aprobado === "boolean" ? aprobado : null,
+       aprobado: (aprobado === undefined ? null : aprobado),
        ua_id: ua_id ?? null,
        carrera_id: carrera_id ?? null,
        facultad_id: facultad_id ?? null,
