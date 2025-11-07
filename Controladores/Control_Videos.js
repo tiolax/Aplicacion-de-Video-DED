@@ -221,7 +221,7 @@ export const ObtenerEnEspera = async (req,res) =>{
 }
 
 
-export const ObtenerVideosPorUsuario = async(req,res) => {
+export const ObtenerVideosPorUsuario = async (req,res) => {
 
   const VideosEncontrados = await ModelVideo.obtenerPorUsuario(req.body.usuario_id);
     return res.status(200).json({
@@ -229,4 +229,23 @@ export const ObtenerVideosPorUsuario = async(req,res) => {
         videos: VideosEncontrados
     })
 
+}
+
+export const ActualizarEstado = async (req,res) =>{
+  try {
+    const id = Number(req.body.id);
+    const aprobado = Number(req.body.aprobado);
+    const comentario = typeof req.body.comentario === "string" ? req.body.comentario.trim() : null;
+
+    if (!Number.isFinite(id) || ![1,2].includes(aprobado)) {
+      return res.status(400).json({ success: false, message: "Parámetros inválidos" });
+    }
+
+    const data = { aprobado, comentario: (aprobado === 2 ? comentario : null) };
+    const upd = await ModelVideo.Actualizar(id,data);
+
+    return res.json({ success: true, id: upd.id });
+  } catch (e) {
+    return res.status(500).json({ success: false, message: "Error al actualizar el estado" });
+  }
 }

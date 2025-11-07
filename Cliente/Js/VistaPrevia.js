@@ -1,4 +1,4 @@
-import { ObtenerUaporId, ObtenerUsuarioPorId } from "./Fetch_VideosEnEsperaAdmin.js";
+import { ObtenerUaporId, ObtenerUsuarioPorId, ActualizarVideoEstado } from "./Fetch_VideosEnEsperaAdmin.js";
 
 document.addEventListener("DOMContentLoaded", initPreview);
 
@@ -184,3 +184,72 @@ function safe(s) {
     .replaceAll('"', "&quot;")
     .replaceAll("'", "&#039;");
 }
+
+
+
+
+
+function goBackToList() {
+  window.location.href = "/Cliente/Html/VideoPendientesAdmin.html";
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  const id = getParam("id");
+  const btnAprobar = document.getElementById("btnAprobar");
+  const btnRechazar = document.getElementById("btnRechazar");
+  const btnConfirmAprobar = document.getElementById("btnConfirmAprobar");
+  const btnConfirmRechazar = document.getElementById("btnConfirmRechazar");
+  const modalAprobar = new bootstrap.Modal(document.getElementById("modalAprobar"));
+  const modalRechazar = new bootstrap.Modal(document.getElementById("modalRechazar"));
+
+  if (!id) return;
+
+  // abrir modales
+  btnAprobar?.addEventListener("click", () => modalAprobar.show());
+  btnRechazar?.addEventListener("click", () => {
+    document.getElementById("rejError").textContent = "";
+    modalRechazar.show();
+  });
+
+  // confirmar aprobar
+  btnConfirmAprobar?.addEventListener("click", async () => {
+    try {
+      btnConfirmAprobar.disabled = true;
+      btnConfirmAprobar.textContent = "Guardando...";
+      await ActualizarVideoEstado(Number(id), 1, null);
+      modalAprobar.hide();
+      goBackToList();
+    } catch (e) {
+      alert(e.message || "Error al aprobar");
+    } finally {
+      btnConfirmAprobar.disabled = false;
+      btnConfirmAprobar.textContent = "Sí, aprobar";
+    }
+  });
+
+  // confirmar rechazar
+  btnConfirmRechazar?.addEventListener("click", async () => {
+    const txt = document.getElementById("txtMotivo");
+    const err = document.getElementById("rejError");
+    const motivo = (txt.value || "").trim();
+
+    if (!motivo) {
+      err.textContent = "Por favor escribe la razón del rechazo.";
+      txt.focus();
+      return;
+    }
+
+    try {
+      btnConfirmRechazar.disabled = true;
+      btnConfirmRechazar.textContent = "Guardando...";
+      await ActualizarVideoEstado(Number(id), 2, motivo);
+      modalRechazar.hide();
+      goBackToList();
+    } catch (e) {
+      err.textContent = e.message || "Error al rechazar";
+    } finally {
+      btnConfirmRechazar.disabled = false;
+      btnConfirmRechazar.textContent = "Rechazar";
+    }
+  });
+});
