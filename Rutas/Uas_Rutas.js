@@ -5,10 +5,10 @@ import * as Control_UA from "../Controladores/Control_Ua.js"
 
 const router = express.Router();
 
-router.get("/info",Control_UA.ObtenerUa_Info);
+router.get("/info",Control_UA.ObtenerUa_Info); //trae toda la lista de uas junto con sus carreras
 router.post("/crear",Control_UA.CrearUa);
 router.post("/eliminar",Control_UA.EliminarUa);
 router.post("/carreras",Control_UA.ObtenerporCarera);
 router.post("/actualizar",Control_UA.ActualizarUa);
-router.post("/Obtener-por-id",Control_UA.ObtenerporId);
+router.post("/Obtener-por-id",Control_UA.ObtenerporId); //me trae tmb la info de la carrera
 export default router;

@@ -44,6 +44,9 @@ export async function obtenerPorId(id) {
             {select:
                 {   id:true,
                     nombre:true,
+                     facultad: {            // 👈 incluye facultad aquí
+                       select: { id: true, nombre: true }
+                     }
                 }
             }
         }

@@ -28,6 +28,56 @@ export async function obtenerPorUrl(url){
     })
 }
 
+// models/Modelo_Videos.js
+export async function obtenerEnEspera() {
+  const rows = await prisma.video.findMany({
+    where: { aprobado: 0 },
+    orderBy: { fecha_de_registro: "desc" },
+    include: {
+
+      palabras: {
+        select: {
+          palabra_clave: { select: { id: true, nombre: true } },
+        },
+      },
+   
+      ua: {
+        select: {
+          id: true,
+          nombre: true,
+          carrera: { select: { id: true, nombre: true } },
+        },
+      },
+
+      usuario: { select: { id: true,  nombre_de_usuario: true } },
+    },
+  });
+
+
+  return rows.map((v) => ({
+    id: v.id,
+    titulo: v.titulo,
+    descripcion: v.descripcion,
+    identificador: v.identificador,
+    fecha_de_registro: v.fecha_de_registro,
+    fase: v.fase,
+    aprobado: v.aprobado,
+    comentario: v.comentario ?? null,
+
+    usuario_id: v.usuario_id,
+    usuario_nombre: v.usuario?.nombre_de_usuario ?? null,
+
+    ua_id: v.ua_id,
+    ua_nombre: v.ua?.nombre ?? null,
+    carrera_id: v.ua?.carrera?.id ?? null,
+    carrera_nombre: v.ua?.carrera?.nombre ?? null,
+
+    palabras: v.palabras.map((p) => ({
+      id: p.palabra_clave.id,
+      nombre: p.palabra_clave.nombre,
+    })),
+  }));
+}
 
 
 export async function obtenerPorUsuario(usu_id){

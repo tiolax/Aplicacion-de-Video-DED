@@ -8,5 +8,6 @@ const router = express.Router();
 router.post("/crear",ControladorUsuario.crearUsuario);
 router.post("/login",ControladorUsuario.ValidarUsuario);
 router.post("/validaradmin",ControladorUsuario.ValidarAdmin);
+router.post("/obtener-por-id",ControladorUsuario.ObtenerPorId);
 
 export default router;

@@ -93,7 +93,7 @@ const ua_id       = req.body.ua_id !== undefined ? Number(req.body.ua_id) : unde
     if (Number.isFinite(ua_id)) {
       data.ua = { connect: { id: ua_id } };
     }
-data.aprobado=0;
+data.aprobado = 0;
 if (palabrasIds.length > 0) {
   data.palabras = {
     deleteMany: {}, // borra vínculos actuales de este video
@@ -208,6 +208,18 @@ return res.status(200).json({
 }
 
 };
+
+export const ObtenerEnEspera = async (req,res) =>{
+  try{
+    const VideosEnEspera = await ModelVideo.obtenerEnEspera();
+  return res.status(201).json({success:true,videos:VideosEnEspera});
+  }
+  catch(error){
+  console.error(error);
+  return res.status(500).json({success: false,mensaje:"Error del servidor al listar videos"});
+  }
+}
+
 
 export const ObtenerVideosPorUsuario = async(req,res) => {
 

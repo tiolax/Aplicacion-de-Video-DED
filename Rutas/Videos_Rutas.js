@@ -10,5 +10,6 @@ router.get("",ControladorVideos.ObtenerVideos);
 router.post("/por-usuario",ControladorVideos.ObtenerVideosPorUsuario);
 router.post("/eliminar-por-id",ControladorVideos.EliminarVideo);
 router.post("/actualizar",ControladorVideos.ActualizarVideo);
+router.get("/en-espera",ControladorVideos.ObtenerEnEspera);
 
 export default router;

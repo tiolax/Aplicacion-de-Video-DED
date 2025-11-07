@@ -19,9 +19,6 @@ export async function EliminarVideoPorId(id){
 }
 
 export async function EditarVideos(id,titulo,descripcion,ua_id,palabras){
-
-        console.log("Esto recibo: ",titulo,id,descripcion,ua_id,palabras);
-
             const res = await fetch(`${window.API_URL}/videos/actualizar`,{
             method: "POST",
             headers: { "Content-Type": "application/json" },

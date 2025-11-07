@@ -14,10 +14,29 @@ export async function eliminarUsuario(id){
     })
 }
 
-export async function obtenerPorId(id){
-    return await prisma.usuario.findUnique({
-        where:{id}
+export async function obtenerUsuarioporid(id){
+      const u = await prisma.usuario.findUnique({
+        where:{id},
+        select:{
+         nombre_de_usuario:true,
+         id:true,
+         password: true,
+         admin:true,
+         facultad_id:true,
+         facultad:{
+            select:{
+                nombre:true,
+            }
+         }   
+        }
     })
+
+if (!u) return null;
+
+  return {
+    ...u,
+    facultad_nombre: u.facultad?.nombre ?? null,
+  };
 }
 
 export  function obtenerPorNombre(nombre_de_usuario){

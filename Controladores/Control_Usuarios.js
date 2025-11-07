@@ -88,3 +88,20 @@ export const crearUsuario = async (req, res) => {
    await UsuarioModelo.Actualizar(id,data);
 }
  
+export const ObtenerPorId = async (req, res) =>{
+  const Usuario = await UsuarioModelo.obtenerUsuarioporid(req.body.id);
+  if(Usuario){
+return res.status(200).json({
+      success: true,
+      usuario: Usuario
+    })
+  }  else{
+      return res.status(401).json({
+      success: false,
+      message: "usuario no encontrado"
+    })
+  }
+  
+  
+
+}
