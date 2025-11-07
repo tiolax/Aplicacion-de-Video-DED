@@ -15,6 +15,26 @@ let editingTr = null;      // <tr> asociado en la tabla
    ========================================================= */
 const $  = (sel, root = document) => root.querySelector(sel);
 const $$ = (sel, root = document) => Array.from(root.querySelectorAll(sel));
+function setHeader(name, faculty, count) {
+  const $ = (sel) => document.getElementById(sel);
+  const n = $("hdrUserName");
+  const f = $("hdrUserFaculty");
+  const c = $("hdrVideoCount");
+  if (n) n.textContent = name || "Usuario";
+  if (f) f.textContent = faculty || "—";
+  if (c) c.textContent = String(count ?? 0);
+}
+function renderHeaderForUser(count) {
+  const u = getUsuario(); // ya existe en tu archivo
+  const name =
+    u?.nombre ?? u?.nombre_de_usuario ?? u?.name ?? "Usuario";
+  const faculty =
+    u?.facultadnombre ??
+    u?.facultad?.nombre ??
+    u?.carrera?.facultad?.nombre ??
+    "—";
+  setHeader(name, faculty, count);
+}
 
 
 const callEditar = ({ id, titulo, descripcion, ua_id, palabras,fase }) =>
@@ -184,7 +204,7 @@ async function initVideosPendientes() {
     const resp  = await ObtenerVideosPorUsuario(usuario.id);
     const lista = resp?.videos ?? resp?.data ?? resp?.items ?? resp ?? [];
     const videos = lista.filter(v => Number(v.aprobado) === 0 || Number(v.aprobado) === 2);
-
+    renderHeaderForUser(videos.length);
     if (!videos.length) { renderEmpty(tbody, "No tienes videos en revisión o rechazados."); return; }
 
     // ... ya tienes 'videos' filtrados por aprobado 0/2

@@ -74,7 +74,8 @@ function plantillaTarjeta(video) {
   const carrera = getCarrera(video);
 
   const thumb = `https://img.youtube.com/vi/${idYT}/hqdefault.jpg`;
-  const href = `/Cliente/Html/Video copy.html?v=${encodeURIComponent(idYT)}&id=${encodeURIComponent(video.id)}`;
+  const href = `/Cliente/Html/Video.html?id=${video.id}`;
+
 
   return `
     <div class="col-12 col-sm-6 col-md-4 col-lg-3 p-2">

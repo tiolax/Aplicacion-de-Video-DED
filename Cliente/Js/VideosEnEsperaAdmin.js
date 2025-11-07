@@ -38,7 +38,7 @@ async function initTablaAdmin() {
     // 1) Trae videos en espera (pendientes/rechazados según tu backend)
     const lista = await ObtenerVideosEnEspera(); // ← await al fetch
     const videos = Array.isArray(lista) ? lista : [];
-
+    renderHeader(videos.length);
     if (!videos.length) {
       renderEmpty(tbody, "No hay videos en espera.");
       return;
@@ -180,4 +180,28 @@ function safe(s) {
     .replaceAll(">", "&gt;")
     .replaceAll('"', "&quot;")
     .replaceAll("'", "&#039;");
+}
+function getUsuarioSesion() {
+  try { return JSON.parse(localStorage.getItem("Usuario_SesionIniciada")); }
+  catch { return null; }
+}
+function setHeader(name, faculty, count) {
+  const $ = (sel) => document.getElementById(sel);
+  const n = $("hdrUserName");
+  const f = $("hdrUserFaculty");
+  const c = $("hdrVideoCount");
+  if (n) n.textContent = name || "Usuario";
+  if (f) f.textContent = faculty || "—";
+  if (c) c.textContent = String(count ?? 0);
+}
+function renderHeader(count) {
+  const u = getUsuarioSesion() || {};
+  const name =
+    u.nombre ?? u.nombre_de_usuario ?? u.name ?? "Usuario";
+  const faculty =
+    u?.facultadnombre ??
+    u?.facultad?.nombre ??
+    u?.carrera?.facultad?.nombre ??
+    "—";
+  setHeader(name, faculty, count);
 }

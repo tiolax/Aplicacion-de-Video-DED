@@ -41,7 +41,7 @@ export function renderizarVideos(lista) {
     col.className = 'col-12 col-sm-6 col-md-4 col-lg-3 p-2';
 
     col.innerHTML = `
-    <a href="/Cliente/Html/Video copy.html?id=${video.identificador}"
+    <a href="/Cliente/Html/Video.html?id=${video.id}"
    class="card-link text-decoration-none" aria-label="Ver video: ${video.titulo}">
   <div class="card hover-border video-card h-100">
     <div class="ratio ratio-16x9 video-thumb">

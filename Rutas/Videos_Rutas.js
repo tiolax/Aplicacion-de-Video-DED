@@ -12,4 +12,5 @@ router.post("/eliminar-por-id",ControladorVideos.EliminarVideo);
 router.post("/actualizar",ControladorVideos.ActualizarVideo);
 router.get("/en-espera",ControladorVideos.ObtenerEnEspera);
 router.post("/actualizar-estado",ControladorVideos.ActualizarEstado);
+router.post("/obtener-por-id",ControladorVideos.ObtenerPorId);
 export default router;

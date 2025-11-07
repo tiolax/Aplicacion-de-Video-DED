@@ -249,3 +249,27 @@ export const ActualizarEstado = async (req,res) =>{
     return res.status(500).json({ success: false, message: "Error al actualizar el estado" });
   }
 }
+
+export const ObtenerPorId = async (req,res) =>{
+  try {
+    const raw = req.body.id;
+    const id = Number(raw);
+    if (!Number.isFinite(id)) {
+      return res.status(400).json({ success: false, message: "ID inválido" });
+    }
+
+    const video = await ModelVideo.obtenerDetallePorId(id);
+    if (!video) {
+      return res.status(404).json({ success: false, message: "Video no encontrado" });
+    }
+
+     if (video.aprobado !== 1) {
+       return res.status(403).json({ success: false, message: "No autorizado" });
+     }
+
+    return res.json({ success: true, video });
+  } catch (e) {
+    console.error("ObtenerPorId:", e);
+    return res.status(500).json({ success: false, message: "Error del servidor" });
+  }
+}

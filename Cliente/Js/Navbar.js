@@ -56,10 +56,10 @@ export function FacultadUsuario_Sesion(){
         videosespera.textContent = "Videos en espera";  
 
         const usuarios = document.createElement("a");
-        usuarios.className = "dropdown-item";
+        /*usuarios.className = "dropdown-item";
         usuarios.href = "/Cliente/Html/ListaDeUsuarios.html";
         usuarios.textContent = "Lista de usuarios"; 
-
+        */
         const registrarUsuario = document.createElement("a");
         registrarUsuario.className = "dropdown-item";
         registrarUsuario.href = "/Cliente/Html/Registrarusuario.html";
