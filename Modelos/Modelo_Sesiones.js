@@ -1,0 +1,36 @@
+import { PrismaClient } from "../generated/prisma/client.js";
+const prisma = new PrismaClient()
+import crypto from "crypto";
+const generarIdSesion = () => crypto.randomBytes(32).toString("hex");
+
+
+export async function crearSesion(userId, {singleSession = false } ={} ) {
+    if(!userId) throw new Error("userId es requerido para crear sesión");
+
+    if (singleSession) {
+    await prisma.session.deleteMany({ where: { userId } });
+    }
+
+    const id = generarIdSesion();
+    const sesion = await prisma.session.create({
+    data: {id,userId},
+    select: { id: true, userId: true,createdAt:true},    
+    });
+
+    return sesion;
+}
+
+export async function EliminarSesion(id) {
+     if (!id) throw new Error("id de sesión requerido");
+    return await prisma.session.delete({where: {id}
+    });
+}
+
+export async function ObtnerSesion(id) {
+    if (!id) return null;
+    return await prisma.session.findUnique({
+        where: {id}, select: { id:true,userId:true,createdAt:true}
+    });
+}
+
+

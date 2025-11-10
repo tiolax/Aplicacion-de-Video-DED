@@ -23,7 +23,23 @@ model Usuario {
   facultad_id       Int?
   facultad          Facultad? @relation(fields: [facultad_id],references: [id])
 
+ sesiones          Session[]
 }
+
+
+model Session {
+  id         String   @id                   
+  usuarioId  Int
+  usuario    Usuario  @relation(fields: [usuarioId], references: [id], onDelete: Cascade)
+  createdAt  DateTime @default(now())  
+
+  @@index([usuarioId])
+}
+
+
+
+
+
 
 model Video {
   id                 Int        @id @default(autoincrement())  

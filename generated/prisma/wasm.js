@@ -126,6 +126,12 @@ exports.Prisma.UsuarioScalarFieldEnum = {
   facultad_id: 'facultad_id'
 };
 
+exports.Prisma.SessionScalarFieldEnum = {
+  id: 'id',
+  usuarioId: 'usuarioId',
+  createdAt: 'createdAt'
+};
+
 exports.Prisma.VideoScalarFieldEnum = {
   id: 'id',
   titulo: 'titulo',
@@ -180,6 +186,7 @@ exports.Prisma.NullsOrder = {
 
 exports.Prisma.ModelName = {
   Usuario: 'Usuario',
+  Session: 'Session',
   Video: 'Video',
   Facultad: 'Facultad',
   Carrera: 'Carrera',
