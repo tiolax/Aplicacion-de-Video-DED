@@ -14,24 +14,30 @@ export async function requireAuth(req, res, next) {
 }
 
 export async function crear(req, res) {
-  try {
-    const { userId, singleSession } = req.body || {};
-    if (!userId) return res.status(400).json({ error: "userId requerido" });
-    const sesion = await Sesiones.crearSesion(userId, { singleSession: !!singleSession });
+
+    const { usuarioId,singleSession } = req.body || {};
+    if (!usuarioId) return res.status(400).json({ error: "userId requerido" });
+    const sesion = await Sesiones.crearSesion(usuarioId, { singleSession: !!singleSession });
+
     res.cookie("sid", sesion.id, {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
       sameSite: "lax",
       path: "/",
     });
-    return res.status(201).json({ ok: true, userId: sesion.userId });
-  } catch (e) {
-    return res.status(500).json({ error: "no se pudo crear la sesión" });
-  }
+
+    return res.status(201).json({ ok: true, usuarioId: sesion.usuarioId });
+
 }
 
 export async function actual(req, res) {
   const { userId } = req.auth;
+
+///aqui siguele moviendo, que te regrese los datos completos del usuarios y su facultad para que pueda usarlos 
+////en el cliente
+
+
+
   return res.json({ authenticated: true, userId });
 }
 
@@ -39,7 +45,7 @@ export async function eliminarActual(req, res) {
   try {
     const sid = req.cookies?.sid;
     if (sid) {
-      await Sesiones.eliminarSesion(sid);
+      await Sesiones.EliminarSesion(sid);
       res.clearCookie("sid", { path: "/" });
     }
     res.set({

@@ -1,3 +1,5 @@
+import {CrearSesion} from "./Fetch_Login.js"
+
 
 
 document.querySelector('form').addEventListener("submit", async(e) =>{
@@ -19,9 +21,12 @@ document.querySelector('form').addEventListener("submit", async(e) =>{
             body: JSON.stringify({ nombre, password }),
             })
             const data = await res.json();
+
+
               if(data.success){
-                localStorage.setItem("Usuario_SesionIniciada", JSON.stringify(data.usuarioEcontrado));
-                window.location.href = "/Cliente/Html/inicio.html";
+                const usuarioId = data.usuarioEcontrado.id
+                CrearSesion(usuarioId);
+                //.location.href = "/Cliente/Html/inicio.html";
               }else{
                 errorDiv.textContent = data.mensaje;
               }

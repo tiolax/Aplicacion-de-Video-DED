@@ -170,7 +170,6 @@ async function GenerarUas(idcarrera){
     resetearSelect(select,"Seleccione una Unidad de Aprendizaje");
 
     const uas = await FuncionesAuxiliares.ObtenerUas(idcarrera);
-    console.log(uas);
     uas
     .forEach(u => {
         const option = document.createElement('option');

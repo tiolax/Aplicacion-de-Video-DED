@@ -1,10 +1,18 @@
+import {SesionActual} from "./Fetch_Login.js"
+
 
 const SESSION_KEY = "Usuario_SesionIniciada";
+///Obtenemos el id del usuario
+const sessionId = req.cookies.sessionId;
+
+const DatosUsuario = SesionActual(sessionId);
 
 const usuarioActual = JSON.parse(localStorage.getItem(SESSION_KEY));
-if (!usuarioActual && !/\/login\.html$/i.test(location.pathname)) {
+
+if (!sessionId && !/\/login\.html$/i.test(location.pathname)) {
   window.location.replace("/Cliente/Html/login.html");
 }
+
 ///Boton Cerrar Sesion///
 document.addEventListener("click", (e) => {
   let node = e.target;
