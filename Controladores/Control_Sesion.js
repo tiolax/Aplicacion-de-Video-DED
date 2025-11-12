@@ -34,7 +34,7 @@ export async function actual(req, res) {
   const { userId } = req.auth;
 
 ///aqui siguele moviendo, que te regrese los datos completos del usuarios y su facultad para que pueda usarlos 
-////en el cliente
+////en el cliente, aqui con un select y trues
 
 
 
