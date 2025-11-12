@@ -24,6 +24,7 @@ export async function crear(req, res) {
       secure: process.env.NODE_ENV === "production",
       sameSite: "lax",
       path: "/",
+      maxAge: 1000 * 60 * 60 * 24 * 7,
     });
 
     return res.status(201).json({ ok: true, usuarioId: sesion.usuarioId });
@@ -31,14 +32,18 @@ export async function crear(req, res) {
 }
 
 export async function actual(req, res) {
-  const { userId } = req.auth;
-
-///aqui siguele moviendo, que te regrese los datos completos del usuarios y su facultad para que pueda usarlos 
-////en el cliente, aqui con un select y trues
-
-
-
-  return res.json({ authenticated: true, userId });
+  const sid = req.cookies?.sid;
+  if (!sid) return res.status(401).json({ authenticated: false, error: "Sin cookie de sesión" });
+  const sesion = await Sesiones.ObtnerSesion(sid);
+  if (!sesion) return res.status(401).json({ authenticated: false, error: "Sesión inválida" });
+  return res.json({
+    authenticated: true,
+    usuarioId: sesion.usuarioId,
+    sessionId: sesion.id,
+    usuarioNombre: sesion.usuario_nombre,
+    facultad_id: facultad_id,
+    facultad_nombre: facultad_nombre,
+  });
 }
 
 export async function eliminarActual(req, res) {

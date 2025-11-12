@@ -11,7 +11,12 @@ import PalabrasRuta from "./Rutas/Palabras_Rutas.js"
 import SesionesRuta from "./Rutas/Sesion_Rutas.js"
 
 const app = express();
-app.use(cors());
+app.use(cors({
+    origin: "http://127.0.0.1:8080",
+    credentials: true,
+}
+
+));
 app.use(express.json());
 app.use(cookieParser());
 

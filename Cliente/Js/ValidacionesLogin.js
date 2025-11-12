@@ -26,7 +26,7 @@ document.querySelector('form').addEventListener("submit", async(e) =>{
               if(data.success){
                 const usuarioId = data.usuarioEcontrado.id
                 CrearSesion(usuarioId);
-                //.location.href = "/Cliente/Html/inicio.html";
+                window.location.href = "/Cliente/Html/inicio.html";
               }else{
                 errorDiv.textContent = data.mensaje;
               }
