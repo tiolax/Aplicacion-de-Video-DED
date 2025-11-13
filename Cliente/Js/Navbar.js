@@ -3,26 +3,31 @@ const SESSION_KEY = "SesionIniciada";
 const sesionActual = JSON.parse(localStorage.getItem(SESSION_KEY));
 const DatosUsuario = await SesionActual(sesionActual);
 
+
+window.usuarioActual = DatosUsuario;
+window.usuarioActualPromise = Promise.resolve(DatosUsuario);
+console.log(window.usuarioActual);
+
 window.addEventListener("pageshow", () => {
- 
+
 if (!DatosUsuario.usuarioId && !/\/login\.html$/i.test(location.pathname)) {
   window.location.replace("/Cliente/Html/login.html");
 }
+
 });
-
-
-
 
 ///Boton Cerrar Sesion///
 document.addEventListener("click", (e) => {
   let node = e.target;
-  if (node && node.nodeType !== 1) node = node.parentNode; // 1 = ELEMENT_NODE
+  if (node && node.nodeType !== 1) node = node.parentNode; 
 
   while (node && node !== document) {
     if (node.nodeType === 1 && node.id === "cerrarSesion") {
       e.preventDefault();
       // --- lógica de logout ---
-      CerrarSesion(sesionActual);
+        if (sesionActual) {
+        CerrarSesion(sesionActual);
+      }
       try { localStorage.removeItem(SESSION_KEY); } catch (_) {}
       window.location.replace("/Cliente/Html/login.html");
       return; 

@@ -1,6 +1,9 @@
 // /Cliente/Js/Migaleria.js
 import { ObtenerVideosPorUsuario,ObtenerFacultadporId ,ObtenerUaporId} from "./Fecth_Migaleria.js";
-
+import {SesionActual} from "./Fetch_Login.js"
+const SESSION_KEY = "SesionIniciada";
+const sesionActual = JSON.parse(localStorage.getItem(SESSION_KEY));
+const usuarioActual = await SesionActual(sesionActual);
 
 // --- caché de UAs por id ---
 const uaCache = new Map();
@@ -18,17 +21,11 @@ async function getUaNombreById(id) {
 
 // --- Perfil / encabezado ---
 const contenedorPerfil = document.getElementById("datos_perfil");
-const usuarioActual = (() => {
-  try {
-    return JSON.parse(localStorage.getItem("Usuario_SesionIniciada")) || {};
-  } catch {
-    return {};
-  }
-})();
+
+console.log("Usuario en Migaleria.js :", window.usuarioActual);
 
 let NombredelaFacultaddelUsusario = null;
 let FacultaddelUsuario = null;
-
 
 if(usuarioActual.admin){
   NombredelaFacultaddelUsusario = "Cuenta de Administrador";
