@@ -35,6 +35,7 @@ export async function ObtnerSesion(id) {
            usuario: {
             select: {
                 nombre_de_usuario:true,
+                admin: true,
                 facultad_id:true,
                 facultad: {
                     select: {
@@ -49,9 +50,10 @@ export async function ObtnerSesion(id) {
     id: sesion.id,
     createdAt: sesion.createdAt,
     usuarioId: sesion.usuarioId,
+    admin: sesion.usuario.admin,
     usuario_nombre: sesion.usuario.nombre_de_usuario,
     facultad_id: sesion.usuario.facultad_id,
-    facultad_nombre: sesion.usuario.facultad?.nombre ?? null,
+    facultad_nombre: sesion.usuario.facultad?.nombre ?? "Cuenta de Administrador",
   };
 
 }

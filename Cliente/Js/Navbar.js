@@ -1,15 +1,12 @@
-import {SesionActual} from "./Fetch_Login.js"
+import {SesionActual,CerrarSesion} from "./Fetch_Login.js"
+const SESSION_KEY = "SesionIniciada";
+const sesionActual = JSON.parse(localStorage.getItem(SESSION_KEY));
+const DatosUsuario = await SesionActual(sesionActual);
+console.log("Datos del usuraio: ",DatosUsuario)
 
 
-const SESSION_KEY = "Usuario_SesionIniciada";
-///Obtenemos el id del usuario
-const sessionId = req.cookies.sessionId;
 
-const DatosUsuario = SesionActual(sessionId);
-
-const usuarioActual = JSON.parse(localStorage.getItem(SESSION_KEY));
-
-if (!sessionId && !/\/login\.html$/i.test(location.pathname)) {
+if (!DatosUsuario && !/\/login\.html$/i.test(location.pathname)) {
   window.location.replace("/Cliente/Html/login.html");
 }
 
@@ -22,7 +19,10 @@ document.addEventListener("click", (e) => {
     if (node.nodeType === 1 && node.id === "cerrarSesion") {
       e.preventDefault();
       // --- lógica de logout ---
-      const SESSION_KEY = "Usuario_SesionIniciada";
+      const SESSION_KEY = "SesionIniciada";
+
+       CerrarSesion(sesionActual);
+
       try { localStorage.removeItem(SESSION_KEY); } catch (_) {}
       window.location.replace("/Cliente/Html/login.html");
       return; 
@@ -33,11 +33,11 @@ document.addEventListener("click", (e) => {
 
 
 export function NombredeUsuario_Sesion(){
-    document.getElementById("Nombre_UsuarioSesion").textContent = usuarioActual.nombre;
+    document.getElementById("Nombre_UsuarioSesion").textContent = DatosUsuario.usuarioNombre;
 }
 export function FacultadUsuario_Sesion(){
     
-    //document.getElementById("Facultad_UsuaruiSesion").textContent = usuarioActual.facultadnombre;
+    document.getElementById("Facultad_UsuaruiSesion").textContent = DatosUsuario.facultad_nombre;
 
     const navbar = document.getElementById("navbar");
     const navbarinicio = document.getElementById("navbarinicio") 
@@ -52,7 +52,7 @@ export function FacultadUsuario_Sesion(){
         opciones.appendChild(misvideos);
 
 
-    if(usuarioActual.admin == true){
+    if(DatosUsuario.admin == true){
     navbar.style.backgroundColor = "rgba(30, 32, 61, 1)";
     navbar.style.color = "white";
     navbar.style.borderColor = "rgba(0, 0, 0, 1)";

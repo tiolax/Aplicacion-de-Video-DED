@@ -28,6 +28,7 @@ la fila correspondiente se borra(recuerda que usamos SQlite y no queremos hacer 
 
 Usamos Cookies por seguridad, estas solo se envias en HTTPS, (NO en HTTP)
 
+Las cookies necesitan CORS 
 
 
 /////NOTAS/////

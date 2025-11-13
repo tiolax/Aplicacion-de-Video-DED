@@ -6,7 +6,7 @@ const router = express.Router();
 
 
 router.post("/crear",Control_Sesion.crear);
-router.get("/actual",Control_Sesion.actual);
-router.post("/cerrar",Control_Sesion.eliminarActual);
+router.post("/actual",Control_Sesion.actual);
+router.post("/cerrar",Control_Sesion.cerrar);
 
 export default router;
