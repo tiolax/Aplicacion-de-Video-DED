@@ -39,16 +39,10 @@ export async function actual(req, res) {
 export async function cerrar(req, res) {
   try {
       const SesionID = req.body.sesionID
-    if (sid) {
-      await Sesiones.EliminarSesion(sid);
-      res.clearCookie("sid", { path: "/" });
+    if (SesionID) {
+      await Sesiones.EliminarSesion(SesionID);
     }
-    res.set({
-      "Cache-Control": "no-store, no-cache, must-revalidate, max-age=0",
-      Pragma: "no-cache",
-      Expires: "0",
-    });
-    return res.sendStatus(204);
+    return res.status(201).json({ok:true});
   } catch (e) {
     return res.status(500).json({ error: "no se pudo cerrar la sesión" });
   }

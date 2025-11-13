@@ -88,7 +88,6 @@ await Promise.all(userIds.map(async (uid) => {
 
       const thumb = getThumb(v);
 
-        console.log("palabras en el js: ",palabrasNorm);
 
       return `
         <tr data-video='${safe(JSON.stringify({

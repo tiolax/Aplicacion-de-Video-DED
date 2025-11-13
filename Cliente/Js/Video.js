@@ -72,7 +72,7 @@ async function initVideoPage() {
 
 /* ---------------- helpers de datos ---------------- */
 async function fetchVideoDetalle({ id, identificador }) {
-    console.log(id)
+
 
 
 const data = ObtenerVideoPorId(id);

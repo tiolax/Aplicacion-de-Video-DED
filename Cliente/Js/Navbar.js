@@ -2,13 +2,16 @@ import {SesionActual,CerrarSesion} from "./Fetch_Login.js"
 const SESSION_KEY = "SesionIniciada";
 const sesionActual = JSON.parse(localStorage.getItem(SESSION_KEY));
 const DatosUsuario = await SesionActual(sesionActual);
-console.log("Datos del usuraio: ",DatosUsuario)
 
-
-
-if (!DatosUsuario && !/\/login\.html$/i.test(location.pathname)) {
+window.addEventListener("pageshow", () => {
+ 
+if (!DatosUsuario.usuarioId && !/\/login\.html$/i.test(location.pathname)) {
   window.location.replace("/Cliente/Html/login.html");
 }
+});
+
+
+
 
 ///Boton Cerrar Sesion///
 document.addEventListener("click", (e) => {
@@ -19,10 +22,7 @@ document.addEventListener("click", (e) => {
     if (node.nodeType === 1 && node.id === "cerrarSesion") {
       e.preventDefault();
       // --- lógica de logout ---
-      const SESSION_KEY = "SesionIniciada";
-
-       CerrarSesion(sesionActual);
-
+      CerrarSesion(sesionActual);
       try { localStorage.removeItem(SESSION_KEY); } catch (_) {}
       window.location.replace("/Cliente/Html/login.html");
       return; 

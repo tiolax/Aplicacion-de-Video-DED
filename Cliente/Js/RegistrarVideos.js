@@ -28,7 +28,7 @@ async function ValidarVideo() {
 
  
     const palabrasSelect = obtenerPalabrasSeleccionadas();
-       console.log("palabras: ",palabrasSelect);
+
     const Uaselect = document.getElementById('UaSelect').value;
 
     if(!titulo) {

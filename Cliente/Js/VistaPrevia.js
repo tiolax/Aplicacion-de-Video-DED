@@ -55,7 +55,7 @@ function normalizePalabras(pals) {
   const fechaISO     = video.fecha ?? video.created_at ?? video.fecha_de_registro;
   const fechaDMY     = isoToDMY(fechaISO) ?? "—";
   const palabras     = normalizePalabras(video.palabras);
-  console.log("palabras :",video.palabras);
+
 
   const embedUrl     = buildEmbed(video); // arma URL del reproductor (YouTube)
 

@@ -27,7 +27,6 @@ document.querySelector('form').addEventListener("submit", async(e) =>{
                 const usuarioId = data.usuarioEcontrado.id
                 const sesion = await CrearSesion(usuarioId);
                 localStorage.setItem("SesionIniciada",JSON.stringify(sesion.SesionId));
-                console.log(sesion.SesionId);
               window.location.href = "/Cliente/Html/inicio.html";
               }else{
                 errorDiv.textContent = data.mensaje;
