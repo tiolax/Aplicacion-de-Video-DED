@@ -73,6 +73,13 @@ export const EliminarVideo = async (req, res) => {
 };
 
 export const ActualizarVideo = async (req,res) => {
+
+
+  const videoencontrado = await ModelVideo.obtenerPorUrl(req.body.identificador);
+    if(videoencontrado){
+        return res.status(401).json({success: false, mensaje: "Video ya cargado, intente con una url diferente",duplavideo: videoencontrado.identificador });
+    }
+
 try{
 const id = Number(req.body.id);
     if (!Number.isFinite(id)) {
@@ -82,6 +89,11 @@ const id = Number(req.body.id);
 const titulo      = typeof req.body.titulo === "string" ? req.body.titulo.trim() : undefined;
 const descripcion = typeof req.body.descripcion === "string" ? req.body.descripcion.trim() : undefined;
 const ua_id       = req.body.ua_id !== undefined ? Number(req.body.ua_id) : undefined;
+
+  const identificador = typeof req.body.identificador === "string"
+      ? req.body.identificador.trim()
+      : undefined;
+
 
    const palabrasIds = Array.isArray(req.body.palabras)
       ? req.body.palabras.map(n => Number(n)).filter(Number.isFinite)
@@ -93,6 +105,13 @@ const ua_id       = req.body.ua_id !== undefined ? Number(req.body.ua_id) : unde
     if (Number.isFinite(ua_id)) {
       data.ua = { connect: { id: ua_id } };
     }
+
+    if (identificador !== undefined && identificador !== "") {
+      data.identificador = identificador;
+    }
+
+
+
 data.aprobado = 0;
 if (palabrasIds.length > 0) {
   data.palabras = {

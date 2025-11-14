@@ -1,5 +1,9 @@
 import { ObtenerVideosPorUsuario, EliminarVideoPorId, EditarVideos,ObtenerUaporId } from "./Fetch_VideosEnEspera.js";
 import { ObtenerPalabras, ObtenerUas,ObtenerCarreras } from "./Fetch_RegistrarVideos.js";
+import {SesionActual} from "./Fetch_Login.js"
+const SESSION_KEY = "SesionIniciada";
+const sesionActual = JSON.parse(localStorage.getItem(SESSION_KEY));
+const usuarioActual = await SesionActual(sesionActual);
 
 /* =========================================================
     ESTADO GLOBAL
@@ -25,11 +29,11 @@ function setHeader(name, faculty, count) {
   if (c) c.textContent = String(count ?? 0);
 }
 function renderHeaderForUser(count) {
-  const u = getUsuario(); // ya existe en tu archivo
+  const u = usuarioActual // ya existe en tu archivo
   const name =
-    u?.nombre ?? u?.nombre_de_usuario ?? u?.name ?? "Usuario";
-  const faculty =
-    u?.facultadnombre ??
+    u?.nombre ?? u?.nombre_de_usuario ?? u?.usuarioNombre ?? "Usuario";
+  const faculty = 
+    u?.facultad_nombre ??
     u?.facultad?.nombre ??
     u?.carrera?.facultad?.nombre ??
     "—";

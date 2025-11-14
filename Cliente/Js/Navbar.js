@@ -6,7 +6,6 @@ const DatosUsuario = await SesionActual(sesionActual);
 
 window.usuarioActual = DatosUsuario;
 window.usuarioActualPromise = Promise.resolve(DatosUsuario);
-console.log(window.usuarioActual);
 
 window.addEventListener("pageshow", () => {
 
