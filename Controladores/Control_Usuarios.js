@@ -114,3 +114,9 @@ export const ObtenerTodos = async(req,res) => {
     usuarios: Usuarios,
   })
 }
+
+
+export const EliminarUsuario = async(req,res) => {
+
+  
+}

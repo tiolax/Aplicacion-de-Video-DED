@@ -27,16 +27,15 @@
       <!-- Barra de filtros / acciones -->
       <div class="row g-2 align-items-center bg-dark-subtle p-2 rounded">
 
-        <!-- Botones de acción -->
-        <div class="col-12 col-md-2 d-flex justify-content-center gap-2">
-          <button class="btn btn-sm p-2 rounded border" style="background-color: rgb(110, 192, 206); color: aliceblue;">
-            Actualizar
-          </button>
-          <button class="btn btn-sm p-2 rounded border" style="background-color: rgb(206, 110, 110); color: aliceblue;">
-            Dar de Baja
-          </button>
-        </div>
-      </div>
+   <div class="col-12 col-md-2 d-flex justify-content-center gap-2">
+  <button id="btn-actualizar" class="btn btn-sm p-2 rounded border" style="background-color: rgb(110, 192, 206); color: aliceblue;">
+    Actualizar
+  </button>
+  <button id="btn-dar-baja" class="btn btn-sm p-2 rounded border" style="background-color: rgb(206, 110, 110); color: aliceblue;">
+    Dar de Baja
+  </button>
+</div>
+
 
       <!-- Tabla responsiva -->
 <!-- Tabla responsiva -->
@@ -66,11 +65,59 @@
     </div>
   </main>
 
+<!-- Modal Dar de Baja -->
+<div class="modal fade" id="modalDarDeBaja" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Dar de baja usuario</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+      </div>
+      <div class="modal-body">
+        ¿Seguro que deseas dar de baja al usuario 
+        <strong id="modalDarDeBajaUsuarioNombre"></strong>?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+          Cancelar
+        </button>
+        <button type="button" class="btn btn-danger" id="btn-confirmar-dar-baja">
+          Sí, dar de baja
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!--Modal Aviso-->
+<div class="modal fade" id="modalAviso" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      
+      <div class="modal-header bg-secondary text-white">
+        <h5 class="modal-title" id="modalLabel">Aviso</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+      </div>
+      
+      <div class="modal-body text-center" id = "textmodalAviso">  
+      </div>
+      
+      <div class="modal-footer justify-content-center">
+        <button id="btnaceptar" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Aceptar</button>
+      </div>
+      
+    </div>
+  </div>
+</div>
+
+
+
+
   <div id="footer"></div>
-
-
 <script src="/Cliente/Js/config.js"></script> 
 <script  type="module" src="/Cliente/Js/Footer_Navbar.js"></script> 
 <script  type="module" src="/Cliente/Js/ListaDeUsuarios.js"></script> 
+
+
 </body>
 </html>
