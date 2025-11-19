@@ -14,7 +14,7 @@ let pendingDeleteBtn = null;
 let editingVideo = null;   // objeto del video que se edita
 let editingTr = null;      // <tr> asociado en la tabla
 
-/* =========================================================
+/* =========================================================s
     UTILIDADES
    ========================================================= */
 const $  = (sel, root = document) => root.querySelector(sel);

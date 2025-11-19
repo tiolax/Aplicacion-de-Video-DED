@@ -2,6 +2,9 @@ import * as ModelVideo from "../Modelos/Modelo_Videos.js"
 
 //crear
 export const crearVideo = async (req,res) => {
+  console.log("id de del usuario en le Control: ",req.body.usuario_id);
+
+
   const identificador = req.body.identificador;   
   const videoencontrado = await ModelVideo.obtenerPorUrl(identificador);
   const listPalabras = req.body.palabras;
