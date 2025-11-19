@@ -29,7 +29,7 @@ function setHeader(name, faculty, count) {
   if (c) c.textContent = String(count ?? 0);
 }
 function renderHeaderForUser(count) {
-  const u = usuarioActual // ya existe en tu archivo
+  const u = usuarioActual 
   const name =
     u?.nombre ?? u?.nombre_de_usuario ?? u?.usuarioNombre ?? "Usuario";
   const faculty = 
@@ -40,10 +40,8 @@ function renderHeaderForUser(count) {
   setHeader(name, faculty, count);
 }
 
-
 const callEditar = ({ id, titulo, descripcion, ua_id, palabras,fase }) =>
   EditarVideos(id, titulo, descripcion, ua_id, palabras,fase);
-
 
 const getTbody = () =>
   $("#tbody-pendientes") ||

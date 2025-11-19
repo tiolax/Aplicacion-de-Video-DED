@@ -39,6 +39,34 @@ if (!u) return null;
   };
 }
 
+export async function ObtenerTodos() {
+  const usuarios = await prisma.usuario.findMany({
+    include: {
+      facultad: {
+        select: {
+          nombre: true,
+        },
+      },
+      _count: {
+        select: {
+          videos: true,
+          sesiones: true,
+        },
+      },
+    },
+  });
+
+  return usuarios.map((u) => ({
+    id: u.id,
+    nombreUsuario: u.nombre_de_usuario,
+    nombreFacultad: u.facultad?.nombre ?? null,
+    fecha_de_registro: u.fecha_de_registro,
+    totalVideos: u._count.videos,
+    tieneSesionActiva: u._count.sesiones > 0,
+  }));
+}
+
+
 export  function obtenerPorNombre(nombre_de_usuario){
     return  prisma.usuario.findUnique({
         where:{nombre_de_usuario},

@@ -12,115 +12,65 @@
     <title>Lista de Usuarios</title>
 </head>
 <body>
-      <div id="navbar"></div>
-    <main class="contenido-principal">
+  <div id="navbar"></div>
 
+  <main class="contenido-principal">
+    <div class="container-fluid contenedor p-3">
 
-        <div class=" container-fluid contenedor p-3">
-          <div class="row p-3"><h5>Lista de Usuarios</h5>
-            <div></div>
-          </div>
+      <!-- Título -->
+      <div class="row mb-3">
+        <div class="col-12">
+          <h5 class="mb-0">Lista de Usuarios</h5>
+        </div>
+      </div>
 
-           <div class=" d-flex align-items-center justify-content-center col-12 bg-dark-subtle" style="height: 50px;">
-            <button class=" btn p-2 m-2 rounded border">Estatus</button> <!--hacerlos botones-->
-            <div class="btn p-2 m-2 rounded border" >Fecha de Registro</div>
-            <div class="btn p-2 m-2 rounded border">Ultima conexion</div>
-            <div class="btn p-2 m-2 rounded border">Total de videos</div>
-            <div class="input-group w-25">
-                <input class="form-control bg-dark-subtle" type="search" placeholder="Buscar" aria-label="Buscar">
-          <button class="btn btn-outline-secondary" type="submit">
-            <i class="bi bi-search"></i>
+      <!-- Barra de filtros / acciones -->
+      <div class="row g-2 align-items-center bg-dark-subtle p-2 rounded">
+
+        <!-- Botones de acción -->
+        <div class="col-12 col-md-2 d-flex justify-content-center gap-2">
+          <button class="btn btn-sm p-2 rounded border" style="background-color: rgb(110, 192, 206); color: aliceblue;">
+            Actualizar
           </button>
-            </div>
-             <div><button class="btn p-2 m-2 rounded border" style="background-color: rgb(110, 192, 206); color: aliceblue;">Actualizar</button></div>
-
-            <div><button class="btn p-2 m-2 rounded border" style="background-color: rgb(206, 110, 110); color: aliceblue;"> Dar de Baja</button></div>
+          <button class="btn btn-sm p-2 rounded border" style="background-color: rgb(206, 110, 110); color: aliceblue;">
+            Dar de Baja
+          </button>
         </div>
+      </div>
 
-<table class="table table-bordered bg-dark-subtle">
-  <thead class="thead-dark bg-dark-subtle">
-    <tr>
-      <th scope="col">#</th>
-      <th scope="col">Nombre</th>
-      <th scope="col">Facultad</th>
-      <th scope="col">Fecha de registro</th>
-      <th scope="col">Ultima conexion</th>
-      <th scope="col">Total de videos</th>
-      <th scope="col">Estatus</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th scope="row">1</th>
-      <td>User1</td>
-      <td>Facultad por defecto</td>
-      <td>10/10/10</td>
-      <td>10/10/10</td>
-      <td>10</td>
-      <td>BAJA</td>
-    </tr>
-
-     <tr>
-      <th scope="row">2</th>
-       <td>User2</td>
-      <td>Facultad por defecto</td>
-      <td>10/10/10</td>
-      <td>10/10/10</td>
-      <td>10</td>
-      <td>ACTIVO</td>
-      
-    </tr>
-
-  <tr>
-      <th scope="row">3</th>
-       <td>User3</td>
-      <td>Facultad por defecto</td>
-      <td>10/10/10</td>
-      <td>10/10/10</td>
-      <td>10</td>
-      <td>ACTIVO</td>
-      
-    </tr>
-
-
-  </tbody>
-</table>
-<div class="d-flex justify-content-center"><button type="button" class="btn btn-secondary">Agregar Usuario</button>
+      <!-- Tabla responsiva -->
+<!-- Tabla responsiva -->
+<div class="table-responsive mt-3">
+  <table class="table table-bordered table-hover align-middle bg-dark-subtle" id="tabla-usuarios">
+    <thead class="thead-dark">
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Nombre</th>
+        <th scope="col">Facultad</th>
+        <th scope="col">Fecha de registro</th>
+        <th scope="col">Total de videos</th>
+                <th scope="col">Conectado</th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- Se llenará dinámicamente desde JS -->
+    </tbody>
+  </table>
 </div>
-        </div>
-    </main>
-        <div id="footer"></div>
+
+
+      <!-- Botón agregar -->
+      <div class="d-flex justify-content-center mt-3">
+        <button type="button" class="btn btn-secondary">Agregar Usuario</button>
+      </div>
+    </div>
+  </main>
+
+  <div id="footer"></div>
+
+
+<script src="/Cliente/Js/config.js"></script> 
+<script  type="module" src="/Cliente/Js/Footer_Navbar.js"></script> 
+<script  type="module" src="/Cliente/Js/ListaDeUsuarios.js"></script> 
 </body>
-
-<script>
-         fetch('footer.html')
-        .then(response => response.text())
-        .then(html =>{
-            document.getElementById('footer').innerHTML = html;
-        });
-
-    fetch('Navbar.html')
-        .then(response => response.text())
-        .then(html =>{
-            document.getElementById('navbar').innerHTML = html;
-        });
-
-  document.addEventListener("DOMContentLoaded", function () {
-    const rows = document.querySelectorAll(".table tbody tr");
-
-    rows.forEach(row => {
-      row.addEventListener("click", function () {
-        // Quitar la clase "selected" de todas las filas
-        rows.forEach(r => r.classList.remove("selected"));
-        
-        // Agregar clase "selected" a la fila clickeada
-        this.classList.add("selected");
-      });
-    });
-  });
-
-
-
-</script>
-
 </html>

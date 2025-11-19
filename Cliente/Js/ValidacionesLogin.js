@@ -1,7 +1,5 @@
 import {CrearSesion} from "./Fetch_Login.js"
 
-
-
 document.querySelector('form').addEventListener("submit", async(e) =>{
       e.preventDefault();
       localStorage.clear();

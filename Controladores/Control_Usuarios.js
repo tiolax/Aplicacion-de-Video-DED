@@ -105,3 +105,12 @@ return res.status(200).json({
   
 
 }
+
+export const ObtenerTodos = async(req,res) => {
+  const Usuarios = await UsuarioModelo.ObtenerTodos();
+
+  return res.status(200).json({
+    success: true,
+    usuarios: Usuarios,
+  })
+}
