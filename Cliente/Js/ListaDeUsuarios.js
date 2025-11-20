@@ -166,6 +166,10 @@ if (btnConfirmarActualizar) {
       usuarioSeleccionado.baja_flag ??
       false;
 
+  console.log("nombre: ",nuevoNombre);
+  console.log("contra: ",nuevaPassword);
+  console.log("baja: ",enBajaActual);
+  
     try {
 
 let passwordParaEnviar = null;
@@ -174,13 +178,16 @@ if (nuevaPassword && nuevaPassword !== passwordOriginalSeleccionado) {
 }
 
 
-      const payload = {
-        nombreUsuario: nuevoNombre,
-        password: nuevaPassword || null, // null si no cambia
-        baja: enBajaActual
-      };
+const UsuarioId = usuarioSeleccionado.id;
 
-      await Actualizar(usuarioSeleccionado.id, payload);
+const nuevoNombre = (inputNombreUsuario?.value ?? "").trim();
+const nuevaPassword = (inputPasswordUsuario?.value ?? "").trim();
+
+
+
+
+await Actualizar(UsuarioId, nuevoNombre, nuevaPassword, !enBajaActual);
+
 
       // ✅ actualizar UI local
       usuarioSeleccionado.nombreUsuario = nuevoNombre;

@@ -84,8 +84,8 @@ export const crearUsuario = async (req, res) => {
   };
 
 //Actualizar
- export async function ActualizarUsuario({id,data}) {
-   await UsuarioModelo.Actualizar(id,data);
+ export const ActualizarUsuario = async (req,res) => {
+   await UsuarioModelo.Actualizar(req.body.id,req.body.data);
 }
  
 export const ObtenerPorId = async (req, res) =>{
@@ -116,7 +116,3 @@ export const ObtenerTodos = async(req,res) => {
 }
 
 
-export const EliminarUsuario = async(req,res) => {
-
-  
-}
