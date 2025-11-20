@@ -123,6 +123,7 @@ exports.Prisma.UsuarioScalarFieldEnum = {
   password: 'password',
   fecha_de_registro: 'fecha_de_registro',
   admin: 'admin',
+  baja: 'baja',
   facultad_id: 'facultad_id'
 };
 

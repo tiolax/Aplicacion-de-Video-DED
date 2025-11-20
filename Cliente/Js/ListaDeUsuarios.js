@@ -1,27 +1,39 @@
-import { ObtenerUsuarios,modalaviso } from "./Fetch_ListaDeUsuarios.js";
+import { ObtenerUsuarios, modalaviso, Actualizar } from "./Fetch_ListaDeUsuarios.js";
 
 let usuarioSeleccionado = null;
+let filaSeleccionada = null;
 let modalDarDeBaja = null;
 
 document.addEventListener("DOMContentLoaded", async () => {
   const tbody = document.querySelector("#tabla-usuarios tbody");
-  const btnDarBaja = document.querySelector("#btn-dar-baja");
+  const btnActualizar = document.querySelector("#btn-actualizar");
+
   const modalElement = document.getElementById("modalDarDeBaja");
   const modalUsuarioNombre = document.getElementById("modalDarDeBajaUsuarioNombre");
-  const btnConfirmarDarBaja = document.getElementById("btn-confirmar-dar-baja");
+  const modalUsuarioEstatus = document.getElementById("modalDarDeBajaUsuarioEstatus");
+  const modalTitulo = document.getElementById("modalDarDeBajaTitulo");
+  const btnToggleBaja = document.getElementById("btn-toggle-baja");
+  const inputNombreUsuario = document.getElementById("input-nombre-usuario");
+const inputPasswordUsuario = document.getElementById("input-password-usuario");
+const btnConfirmarActualizar = document.getElementById("btn-confirmar-actualizar");
+let passwordOriginalSeleccionado = "";
+
 
   if (!tbody) {
     console.error("No se encontró el tbody de la tabla con id 'tabla-usuarios'");
     return;
   }
+
   if (modalElement) {
     modalDarDeBaja = new bootstrap.Modal(modalElement);
   }
+
   try {
     const usuarios = await ObtenerUsuarios();
     console.log("usuarios: ", usuarios);
 
     tbody.innerHTML = "";
+
     if (!usuarios || usuarios.length === 0) {
       tbody.innerHTML = `
         <tr>
@@ -30,19 +42,26 @@ document.addEventListener("DOMContentLoaded", async () => {
       `;
       return;
     }
+
     usuarios.forEach((usuario, index) => {
       const tr = document.createElement("tr");
 
       const nombre = usuario.nombreUsuario ?? "";
       const facultad = usuario.nombreFacultad ?? "";
-      const fechaRegistro = formatearFecha(
-        usuario.fechaRegistro || usuario.fecha_de_registro
-      );
+      const fechaRegistro = formatearFecha(usuario.fechaRegistro || usuario.fecha_de_registro);
       const conectado = usuario.tieneSesionActiva ?? usuario.online ?? false;
       const totalVideos = usuario.totalVideos ?? usuario.total_videos ?? 0;
+
+      // ✅ detectar "baja" lo más robusto posible
+      const enBaja = usuario.baja ?? usuario.Baja ?? usuario.bajaUsuario ?? usuario.baja_flag ?? false;
+
       tr.dataset.userId = usuario.id;
       tr.dataset.nombreUsuario = nombre;
       tr.dataset.nombreFacultad = facultad;
+      tr.dataset.baja = enBaja;
+
+      // ✅ pinta rojo suave si está en baja
+      if (enBaja) tr.classList.add("fila-baja");
 
       tr.innerHTML = `
         <th scope="row">${index + 1}</th>
@@ -51,53 +70,170 @@ document.addEventListener("DOMContentLoaded", async () => {
         <td>${fechaRegistro}</td>
         <td>${totalVideos}</td>
         <td>${conectado ? "Sí" : "No"}</td>
+         <td>${enBaja ? "Desactivado" : "Activo"}</td>
       `;
 
       tr.addEventListener("click", () => {
-        document
-          .querySelectorAll("#tabla-usuarios tbody tr")
+        document.querySelectorAll("#tabla-usuarios tbody tr")
           .forEach((fila) => fila.classList.remove("table-active"));
+
         tr.classList.add("table-active");
         usuarioSeleccionado = usuario;
+        filaSeleccionada = tr;
+
         console.log("Usuario seleccionado:", usuarioSeleccionado);
       });
 
       tbody.appendChild(tr);
     });
-    if (btnDarBaja) {
-      btnDarBaja.addEventListener("click", () => {
+
+    // ✅ Ahora "Actualizar" abre modal con botón Baja/Reactivar
+    if (btnActualizar) {
+      btnActualizar.addEventListener("click", () => {
         if (!usuarioSeleccionado) {
-         modalaviso("Seleccione un Usuario");
+          modalaviso("Seleccione un Usuario");
           return;
         }
-
-        if (!modalDarDeBaja || !modalUsuarioNombre) {
-          console.error("El modal de dar de baja no está correctamente configurado.");
+        if (!modalDarDeBaja || !modalUsuarioNombre || !btnToggleBaja) {
+          console.error("El modal no está correctamente configurado.");
           return;
         }
+          
+        const enBajaActual =
+          usuarioSeleccionado.baja ??
+          usuarioSeleccionado.Baja ??
+          usuarioSeleccionado.bajaUsuario ??
+          usuarioSeleccionado.baja_flag ??
+          false;
 
-        // Poner el nombre del usuario en el modal
-        modalUsuarioNombre.textContent = usuarioSeleccionado.nombreUsuario;
+// ✅ precargar inputs
+if (inputNombreUsuario) {
+  inputNombreUsuario.value = usuarioSeleccionado.nombreUsuario ?? "";
+}
+if (inputPasswordUsuario) {
+  const passActual =
+    usuarioSeleccionado.password ??
+    usuarioSeleccionado.contrasena ??
+    usuarioSeleccionado.contraseña ??
+    usuarioSeleccionado.pass ??
+    "";
 
-        // Mostrar modal
+  passwordOriginalSeleccionado = passActual;
+
+  // si quieres que se vea tal cual:
+  inputPasswordUsuario.type = "text";
+  inputPasswordUsuario.value = passActual;
+}
+
+        modalUsuarioNombre.textContent = usuarioSeleccionado.nombreUsuario ?? "";
+        modalUsuarioEstatus.textContent = enBajaActual ? "Baja" : "Activo";
+
+        // ✅ cambia título y texto del botón según estatus
+        if (enBajaActual) {
+          modalTitulo.textContent = "Reactivar usuario";
+          btnToggleBaja.textContent = "Reactivar";
+          btnToggleBaja.classList.remove("btn-danger");
+          btnToggleBaja.classList.add("btn-success");
+        } else {
+          modalTitulo.textContent = "Dar de baja usuario";
+          btnToggleBaja.textContent = "Baja";
+          btnToggleBaja.classList.remove("btn-success");
+          btnToggleBaja.classList.add("btn-danger");
+        }
+
         modalDarDeBaja.show();
       });
     }
 
-    // Botón "Sí, dar de baja" dentro del modal
-    if (btnConfirmarDarBaja) {
-      btnConfirmarDarBaja.addEventListener("click", async () => {
+
+// ✅ Confirmar cambios de nombre/contraseña
+if (btnConfirmarActualizar) {
+  btnConfirmarActualizar.addEventListener("click", async () => {
+    if (!usuarioSeleccionado) return;
+
+    const nuevoNombre = (inputNombreUsuario?.value ?? "").trim();
+    const nuevaPassword = (inputPasswordUsuario?.value ?? "").trim();
+
+    if (!nuevoNombre) {
+      modalaviso("El nombre no puede estar vacío.");
+      return;
+    }
+
+    const enBajaActual =
+      usuarioSeleccionado.baja ??
+      usuarioSeleccionado.Baja ??
+      usuarioSeleccionado.bajaUsuario ??
+      usuarioSeleccionado.baja_flag ??
+      false;
+
+    try {
+
+let passwordParaEnviar = null;
+if (nuevaPassword && nuevaPassword !== passwordOriginalSeleccionado) {
+  passwordParaEnviar = nuevaPassword;
+}
+
+
+      const payload = {
+        nombreUsuario: nuevoNombre,
+        password: nuevaPassword || null, // null si no cambia
+        baja: enBajaActual
+      };
+
+      await Actualizar(usuarioSeleccionado.id, payload);
+
+      // ✅ actualizar UI local
+      usuarioSeleccionado.nombreUsuario = nuevoNombre;
+
+      if (filaSeleccionada) {
+        filaSeleccionada.dataset.nombreUsuario = nuevoNombre;
+
+        // td:nth-child(2) es "Nombre"
+        const tdNombre = filaSeleccionada.querySelector("td:nth-child(2)");
+        if (tdNombre) tdNombre.textContent = nuevoNombre;
+      }
+
+      modalDarDeBaja.hide();
+    } catch (e) {
+      console.error(e);
+      modalaviso("No se pudo actualizar el usuario.");
+    }
+  });
+}
+
+
+    // ✅ botón dinámico dentro del modal
+    if (btnToggleBaja) {
+      btnToggleBaja.addEventListener("click", async () => {
         if (!usuarioSeleccionado) return;
 
-        console.log("Dar de baja a:", usuarioSeleccionado);
+        const enBajaActual =
+          usuarioSeleccionado.baja ??
+          usuarioSeleccionado.Baja ??
+          usuarioSeleccionado.bajaUsuario ??
+          usuarioSeleccionado.baja_flag ??
+          false;
 
-        // Por ahora solo cerramos el modal
-        modalDarDeBaja.hide();
+        const nuevoEstatus = !enBajaActual;
 
-        // Opcional: feedback rápido
-        alert(`(Demo) Usuario "${usuarioSeleccionado.nombreUsuario}" dado de baja.`);
+        try {
+          // Asumimos firma: Actualizar(idUsuario, nuevoBaja)
+          await Actualizar(usuarioSeleccionado.id, nuevoEstatus);
+
+          usuarioSeleccionado.baja = nuevoEstatus;
+          if (filaSeleccionada) {
+            filaSeleccionada.dataset.baja = nuevoEstatus;
+            filaSeleccionada.classList.toggle("fila-baja", nuevoEstatus);
+          }
+
+          modalDarDeBaja.hide();
+        } catch (e) {
+          console.error(e);
+          modalaviso("No se pudo actualizar el estatus del usuario.");
+        }
       });
     }
+
   } catch (error) {
     console.error("Error al obtener usuarios:", error);
     tbody.innerHTML = `

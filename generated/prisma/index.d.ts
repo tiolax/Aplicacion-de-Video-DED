@@ -1737,6 +1737,7 @@ export namespace Prisma {
     password: string | null
     fecha_de_registro: Date | null
     admin: boolean | null
+    baja: boolean | null
     facultad_id: number | null
   }
 
@@ -1746,6 +1747,7 @@ export namespace Prisma {
     password: string | null
     fecha_de_registro: Date | null
     admin: boolean | null
+    baja: boolean | null
     facultad_id: number | null
   }
 
@@ -1755,6 +1757,7 @@ export namespace Prisma {
     password: number
     fecha_de_registro: number
     admin: number
+    baja: number
     facultad_id: number
     _all: number
   }
@@ -1776,6 +1779,7 @@ export namespace Prisma {
     password?: true
     fecha_de_registro?: true
     admin?: true
+    baja?: true
     facultad_id?: true
   }
 
@@ -1785,6 +1789,7 @@ export namespace Prisma {
     password?: true
     fecha_de_registro?: true
     admin?: true
+    baja?: true
     facultad_id?: true
   }
 
@@ -1794,6 +1799,7 @@ export namespace Prisma {
     password?: true
     fecha_de_registro?: true
     admin?: true
+    baja?: true
     facultad_id?: true
     _all?: true
   }
@@ -1890,6 +1896,7 @@ export namespace Prisma {
     password: string
     fecha_de_registro: Date
     admin: boolean
+    baja: boolean | null
     facultad_id: number | null
     _count: UsuarioCountAggregateOutputType | null
     _avg: UsuarioAvgAggregateOutputType | null
@@ -1918,6 +1925,7 @@ export namespace Prisma {
     password?: boolean
     fecha_de_registro?: boolean
     admin?: boolean
+    baja?: boolean
     facultad_id?: boolean
     videos?: boolean | Usuario$videosArgs<ExtArgs>
     facultad?: boolean | Usuario$facultadArgs<ExtArgs>
@@ -1931,6 +1939,7 @@ export namespace Prisma {
     password?: boolean
     fecha_de_registro?: boolean
     admin?: boolean
+    baja?: boolean
     facultad_id?: boolean
     facultad?: boolean | Usuario$facultadArgs<ExtArgs>
   }, ExtArgs["result"]["usuario"]>
@@ -1941,6 +1950,7 @@ export namespace Prisma {
     password?: boolean
     fecha_de_registro?: boolean
     admin?: boolean
+    baja?: boolean
     facultad_id?: boolean
     facultad?: boolean | Usuario$facultadArgs<ExtArgs>
   }, ExtArgs["result"]["usuario"]>
@@ -1951,10 +1961,11 @@ export namespace Prisma {
     password?: boolean
     fecha_de_registro?: boolean
     admin?: boolean
+    baja?: boolean
     facultad_id?: boolean
   }
 
-  export type UsuarioOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "nombre_de_usuario" | "password" | "fecha_de_registro" | "admin" | "facultad_id", ExtArgs["result"]["usuario"]>
+  export type UsuarioOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "nombre_de_usuario" | "password" | "fecha_de_registro" | "admin" | "baja" | "facultad_id", ExtArgs["result"]["usuario"]>
   export type UsuarioInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     videos?: boolean | Usuario$videosArgs<ExtArgs>
     facultad?: boolean | Usuario$facultadArgs<ExtArgs>
@@ -1981,6 +1992,7 @@ export namespace Prisma {
       password: string
       fecha_de_registro: Date
       admin: boolean
+      baja: boolean | null
       facultad_id: number | null
     }, ExtArgs["result"]["usuario"]>
     composites: {}
@@ -2413,6 +2425,7 @@ export namespace Prisma {
     readonly password: FieldRef<"Usuario", 'String'>
     readonly fecha_de_registro: FieldRef<"Usuario", 'DateTime'>
     readonly admin: FieldRef<"Usuario", 'Boolean'>
+    readonly baja: FieldRef<"Usuario", 'Boolean'>
     readonly facultad_id: FieldRef<"Usuario", 'Int'>
   }
     
@@ -10605,6 +10618,7 @@ export namespace Prisma {
     password: 'password',
     fecha_de_registro: 'fecha_de_registro',
     admin: 'admin',
+    baja: 'baja',
     facultad_id: 'facultad_id'
   };
 
@@ -10747,6 +10761,7 @@ export namespace Prisma {
     password?: StringFilter<"Usuario"> | string
     fecha_de_registro?: DateTimeFilter<"Usuario"> | Date | string
     admin?: BoolFilter<"Usuario"> | boolean
+    baja?: BoolNullableFilter<"Usuario"> | boolean | null
     facultad_id?: IntNullableFilter<"Usuario"> | number | null
     videos?: VideoListRelationFilter
     facultad?: XOR<FacultadNullableScalarRelationFilter, FacultadWhereInput> | null
@@ -10759,6 +10774,7 @@ export namespace Prisma {
     password?: SortOrder
     fecha_de_registro?: SortOrder
     admin?: SortOrder
+    baja?: SortOrderInput | SortOrder
     facultad_id?: SortOrderInput | SortOrder
     videos?: VideoOrderByRelationAggregateInput
     facultad?: FacultadOrderByWithRelationInput
@@ -10774,6 +10790,7 @@ export namespace Prisma {
     password?: StringFilter<"Usuario"> | string
     fecha_de_registro?: DateTimeFilter<"Usuario"> | Date | string
     admin?: BoolFilter<"Usuario"> | boolean
+    baja?: BoolNullableFilter<"Usuario"> | boolean | null
     facultad_id?: IntNullableFilter<"Usuario"> | number | null
     videos?: VideoListRelationFilter
     facultad?: XOR<FacultadNullableScalarRelationFilter, FacultadWhereInput> | null
@@ -10786,6 +10803,7 @@ export namespace Prisma {
     password?: SortOrder
     fecha_de_registro?: SortOrder
     admin?: SortOrder
+    baja?: SortOrderInput | SortOrder
     facultad_id?: SortOrderInput | SortOrder
     _count?: UsuarioCountOrderByAggregateInput
     _avg?: UsuarioAvgOrderByAggregateInput
@@ -10803,6 +10821,7 @@ export namespace Prisma {
     password?: StringWithAggregatesFilter<"Usuario"> | string
     fecha_de_registro?: DateTimeWithAggregatesFilter<"Usuario"> | Date | string
     admin?: BoolWithAggregatesFilter<"Usuario"> | boolean
+    baja?: BoolNullableWithAggregatesFilter<"Usuario"> | boolean | null
     facultad_id?: IntNullableWithAggregatesFilter<"Usuario"> | number | null
   }
 
@@ -11184,6 +11203,7 @@ export namespace Prisma {
     password: string
     fecha_de_registro?: Date | string
     admin: boolean
+    baja?: boolean | null
     videos?: VideoCreateNestedManyWithoutUsuarioInput
     facultad?: FacultadCreateNestedOneWithoutUsuariosInput
     sesiones?: SessionCreateNestedManyWithoutUsuarioInput
@@ -11195,6 +11215,7 @@ export namespace Prisma {
     password: string
     fecha_de_registro?: Date | string
     admin: boolean
+    baja?: boolean | null
     facultad_id?: number | null
     videos?: VideoUncheckedCreateNestedManyWithoutUsuarioInput
     sesiones?: SessionUncheckedCreateNestedManyWithoutUsuarioInput
@@ -11205,6 +11226,7 @@ export namespace Prisma {
     password?: StringFieldUpdateOperationsInput | string
     fecha_de_registro?: DateTimeFieldUpdateOperationsInput | Date | string
     admin?: BoolFieldUpdateOperationsInput | boolean
+    baja?: NullableBoolFieldUpdateOperationsInput | boolean | null
     videos?: VideoUpdateManyWithoutUsuarioNestedInput
     facultad?: FacultadUpdateOneWithoutUsuariosNestedInput
     sesiones?: SessionUpdateManyWithoutUsuarioNestedInput
@@ -11216,6 +11238,7 @@ export namespace Prisma {
     password?: StringFieldUpdateOperationsInput | string
     fecha_de_registro?: DateTimeFieldUpdateOperationsInput | Date | string
     admin?: BoolFieldUpdateOperationsInput | boolean
+    baja?: NullableBoolFieldUpdateOperationsInput | boolean | null
     facultad_id?: NullableIntFieldUpdateOperationsInput | number | null
     videos?: VideoUncheckedUpdateManyWithoutUsuarioNestedInput
     sesiones?: SessionUncheckedUpdateManyWithoutUsuarioNestedInput
@@ -11227,6 +11250,7 @@ export namespace Prisma {
     password: string
     fecha_de_registro?: Date | string
     admin: boolean
+    baja?: boolean | null
     facultad_id?: number | null
   }
 
@@ -11235,6 +11259,7 @@ export namespace Prisma {
     password?: StringFieldUpdateOperationsInput | string
     fecha_de_registro?: DateTimeFieldUpdateOperationsInput | Date | string
     admin?: BoolFieldUpdateOperationsInput | boolean
+    baja?: NullableBoolFieldUpdateOperationsInput | boolean | null
   }
 
   export type UsuarioUncheckedUpdateManyInput = {
@@ -11243,6 +11268,7 @@ export namespace Prisma {
     password?: StringFieldUpdateOperationsInput | string
     fecha_de_registro?: DateTimeFieldUpdateOperationsInput | Date | string
     admin?: BoolFieldUpdateOperationsInput | boolean
+    baja?: NullableBoolFieldUpdateOperationsInput | boolean | null
     facultad_id?: NullableIntFieldUpdateOperationsInput | number | null
   }
 
@@ -11619,6 +11645,11 @@ export namespace Prisma {
     not?: NestedBoolFilter<$PrismaModel> | boolean
   }
 
+  export type BoolNullableFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel> | null
+    not?: NestedBoolNullableFilter<$PrismaModel> | boolean | null
+  }
+
   export type IntNullableFilter<$PrismaModel = never> = {
     equals?: number | IntFieldRefInput<$PrismaModel> | null
     in?: number[] | null
@@ -11666,6 +11697,7 @@ export namespace Prisma {
     password?: SortOrder
     fecha_de_registro?: SortOrder
     admin?: SortOrder
+    baja?: SortOrder
     facultad_id?: SortOrder
   }
 
@@ -11680,6 +11712,7 @@ export namespace Prisma {
     password?: SortOrder
     fecha_de_registro?: SortOrder
     admin?: SortOrder
+    baja?: SortOrder
     facultad_id?: SortOrder
   }
 
@@ -11689,6 +11722,7 @@ export namespace Prisma {
     password?: SortOrder
     fecha_de_registro?: SortOrder
     admin?: SortOrder
+    baja?: SortOrder
     facultad_id?: SortOrder
   }
 
@@ -11750,6 +11784,14 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedBoolFilter<$PrismaModel>
     _max?: NestedBoolFilter<$PrismaModel>
+  }
+
+  export type BoolNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel> | null
+    not?: NestedBoolNullableWithAggregatesFilter<$PrismaModel> | boolean | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedBoolNullableFilter<$PrismaModel>
+    _max?: NestedBoolNullableFilter<$PrismaModel>
   }
 
   export type IntNullableWithAggregatesFilter<$PrismaModel = never> = {
@@ -12127,6 +12169,10 @@ export namespace Prisma {
 
   export type BoolFieldUpdateOperationsInput = {
     set?: boolean
+  }
+
+  export type NullableBoolFieldUpdateOperationsInput = {
+    set?: boolean | null
   }
 
   export type VideoUpdateManyWithoutUsuarioNestedInput = {
@@ -12606,6 +12652,11 @@ export namespace Prisma {
     not?: NestedBoolFilter<$PrismaModel> | boolean
   }
 
+  export type NestedBoolNullableFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel> | null
+    not?: NestedBoolNullableFilter<$PrismaModel> | boolean | null
+  }
+
   export type NestedIntNullableFilter<$PrismaModel = never> = {
     equals?: number | IntFieldRefInput<$PrismaModel> | null
     in?: number[] | null
@@ -12681,6 +12732,14 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedBoolFilter<$PrismaModel>
     _max?: NestedBoolFilter<$PrismaModel>
+  }
+
+  export type NestedBoolNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel> | null
+    not?: NestedBoolNullableWithAggregatesFilter<$PrismaModel> | boolean | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedBoolNullableFilter<$PrismaModel>
+    _max?: NestedBoolNullableFilter<$PrismaModel>
   }
 
   export type NestedIntNullableWithAggregatesFilter<$PrismaModel = never> = {
@@ -12894,6 +12953,7 @@ export namespace Prisma {
     password: string
     fecha_de_registro?: Date | string
     admin: boolean
+    baja?: boolean | null
     videos?: VideoCreateNestedManyWithoutUsuarioInput
     facultad?: FacultadCreateNestedOneWithoutUsuariosInput
   }
@@ -12904,6 +12964,7 @@ export namespace Prisma {
     password: string
     fecha_de_registro?: Date | string
     admin: boolean
+    baja?: boolean | null
     facultad_id?: number | null
     videos?: VideoUncheckedCreateNestedManyWithoutUsuarioInput
   }
@@ -12929,6 +12990,7 @@ export namespace Prisma {
     password?: StringFieldUpdateOperationsInput | string
     fecha_de_registro?: DateTimeFieldUpdateOperationsInput | Date | string
     admin?: BoolFieldUpdateOperationsInput | boolean
+    baja?: NullableBoolFieldUpdateOperationsInput | boolean | null
     videos?: VideoUpdateManyWithoutUsuarioNestedInput
     facultad?: FacultadUpdateOneWithoutUsuariosNestedInput
   }
@@ -12939,6 +13001,7 @@ export namespace Prisma {
     password?: StringFieldUpdateOperationsInput | string
     fecha_de_registro?: DateTimeFieldUpdateOperationsInput | Date | string
     admin?: BoolFieldUpdateOperationsInput | boolean
+    baja?: NullableBoolFieldUpdateOperationsInput | boolean | null
     facultad_id?: NullableIntFieldUpdateOperationsInput | number | null
     videos?: VideoUncheckedUpdateManyWithoutUsuarioNestedInput
   }
@@ -12948,6 +13011,7 @@ export namespace Prisma {
     password: string
     fecha_de_registro?: Date | string
     admin: boolean
+    baja?: boolean | null
     facultad?: FacultadCreateNestedOneWithoutUsuariosInput
     sesiones?: SessionCreateNestedManyWithoutUsuarioInput
   }
@@ -12958,6 +13022,7 @@ export namespace Prisma {
     password: string
     fecha_de_registro?: Date | string
     admin: boolean
+    baja?: boolean | null
     facultad_id?: number | null
     sesiones?: SessionUncheckedCreateNestedManyWithoutUsuarioInput
   }
@@ -13018,6 +13083,7 @@ export namespace Prisma {
     password?: StringFieldUpdateOperationsInput | string
     fecha_de_registro?: DateTimeFieldUpdateOperationsInput | Date | string
     admin?: BoolFieldUpdateOperationsInput | boolean
+    baja?: NullableBoolFieldUpdateOperationsInput | boolean | null
     facultad?: FacultadUpdateOneWithoutUsuariosNestedInput
     sesiones?: SessionUpdateManyWithoutUsuarioNestedInput
   }
@@ -13028,6 +13094,7 @@ export namespace Prisma {
     password?: StringFieldUpdateOperationsInput | string
     fecha_de_registro?: DateTimeFieldUpdateOperationsInput | Date | string
     admin?: BoolFieldUpdateOperationsInput | boolean
+    baja?: NullableBoolFieldUpdateOperationsInput | boolean | null
     facultad_id?: NullableIntFieldUpdateOperationsInput | number | null
     sesiones?: SessionUncheckedUpdateManyWithoutUsuarioNestedInput
   }
@@ -13085,6 +13152,7 @@ export namespace Prisma {
     password: string
     fecha_de_registro?: Date | string
     admin: boolean
+    baja?: boolean | null
     videos?: VideoCreateNestedManyWithoutUsuarioInput
     sesiones?: SessionCreateNestedManyWithoutUsuarioInput
   }
@@ -13095,6 +13163,7 @@ export namespace Prisma {
     password: string
     fecha_de_registro?: Date | string
     admin: boolean
+    baja?: boolean | null
     videos?: VideoUncheckedCreateNestedManyWithoutUsuarioInput
     sesiones?: SessionUncheckedCreateNestedManyWithoutUsuarioInput
   }
@@ -13153,6 +13222,7 @@ export namespace Prisma {
     password?: StringFilter<"Usuario"> | string
     fecha_de_registro?: DateTimeFilter<"Usuario"> | Date | string
     admin?: BoolFilter<"Usuario"> | boolean
+    baja?: BoolNullableFilter<"Usuario"> | boolean | null
     facultad_id?: IntNullableFilter<"Usuario"> | number | null
   }
 
@@ -13579,6 +13649,7 @@ export namespace Prisma {
     password: string
     fecha_de_registro?: Date | string
     admin: boolean
+    baja?: boolean | null
   }
 
   export type CarreraCreateManyFacultadInput = {
@@ -13591,6 +13662,7 @@ export namespace Prisma {
     password?: StringFieldUpdateOperationsInput | string
     fecha_de_registro?: DateTimeFieldUpdateOperationsInput | Date | string
     admin?: BoolFieldUpdateOperationsInput | boolean
+    baja?: NullableBoolFieldUpdateOperationsInput | boolean | null
     videos?: VideoUpdateManyWithoutUsuarioNestedInput
     sesiones?: SessionUpdateManyWithoutUsuarioNestedInput
   }
@@ -13601,6 +13673,7 @@ export namespace Prisma {
     password?: StringFieldUpdateOperationsInput | string
     fecha_de_registro?: DateTimeFieldUpdateOperationsInput | Date | string
     admin?: BoolFieldUpdateOperationsInput | boolean
+    baja?: NullableBoolFieldUpdateOperationsInput | boolean | null
     videos?: VideoUncheckedUpdateManyWithoutUsuarioNestedInput
     sesiones?: SessionUncheckedUpdateManyWithoutUsuarioNestedInput
   }
@@ -13611,6 +13684,7 @@ export namespace Prisma {
     password?: StringFieldUpdateOperationsInput | string
     fecha_de_registro?: DateTimeFieldUpdateOperationsInput | Date | string
     admin?: BoolFieldUpdateOperationsInput | boolean
+    baja?: NullableBoolFieldUpdateOperationsInput | boolean | null
   }
 
   export type CarreraUpdateWithoutFacultadInput = {

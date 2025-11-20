@@ -10,5 +10,7 @@ router.post("/login",ControladorUsuario.ValidarUsuario);
 router.post("/validaradmin",ControladorUsuario.ValidarAdmin);
 router.post("/obtener-por-id",ControladorUsuario.ObtenerPorId);
 router.get("/todos",ControladorUsuario.ObtenerTodos);
+router.post("/actualizar",ControladorUsuario.ActualizarUsuario);
+
 
 export default router;

@@ -7,6 +7,18 @@ export async function ObtenerUsuarios(){
             return data.usuarios;
 }
 
+export async function Actualizar(id,dato){
+            const res = await fetch(`${window.API_URL}/usuarios/actualizar`,{
+            method: "GET",
+            headers: { "Content-Type": "application/json" },
+               body: JSON.stringify({id,dato})
+            })
+            const data = await res.json();
+            return data.usuarios;
+}
+
+
+
 export function modalaviso(mensaje){
     const modalElement = document.getElementById('modalAviso');
     const tituloaviso = document.getElementById("textmodalAviso");
@@ -18,3 +30,4 @@ export function modalaviso(mensaje){
     }
         modalaviso.show();
 }
+

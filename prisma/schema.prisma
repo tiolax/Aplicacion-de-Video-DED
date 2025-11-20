@@ -17,7 +17,7 @@ model Usuario {
   password          String                
   fecha_de_registro DateTime @default(now())                                  
   admin             Boolean       
-
+  baja              Boolean?
 
   videos            Video[]
   facultad_id       Int?

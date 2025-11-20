@@ -63,6 +63,8 @@ export async function ObtenerTodos() {
     fecha_de_registro: u.fecha_de_registro,
     totalVideos: u._count.videos,
     tieneSesionActiva: u._count.sesiones > 0,
+    Baja: u.baja,
+    password: u.password,
   }));
 }
 
@@ -106,7 +108,6 @@ export async function Actualizar(id, data) {
         data
     })
 }
-
 
 
 
