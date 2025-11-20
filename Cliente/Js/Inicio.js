@@ -33,10 +33,10 @@ export function renderizarVideos(lista) {
     return;
   }
 
-    console.log("-------------------------Renderizamos videos---------------------")
+
   lista.forEach(video => {
 
-    console.log(video);
+
     const col = document.createElement('div');
     col.className = 'col-12 col-sm-6 col-md-4 col-lg-3 p-2';
 
@@ -120,7 +120,7 @@ export async function cargar(override = {}) {
   if (params.q) params.per_page = Math.max(params.per_page ?? 10, 50);
 
   const resp = await ObtenerVideos(params);
-  console.log("filtros: ", params);
+
 
   const norm = (s) => (s ?? "").toString().toLowerCase();
   const term = norm(params.q);

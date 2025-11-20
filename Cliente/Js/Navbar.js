@@ -1,20 +1,30 @@
+import {SesionActual,CerrarSesion} from "./Fetch_Login.js"
+const SESSION_KEY = "SesionIniciada";
+const sesionActual = JSON.parse(localStorage.getItem(SESSION_KEY));
+const DatosUsuario = await SesionActual(sesionActual);
 
-const SESSION_KEY = "Usuario_SesionIniciada";
 
-const usuarioActual = JSON.parse(localStorage.getItem(SESSION_KEY));
-if (!usuarioActual && !/\/login\.html$/i.test(location.pathname)) {
+window.usuarioActual = DatosUsuario;
+window.usuarioActualPromise = Promise.resolve(DatosUsuario);
+
+window.addEventListener("pageshow", () => {
+if (!DatosUsuario.usuarioId && !/\/login\.html$/i.test(location.pathname)) {
   window.location.replace("/Cliente/Html/login.html");
 }
+});
+
 ///Boton Cerrar Sesion///
 document.addEventListener("click", (e) => {
   let node = e.target;
-  if (node && node.nodeType !== 1) node = node.parentNode; // 1 = ELEMENT_NODE
+  if (node && node.nodeType !== 1) node = node.parentNode; 
 
   while (node && node !== document) {
     if (node.nodeType === 1 && node.id === "cerrarSesion") {
       e.preventDefault();
       // --- lógica de logout ---
-      const SESSION_KEY = "Usuario_SesionIniciada";
+        if (sesionActual) {
+        CerrarSesion(sesionActual);
+      }
       try { localStorage.removeItem(SESSION_KEY); } catch (_) {}
       window.location.replace("/Cliente/Html/login.html");
       return; 
@@ -25,11 +35,11 @@ document.addEventListener("click", (e) => {
 
 
 export function NombredeUsuario_Sesion(){
-    document.getElementById("Nombre_UsuarioSesion").textContent = usuarioActual.nombre;
+    document.getElementById("Nombre_UsuarioSesion").textContent = DatosUsuario.usuarioNombre;
 }
 export function FacultadUsuario_Sesion(){
     
-    //document.getElementById("Facultad_UsuaruiSesion").textContent = usuarioActual.facultadnombre;
+    document.getElementById("Facultad_UsuaruiSesion").textContent = DatosUsuario.facultad_nombre;
 
     const navbar = document.getElementById("navbar");
     const navbarinicio = document.getElementById("navbarinicio") 
@@ -44,7 +54,7 @@ export function FacultadUsuario_Sesion(){
         opciones.appendChild(misvideos);
 
 
-    if(usuarioActual.admin == true){
+    if(DatosUsuario.admin == true){
     navbar.style.backgroundColor = "rgba(30, 32, 61, 1)";
     navbar.style.color = "white";
     navbar.style.borderColor = "rgba(0, 0, 0, 1)";
@@ -56,10 +66,10 @@ export function FacultadUsuario_Sesion(){
         videosespera.textContent = "Videos en espera";  
 
         const usuarios = document.createElement("a");
-        /*usuarios.className = "dropdown-item";
+        usuarios.className = "dropdown-item";
         usuarios.href = "/Cliente/Html/ListaDeUsuarios.html";
         usuarios.textContent = "Lista de usuarios"; 
-        */
+        
         const registrarUsuario = document.createElement("a");
         registrarUsuario.className = "dropdown-item";
         registrarUsuario.href = "/Cliente/Html/Registrarusuario.html";

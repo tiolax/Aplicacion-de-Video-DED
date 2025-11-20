@@ -47,9 +47,63 @@
 
     </div>
 </div>
-
-
 </main>
+
+<!-- Modal editar video -->
+<div class="modal fade" id="modal_editar_video" tabindex="-1" aria-labelledby="modalEditarLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <form class="modal-content" id="form_editar_video">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalEditarLabel">Editar video</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+      </div>
+
+      <div class="modal-body">
+        <!-- ID oculto -->
+        <input type="hidden" id="edit_id">
+
+        <div class="mb-3">
+          <label for="edit_titulo" class="form-label">Título</label>
+          <input type="text" class="form-control" id="edit_titulo" required>
+        </div>
+
+        <div class="mb-3">
+          <label for="edit_descripcion" class="form-label">Descripción</label>
+          <textarea class="form-control" id="edit_descripcion" rows="3"></textarea>
+        </div>
+
+        <div class="mb-3">
+          <label for="edit_carrera" class="form-label">Programa</label>
+          <input type="text" class="form-control" id="edit_carrera">
+        </div>
+
+          <div class="mb-3">
+          <label for="edit_ua" class="form-label">Unidad de Aprendizaje</label>
+          <input type="text" class="form-control" id="edit_ua">
+        </div>
+
+        <div class="mb-3">
+          <label for="edit_url" class="form-label">URL del video</label>
+          <input type="text" placeholder="https://www.youtube.com/mi-video" class="form-control" id="edit_url">
+          <div class="form-text">
+          </div>
+        </div>
+
+            <div id="error" class = "mb-3 text-danger mt-2 text-center"></div>
+        
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+        <button type="submit" class="btn btn-primary">Guardar cambios</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+
+
+
     <div id="footer"></div>
     <script src="/Cliente/Js/config.js"></script> 
     <script  type="module" src="/Cliente/Js/Footer_Navbar.js"></script> 

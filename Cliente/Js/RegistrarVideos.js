@@ -1,7 +1,17 @@
 import * as FuncionesAuxiliares from "./Fetch_RegistrarVideos.js"
+import {SesionActual} from "./Fetch_Login.js"
+
+let usuarioActual = null;
 
 
-document.addEventListener('DOMContentLoaded', () => {
+
+document.addEventListener('DOMContentLoaded', async() => {
+
+const SESSION_KEY = "SesionIniciada";
+const sesionActual = JSON.parse(localStorage.getItem(SESSION_KEY));
+const DatosUsuario =  await SesionActual(sesionActual);
+usuarioActual = DatosUsuario;
+console.log("Datos del usuario: ",DatosUsuario);
 
 GenerarFacultades();
 GenerarPalabras();
@@ -15,10 +25,8 @@ const selCarrera = document.getElementById("carreraSelect");
 
 })
 
-async function ValidarVideo() {
 
-    
-    const usuarioActual = JSON.parse(localStorage.getItem("Usuario_SesionIniciada"));
+async function ValidarVideo() {
 
     const error = document.getElementById('error');
     const titulo = document.getElementById('titulo').value.trim();
@@ -28,7 +36,7 @@ async function ValidarVideo() {
 
  
     const palabrasSelect = obtenerPalabrasSeleccionadas();
-       console.log("palabras: ",palabrasSelect);
+
     const Uaselect = document.getElementById('UaSelect').value;
 
     if(!titulo) {
@@ -89,9 +97,9 @@ async function ValidarVideo() {
         sacudirBoton("btnsubirvideo");
         return error.innerHTML = "Enlace no valido";
     }
-
-
-    const dataVideoNuevo = await FuncionesAuxiliares.RegistrarVideo(url,titulo,descripcion,idU,palabrasSelect,faseSelect,usuarioActual.id,usuarioActual.admin);
+    const IdUsuario = usuarioActual.usuarioId;
+    console.log("Datos del video: ",url,titulo,descripcion,idU,palabrasSelect,faseSelect,IdUsuario,usuarioActual.admin);
+    const dataVideoNuevo = await FuncionesAuxiliares.RegistrarVideo(url,titulo,descripcion,idU,palabrasSelect,faseSelect,IdUsuario,usuarioActual.admin);
    if (dataVideoNuevo.success == true) {
   if (usuarioActual.admin) {
     FuncionesAuxiliares.modalaviso("Video cargado con exito");
@@ -170,7 +178,6 @@ async function GenerarUas(idcarrera){
     resetearSelect(select,"Seleccione una Unidad de Aprendizaje");
 
     const uas = await FuncionesAuxiliares.ObtenerUas(idcarrera);
-    console.log(uas);
     uas
     .forEach(u => {
         const option = document.createElement('option');
@@ -183,8 +190,6 @@ async function GenerarUas(idcarrera){
 
 
 async function GenerarFacultades(){
-
-const usuarioActual = JSON.parse(localStorage.getItem("Usuario_SesionIniciada"));
 const contenedor = document.getElementById("facuformulario");
  if (usuarioActual.admin) {
     const facultades = await FuncionesAuxiliares.ObtenerFacultades();
@@ -330,7 +335,6 @@ function resetearSelect(select, opciontext) {
 function getUserFacultyId(usuarioActual) {
   return (
     usuarioActual?.facultad_id ??
-    usuarioActual?.facultad ??
     usuarioActual?.facultadid ??
     null
   );

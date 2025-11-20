@@ -26,3 +26,21 @@ export async function ObtenerUaporId(id_ua){
             const data = await res.json();
             return data.ua;
 }
+
+export async function EditarVideos(id,titulo,descripcion,ua_id,palabras,identificador){
+
+            const body = { id, titulo, descripcion, ua_id, palabras };
+
+            if (identificador !== undefined && identificador !== null && identificador !== "") {
+              body.identificador = identificador;
+            }
+
+
+            const res = await fetch(`${window.API_URL}/videos/actualizar`,{
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(body),
+            })
+            const data = await res.json();
+            return data;
+}
