@@ -19,7 +19,6 @@ async function getUaNombreById(id) {
   return info;
 }
 
-// --- Perfil / encabezado ---
 const contenedorPerfil = document.getElementById("datos_perfil");
 
 let NombredelaFacultaddelUsusario = null;

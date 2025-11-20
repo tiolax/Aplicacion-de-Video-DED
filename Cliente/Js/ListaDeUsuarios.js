@@ -89,7 +89,6 @@ document.addEventListener("DOMContentLoaded", async () => {
       btnConfirmarDarBaja.addEventListener("click", async () => {
         if (!usuarioSeleccionado) return;
 
-        // 🔴 Aquí luego haremos la llamada al backend para dar de baja
         console.log("Dar de baja a:", usuarioSeleccionado);
 
         // Por ahora solo cerramos el modal
