@@ -186,7 +186,7 @@ const nuevaPassword = (inputPasswordUsuario?.value ?? "").trim();
 
 
 
-await Actualizar(UsuarioId, nuevoNombre, nuevaPassword, !enBajaActual);
+await Actualizar(UsuarioId, nuevoNombre, nuevaPassword);
 
 
       // ✅ actualizar UI local
