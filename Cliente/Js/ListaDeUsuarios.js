@@ -52,7 +52,6 @@ let passwordOriginalSeleccionado = "";
       const conectado = usuario.tieneSesionActiva ?? usuario.online ?? false;
       const totalVideos = usuario.totalVideos ?? usuario.total_videos ?? 0;
 
-      // ✅ detectar "baja" lo más robusto posible
       const enBaja = usuario.baja ?? usuario.Baja ?? usuario.bajaUsuario ?? usuario.baja_flag ?? false;
 
       tr.dataset.userId = usuario.id;
@@ -60,7 +59,6 @@ let passwordOriginalSeleccionado = "";
       tr.dataset.nombreFacultad = facultad;
       tr.dataset.baja = enBaja;
 
-      // ✅ pinta rojo suave si está en baja
       if (enBaja) tr.classList.add("fila-baja");
 
       tr.innerHTML = `
@@ -86,8 +84,6 @@ let passwordOriginalSeleccionado = "";
 
       tbody.appendChild(tr);
     });
-
-    // ✅ Ahora "Actualizar" abre modal con botón Baja/Reactivar
     if (btnActualizar) {
       btnActualizar.addEventListener("click", () => {
         if (!usuarioSeleccionado) {
@@ -106,7 +102,6 @@ let passwordOriginalSeleccionado = "";
           usuarioSeleccionado.baja_flag ??
           false;
 
-// ✅ precargar inputs
 if (inputNombreUsuario) {
   inputNombreUsuario.value = usuarioSeleccionado.nombreUsuario ?? "";
 }
@@ -120,7 +115,6 @@ if (inputPasswordUsuario) {
 
   passwordOriginalSeleccionado = passActual;
 
-  // si quieres que se vea tal cual:
   inputPasswordUsuario.type = "text";
   inputPasswordUsuario.value = passActual;
 }
@@ -128,7 +122,6 @@ if (inputPasswordUsuario) {
         modalUsuarioNombre.textContent = usuarioSeleccionado.nombreUsuario ?? "";
         modalUsuarioEstatus.textContent = enBajaActual ? "Baja" : "Activo";
 
-        // ✅ cambia título y texto del botón según estatus
         if (enBajaActual) {
           modalTitulo.textContent = "Reactivar usuario";
           btnToggleBaja.textContent = "Reactivar";
@@ -187,8 +180,6 @@ const nuevaPassword = (inputPasswordUsuario?.value ?? "").trim();
 
 
 await Actualizar(UsuarioId, nuevoNombre, nuevaPassword);
-
-
       // ✅ actualizar UI local
       usuarioSeleccionado.nombreUsuario = nuevoNombre;
 
@@ -208,7 +199,6 @@ await Actualizar(UsuarioId, nuevoNombre, nuevaPassword);
   });
 }
 
-
     // ✅ botón dinámico dentro del modal
     if (btnToggleBaja) {
       btnToggleBaja.addEventListener("click", async () => {
@@ -223,15 +213,24 @@ await Actualizar(UsuarioId, nuevoNombre, nuevaPassword);
 
         const nuevoEstatus = !enBajaActual;
 
-        try {
-          // Asumimos firma: Actualizar(idUsuario, nuevoBaja)
-          await Actualizar(usuarioSeleccionado.id, nuevoEstatus);
+        try { 
+          await Actualizar(usuarioSeleccionado.id, null,null,nuevoEstatus);
 
           usuarioSeleccionado.baja = nuevoEstatus;
           if (filaSeleccionada) {
             filaSeleccionada.dataset.baja = nuevoEstatus;
             filaSeleccionada.classList.toggle("fila-baja", nuevoEstatus);
           }
+
+          
+      modalElement.addEventListener(
+        "hidden.bs.modal",
+        async () => {
+          modalaviso("El estatus del usuario ha sido modificado");
+        },
+        { once: true }
+      );
+
 
           modalDarDeBaja.hide();
         } catch (e) {

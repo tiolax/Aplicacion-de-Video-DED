@@ -8,16 +8,22 @@ export async function ObtenerUsuarios(){
 }
 
 export async function Actualizar(id, nombreUsuario, password, baja) {
-  const data = {
-    nombreUsuario,
-  };
+  const data = {};
+
+
+  if (nombreUsuario && nombreUsuario.trim() !== "") {
+    data.nombreUsuario = nombreUsuario.trim();
+  }
+
   if (password && password.trim() !== "") {
     data.password = password.trim();
   }
-    //verificar si el dato "baja" se envió
-  //sí se envipo entonces agregarlo a la data
-  //Otra cosa, verifica por que el nombre de usuario se esta leyendo como "true"
-  
+
+    if (typeof baja === "boolean") {
+    data.baja = baja;
+  }
+
+
   console.log("Enviando:", { id, data });
   const res = await fetch(`${window.API_URL}/usuarios/actualizar`, {
     method: "POST",
