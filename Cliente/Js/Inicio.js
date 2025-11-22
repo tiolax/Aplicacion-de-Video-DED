@@ -11,7 +11,7 @@ const searchBanner = document.getElementById("SearchBanner");
     sort_by: "fecha_de_registro",
     sort_dir: "desc",
      q: null,
-     aprobado: true,
+     aprobado: 1,
      carrera_id: null,
      facultad_id:null,
      ua_id:null,
@@ -33,15 +33,15 @@ export function renderizarVideos(lista) {
     return;
   }
 
-    console.log("-------------------------Renderizamos videos---------------------")
+
   lista.forEach(video => {
 
-    console.log(video);
+
     const col = document.createElement('div');
     col.className = 'col-12 col-sm-6 col-md-4 col-lg-3 p-2';
 
     col.innerHTML = `
-    <a href="/Cliente/Html/Video copy.html?id=${video.identificador}"
+    <a href="/Cliente/Html/Video.html?id=${video.id}"
    class="card-link text-decoration-none" aria-label="Ver video: ${video.titulo}">
   <div class="card hover-border video-card h-100">
     <div class="ratio ratio-16x9 video-thumb">
@@ -120,7 +120,7 @@ export async function cargar(override = {}) {
   if (params.q) params.per_page = Math.max(params.per_page ?? 10, 50);
 
   const resp = await ObtenerVideos(params);
-  console.log("filtros: ", params);
+
 
   const norm = (s) => (s ?? "").toString().toLowerCase();
   const term = norm(params.q);
@@ -184,7 +184,7 @@ if (searchBanner) {
 (async function boot() {
   const q = getInitialQuery();
   state.q = q; // guarda la búsqueda inicial en el estado
-  await cargar({ page: 1, aprobado: true, q });
+  await cargar({ page: 1, aprobado: 1, q });
 })();
 
 //////Funcion para evitar xss(mensaje de info de busqueda)//////
@@ -213,7 +213,7 @@ async function resetFiltrosYBusqueda() {
   // 1) limpiar estado (ajústalo a tus defaults reales)
   state.page = 1;
   state.q = null;
-  state.aprobado = true;
+  state.aprobado = 1;
   state.carrera_id = null;
   state.facultad_id = null;
   state.ua_id = null;
@@ -237,7 +237,7 @@ async function resetFiltrosYBusqueda() {
   await cargar({
     page: 1,
     q: undefined,
-    aprobado: true,
+    aprobado: 1,
     carrera_id: null,
     facultad_id: null,
     ua_id: null,

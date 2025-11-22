@@ -34,9 +34,7 @@ export const ValidarUsuario = async (req,res) => {
             
     }
  export const ValidarAdmin = async(req,res) => {
-  console.log(req.body.contra);
   const admin = await UsuarioModelo.TraerAdmin();
-  console.log(admin);
     if(admin.password == req.body.contra) {
     return res.status(200).json({
       success: true
@@ -58,9 +56,7 @@ export const crearUsuario = async (req, res) => {
           });
         }
 
-  console.log(req.body.facultad);
        const usuarios = await UsuarioModelo.Count(req.body.facultad)
-  console.log(usuarios);
         if(usuarios > 0){
           return res.status(409).json({
             success: false,
@@ -74,7 +70,6 @@ export const crearUsuario = async (req, res) => {
         password: req.body.password,
         admin: false
         };
-      console.log(data);
       const nuevoUsuario = await UsuarioModelo.crearUsuario(data);
       res.json({
         success: true,
@@ -89,7 +84,35 @@ export const crearUsuario = async (req, res) => {
   };
 
 //Actualizar
- export async function ActualizarUsuario({id,data}) {
-   await UsuarioModelo.Actualizar(id,data);
+ export const ActualizarUsuario = async (req,res) => {
+   await UsuarioModelo.Actualizar(req.body.id,req.body.data);
 }
  
+export const ObtenerPorId = async (req, res) =>{
+  const Usuario = await UsuarioModelo.obtenerUsuarioporid(req.body.id);
+  if(Usuario){
+return res.status(200).json({
+      success: true,
+      usuario: Usuario
+    })
+  }  else{
+      return res.status(401).json({
+      success: false,
+      message: "usuario no encontrado"
+    })
+  }
+  
+  
+
+}
+
+export const ObtenerTodos = async(req,res) => {
+  const Usuarios = await UsuarioModelo.ObtenerTodos();
+
+  return res.status(200).json({
+    success: true,
+    usuarios: Usuarios,
+  })
+}
+
+

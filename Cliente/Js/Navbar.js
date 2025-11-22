@@ -1,20 +1,57 @@
+import {SesionActual,CerrarSesion} from "./Fetch_Login.js"
+const SESSION_KEY = "SesionIniciada";
+const sesionActual = JSON.parse(localStorage.getItem(SESSION_KEY));
+console.log("sesion actual: ", sesionActual);
 
-const SESSION_KEY = "Usuario_SesionIniciada";
+const esInicio = /\/login\.html$/i.test(location.pathname);
+const esVideoPublico = /\/Video\.html$/i.test(location.pathname);
 
-const usuarioActual = JSON.parse(localStorage.getItem(SESSION_KEY));
-if (!usuarioActual && !/\/login\.html$/i.test(location.pathname)) {
-  window.location.replace("/Cliente/Html/login.html");
+let DatosUsuario = null;
+
+if(esInicio){
+
+}else if(esVideoPublico){
+    if(sesionActual){
+        DatosUsuario = await SesionActual(sesionActual);
+
+        if(!DatosUsuario.authenticated){
+        localStorage.clear();
+        const navbar = document.getElementById("navbar");
+            if (navbar){
+                navbar.style.display = "none";
+            }
+        }
+    }else{
+         const navbar = document.getElementById("navbar");
+            if (navbar){
+          navbar.style.display = "none";
+          }
+    }
+}else{
+  if(sesionActual){
+     DatosUsuario = await SesionActual(sesionActual);
+        if(!DatosUsuario.authenticated){
+        localStorage.clear();
+         window.location.replace("/Cliente/Html/login.html");
+        }
+  }else{
+    window.location.replace("/Cliente/Html/login.html");
+  }
 }
+
+
 ///Boton Cerrar Sesion///
 document.addEventListener("click", (e) => {
   let node = e.target;
-  if (node && node.nodeType !== 1) node = node.parentNode; // 1 = ELEMENT_NODE
+  if (node && node.nodeType !== 1) node = node.parentNode; 
 
   while (node && node !== document) {
     if (node.nodeType === 1 && node.id === "cerrarSesion") {
       e.preventDefault();
       // --- lógica de logout ---
-      const SESSION_KEY = "Usuario_SesionIniciada";
+        if (sesionActual) {
+        CerrarSesion(sesionActual);
+      }
       try { localStorage.removeItem(SESSION_KEY); } catch (_) {}
       window.location.replace("/Cliente/Html/login.html");
       return; 
@@ -25,11 +62,13 @@ document.addEventListener("click", (e) => {
 
 
 export function NombredeUsuario_Sesion(){
-    document.getElementById("Nombre_UsuarioSesion").textContent = usuarioActual.nombre;
+  if (!DatosUsuario) return;
+    document.getElementById("Nombre_UsuarioSesion").textContent = DatosUsuario.usuarioNombre;
 }
+
 export function FacultadUsuario_Sesion(){
-    
-    //document.getElementById("Facultad_UsuaruiSesion").textContent = usuarioActual.facultadnombre;
+  if(!DatosUsuario) return;    
+    document.getElementById("Facultad_UsuaruiSesion").textContent = DatosUsuario.facultad_nombre;
 
     const navbar = document.getElementById("navbar");
     const navbarinicio = document.getElementById("navbarinicio") 
@@ -44,7 +83,7 @@ export function FacultadUsuario_Sesion(){
         opciones.appendChild(misvideos);
 
 
-    if(usuarioActual.admin == true){
+    if(DatosUsuario.admin == true){
     navbar.style.backgroundColor = "rgba(30, 32, 61, 1)";
     navbar.style.color = "white";
     navbar.style.borderColor = "rgba(0, 0, 0, 1)";
@@ -59,7 +98,7 @@ export function FacultadUsuario_Sesion(){
         usuarios.className = "dropdown-item";
         usuarios.href = "/Cliente/Html/ListaDeUsuarios.html";
         usuarios.textContent = "Lista de usuarios"; 
-
+        
         const registrarUsuario = document.createElement("a");
         registrarUsuario.className = "dropdown-item";
         registrarUsuario.href = "/Cliente/Html/Registrarusuario.html";
@@ -95,7 +134,7 @@ export function FacultadUsuario_Sesion(){
 
         const registrarvideo = document.createElement("a");
         registrarvideo.className = "dropdown-item";
-        registrarvideo.href = "/Cliente/Html/Videopendientes.html";
+        registrarvideo.href = "/Cliente/Html/registrarvideo.html";
         registrarvideo.textContent = "Registrar Video";  
 
 

@@ -7,9 +7,19 @@ export async function CrearVideo(data) {
         data:data
     })
 }
-export async function EliminarVideo(identificador) {
+
+
+export async function Actualizar(id, data) {
+    return prisma.video.update({
+        where:{id},
+        data
+    })
+}
+
+
+export async function EliminarVideo(id) {
     return await prisma.video.delete({
-        where: {identificador}
+        where: {id}
     })
 }
 export async function obtenerPorUrl(url){
@@ -17,6 +27,66 @@ export async function obtenerPorUrl(url){
         where:{identificador:url }
     })
 }
+
+
+export async function obtenerEnEspera() {
+  const rows = await prisma.video.findMany({
+    where: { aprobado: 0 },
+    orderBy: { fecha_de_registro: "desc" },
+    include: {
+
+      palabras: {
+        select: {
+          palabra_clave: { select: { id: true, nombre: true } },
+        },
+      },
+   
+      ua: {
+        select: {
+          id: true,
+          nombre: true,
+          carrera: { select: { id: true, nombre: true } },
+        },
+      },
+
+      usuario: { select: { id: true,  nombre_de_usuario: true } },
+    },
+  });
+
+
+  return rows.map((v) => ({
+    id: v.id,
+    titulo: v.titulo,
+    descripcion: v.descripcion,
+    identificador: v.identificador,
+    fecha_de_registro: v.fecha_de_registro,
+    fase: v.fase,
+    aprobado: v.aprobado,
+    comentario: v.comentario ?? null,
+
+    usuario_id: v.usuario_id,
+    usuario_nombre: v.usuario?.nombre_de_usuario ?? null,
+
+    ua_id: v.ua_id,
+    ua_nombre: v.ua?.nombre ?? null,
+    carrera_id: v.ua?.carrera?.id ?? null,
+    carrera_nombre: v.ua?.carrera?.nombre ?? null,
+
+    palabras: v.palabras.map((p) => ({
+      id: p.palabra_clave.id,
+      nombre: p.palabra_clave.nombre,
+    })),
+  }));
+}
+
+
+export async function obtenerPorUsuario(usu_id){
+    return await prisma.video.findMany({
+        where:{usuario_id:usu_id }
+    })
+}
+
+
 export async function  listarVideos(input = {})
 {
 
@@ -28,7 +98,7 @@ export async function  listarVideos(input = {})
 
     const where = {};
 
-    if(typeof aprobado !== "undefined") where.aprobado = aprobado;
+    if (aprobado !== undefined) where.aprobado = aprobado;
     if(ua_id) where.ua_id = ua_id;
 
   if (carrera_id) {
@@ -86,6 +156,7 @@ const orderBy = [
 ];
 
 const select={
+    id:true,
     identificador:true,
     titulo:true,
     descripcion:true,
@@ -115,5 +186,70 @@ const [items,total] = await Promise.all([
 
 return{items,total};
 
+}
+
+export async function obtenerDetallePorId(id) {
+  const v = await prisma.video.findUnique({
+    where: { id },
+    include: {
+      usuario: { select: { id: true, nombre_de_usuario: true } },
+      ua: {
+        select: {
+          id: true,
+          nombre: true,
+          carrera: {
+            select: {
+              id: true,
+              nombre: true,
+              facultad: { select: { id: true, nombre: true } },
+            },
+          },
+        },
+      },
+      palabras: {
+        select: { palabra_clave: { select: { id: true, nombre: true } } },
+      },
+    },
+  });
+  return mapVideoDetalle(v);
+}
+
+
+
+function mapVideoDetalle(v) {
+  if (!v) return null;
+  return {
+    id: v.id,
+    titulo: v.titulo,
+    descripcion: v.descripcion,
+    identificador: v.identificador,
+    fecha_de_registro: v.fecha_de_registro,
+    fase: v.fase,
+    aprobado: v.aprobado,
+    comentario: v.comentario ?? null,
+
+    usuario: v.usuario ? { id: v.usuario.id, nombre: v.usuario.nombre_de_usuario } : null,
+
+    ua: v.ua
+      ? {
+          id: v.ua.id,
+          nombre: v.ua.nombre,
+          carrera: v.ua.carrera
+            ? {
+                id: v.ua.carrera.id,
+                nombre: v.ua.carrera.nombre,
+                facultad: v.ua.carrera.facultad
+                  ? { id: v.ua.carrera.facultad.id, nombre: v.ua.carrera.facultad.nombre }
+                  : null,
+              }
+            : null,
+        }
+      : null,
+
+    palabras: (v.palabras ?? []).map((p) => ({
+      id: p.palabra_clave.id,
+      nombre: p.palabra_clave.nombre,
+    })),
+  };
 }
 

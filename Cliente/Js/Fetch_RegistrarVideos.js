@@ -7,8 +7,6 @@ method: "GET",
 const data = await res.json();
 return data.Facultades;
 }
-
-
 export async function ObtenerCarreras(facu){
     const res = await fetch (`${window.API_URL}/carreras/porfacu`, {
     method: "POST",
@@ -40,6 +38,8 @@ return data.Uas;
 }
 
 export async function RegistrarVideo(identificador,titulo,descripcion,ua_id,palabras,fase,usuario_id,admin) {
+    console.log("Id del usuario en el Fetch :",usuario_id);
+
        const res = await fetch (`${window.API_URL}/videos/crear`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },

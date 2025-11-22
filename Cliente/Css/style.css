@@ -358,3 +358,55 @@ footer {
 .shake {
   animation: shake 0.4s;
 }
+
+
+/* Base: los hace más anchos y delgados */
+.btn-accion-base{
+  padding: .25rem 1.25rem;   /* menos alto, más ancho */
+  min-width: 165px;         /* ancho consistente */
+  line-height: 1.1;         /* reduce altura visual */
+  font-size: .9rem;         /* un poquito más “fino” */
+  border-radius: .35rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: .35rem;
+}
+
+/* Estilo ACTUALIZAR */
+.btn-accion-actualizar{
+  font-weight: 600;
+  border: 2px solid #0dcaf0;     /* turquesa */
+  box-shadow: 0 2px 6px rgba(0,0,0,.12);
+}
+
+.btn-accion-actualizar:hover{
+  border-color: #0bb4d8;
+  box-shadow: 0 3px 8px rgba(13,202,240,.30);
+  transform: translateY(-1px);
+  transition: .15s ease;
+}
+
+/* Estilo AGREGAR */
+.btn-accion-agregar{
+  font-weight: 700;
+  border: 2px dashed #ffffff;    /* blanco punteado */
+  letter-spacing: .2px;
+}
+
+.btn-accion-agregar:hover{
+  border-style: solid;
+  box-shadow: 0 3px 8px rgba(255,255,255,.18);
+  transform: translateY(-1px);
+  transition: .15s ease;
+}
+.acciones-usuarios{
+  width: 100%;
+}
+
+/* En pantallas chicas céntralos */
+@media (max-width: 768px){
+  .acciones-usuarios{
+    justify-content: center !important;
+  }
+}

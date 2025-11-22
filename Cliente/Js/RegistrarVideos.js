@@ -1,7 +1,17 @@
 import * as FuncionesAuxiliares from "./Fetch_RegistrarVideos.js"
+import {SesionActual} from "./Fetch_Login.js"
+
+let usuarioActual = null;
 
 
-document.addEventListener('DOMContentLoaded', () => {
+
+document.addEventListener('DOMContentLoaded', async() => {
+
+const SESSION_KEY = "SesionIniciada";
+const sesionActual = JSON.parse(localStorage.getItem(SESSION_KEY));
+const DatosUsuario =  await SesionActual(sesionActual);
+usuarioActual = DatosUsuario;
+console.log("Datos del usuario: ",DatosUsuario);
 
 GenerarFacultades();
 GenerarPalabras();
@@ -15,15 +25,18 @@ const selCarrera = document.getElementById("carreraSelect");
 
 })
 
+
 async function ValidarVideo() {
-    const usuarioActual = JSON.parse(localStorage.getItem("Usuario_SesionIniciada"));
 
     const error = document.getElementById('error');
     const titulo = document.getElementById('titulo').value.trim();
     const descripcion = document.getElementById('descripcion').value.trim();
     const fase = document.getElementById('Fase')
     const faseSelect = fase.options[fase.selectedIndex].text;
+
+ 
     const palabrasSelect = obtenerPalabrasSeleccionadas();
+
     const Uaselect = document.getElementById('UaSelect').value;
 
     if(!titulo) {
@@ -35,16 +48,23 @@ async function ValidarVideo() {
         sacudirBoton("btnsubirvideo");
         return error.innerHTML = "Escriba una descripcion";
     }
+
+     let idF = null;
+    let Facultad = null;
+
+  if (usuarioActual?.admin) {
     const selF = document.getElementById("Facultad");
+    if (!selF) { sacudirBoton("btnsubirvideo"); return error.innerHTML = "Seleccione una Facultad"; }
     const rawValue = selF.value;
-    const idF = Number.parseInt(rawValue, 10);
+    idF = Number.parseInt(rawValue, 10);
+    if (!idF) { sacudirBoton("btnsubirvideo"); return error.innerHTML = "Seleccione una Facultad"; }
+    Facultad = selF.options[selF.selectedIndex].text;
+  } else {
+    idF = getUserFacultyId(usuarioActual);
+    Facultad = usuarioActual?.facultadnombre ?? "Mi facultad";
+    if (!idF) { sacudirBoton("btnsubirvideo"); return error.innerHTML = "No se pudo determinar la facultad del usuario"; }
+  }
 
-    if(!idF) {
-        sacudirBoton("btnsubirvideo");
-        return error.innerHTML = "Seleccione una Facultad";
-    }
-
-    const Facultad = selF.options[selF.selectedIndex].text; 
     const selC = document.getElementById("carreraSelect")
   
     const rawValueC = selC.value;
@@ -59,9 +79,6 @@ async function ValidarVideo() {
         sacudirBoton("btnsubirvideo");
         return error.innerHTML = "Seleccione una unidad de aprendizaje";
     }
-
-
-    const Carrera = selC.options[selC.selectedIndex].text;
     
     if(palabrasSelect.length == 0){
          sacudirBoton("btnsubirvideo");
@@ -80,27 +97,51 @@ async function ValidarVideo() {
         sacudirBoton("btnsubirvideo");
         return error.innerHTML = "Enlace no valido";
     }
-    console.log(url);
+    const IdUsuario = usuarioActual.usuarioId;
+    console.log("Datos del video: ",url,titulo,descripcion,idU,palabrasSelect,faseSelect,IdUsuario,usuarioActual.admin);
+    const dataVideoNuevo = await FuncionesAuxiliares.RegistrarVideo(url,titulo,descripcion,idU,palabrasSelect,faseSelect,IdUsuario,usuarioActual.admin);
+   if (dataVideoNuevo.success == true) {
+  if (usuarioActual.admin) {
+    FuncionesAuxiliares.modalaviso("Video cargado con exito");
+  } else {
+    const msg = 'Video subido para su revision de forma correcta, puede revisar si estatus en la ventana de "Videos Pendientes"';
+    // pone el texto en el modal
+    FuncionesAuxiliares.modalaviso(msg);
 
-    console.log("Carrera:",Carrera,idC);
-    console.log("Fase :",faseSelect);
-    console.log("Temas :",palabrasSelect);
-    console.log("identificador :", url);
-
-    const dataVideoNuevo = await FuncionesAuxiliares.RegistrarVideo(url,titulo,descripcion,idU,palabrasSelect,faseSelect,usuarioActual.id,usuarioActual.admin);
-
-    console.log("identificador duplicado: ",dataVideoNuevo);
-    if(dataVideoNuevo.success == true){
-        if(usuarioActual.admin){
-        FuncionesAuxiliares.modalaviso("Video cargado con exito");
-        }else{
-            FuncionesAuxiliares.modalaviso("video cargado para su revision");
-        }
-      //document.getElementById("btnaceptar").addEventListener("click", () => window.location.href = "/Cliente/Html/inicio.html", { once: true });
-
-    }else{
-        FuncionesAuxiliares.modalaviso(dataVideoNuevo.mensaje);
+    // asegúrate de redirigir con el botón "Aceptar"
+    const btnAceptar = document.getElementById("btnaceptar");
+    if (btnAceptar) {
+      btnAceptar.onclick = null; // limpia handlers previos
+      btnAceptar.addEventListener(
+        "click",
+        () => (window.location.href = "/Cliente/Html/inicio.html"),
+        { once: true }
+      );
     }
+
+    // por si tu modalaviso no hace el "show", lo forzamos con Bootstrap
+    const modalEl = document.getElementById("modalAviso");
+    if (modalEl && window.bootstrap) {
+      const modal = bootstrap.Modal.getOrCreateInstance(modalEl);
+      modal.show();
+    }
+  }
+} else {
+  FuncionesAuxiliares.modalaviso(dataVideoNuevo.mensaje);
+}
+
+    
+
+
+
+
+
+
+
+
+
+
+
 }
 
 async function GenerarCarreras(idFacuSelect){
@@ -137,7 +178,6 @@ async function GenerarUas(idcarrera){
     resetearSelect(select,"Seleccione una Unidad de Aprendizaje");
 
     const uas = await FuncionesAuxiliares.ObtenerUas(idcarrera);
-    console.log(uas);
     uas
     .forEach(u => {
         const option = document.createElement('option');
@@ -150,11 +190,9 @@ async function GenerarUas(idcarrera){
 
 
 async function GenerarFacultades(){
-const facultades = await FuncionesAuxiliares.ObtenerFacultades();
-const usuarioActual = JSON.parse(localStorage.getItem("Usuario_SesionIniciada"));
 const contenedor = document.getElementById("facuformulario");
  if (usuarioActual.admin) {
-
+    const facultades = await FuncionesAuxiliares.ObtenerFacultades();
     const div = document.createElement("div");
     div.classList.add("mb-3");
 
@@ -180,7 +218,6 @@ const contenedor = document.getElementById("facuformulario");
     option.textContent = f.nombre;
     select.appendChild(option);
     });
-
     select.onchange = (e) => {
         const sel = e.target;
         const raw = sel.value.trim();
@@ -197,7 +234,20 @@ const contenedor = document.getElementById("facuformulario");
     div.appendChild(select);
 
    contenedor.appendChild(div);
-}
+}else {
+    const facuId = getUserFacultyId(usuarioActual);
+    const selCarrera = document.getElementById("carreraSelect");
+    const selUa = document.getElementById("UaSelect");
+    if (selCarrera) resetearSelect(selCarrera, "Selecciona un Programa");
+    if (selUa) resetearSelect(selUa, "Selecciona una Unidad de Aprendizaje");
+
+    if (facuId) {
+      await GenerarCarreras(facuId);
+    } else {
+      console.warn("No se encontró facultadId en el usuario de sesión.");
+    }
+  }
+    
 }
 
 async function GenerarPalabras(){
@@ -231,6 +281,8 @@ async function GenerarPalabras(){
     });
 }
 
+
+////////-------HELPERS--------///////////
 function limitarSeleccion(){
 const checkboxs = document.querySelectorAll('input[name="temas[]"]');
 const seleccionados = Array.from(checkboxs).filter(cb => cb.checked);
@@ -278,4 +330,12 @@ function resetearSelect(select, opciontext) {
   opt.selected = true;
   opt.value = "";
   select.appendChild(opt);
+}
+
+function getUserFacultyId(usuarioActual) {
+  return (
+    usuarioActual?.facultad_id ??
+    usuarioActual?.facultadid ??
+    null
+  );
 }

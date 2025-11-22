@@ -1,0 +1,37 @@
+Si vas a moverle al codigo ten en cuenta las siguiente cosas:
+/////DEPENDECIAS////
+--FRONTED--
+Aqui solo se usó html, css y bootstrap
+
+--BACKEND--
+-Node.js
+-Prisma
+-Express
+-Cors
+-Cookie-parser
+
+//////ARQUITECTURA//////
+----Datos generales---
+La app está en un modelo MCV(Modelo-Vista-Controlador)
+
+La base de datos es SQLite (porque no se esperan muchas entradas y es mas facil manejarla)
+
+Los archivos JS estan separados en dos las "Fetchs" y la "logica", la Fecth no es mas que una abreviacion para
+pedir informacion a las rutas.
+
+El flujo es Cliente -> Logica -> Fecth -> Control -> Modelo -> BD (y se regresa)
+
+----Sesiones----
+
+Tenemos una tabla de sesiones en la BD, aqui se van creando las sesiones activas. Cuando un usuario se desconeta
+la fila correspondiente se borra(recuerda que usamos SQlite y no queremos hacer multiples entradas)
+
+Usamos Cookies por seguridad, estas solo se envias en HTTPS, (NO en HTTP)
+
+Las cookies necesitan CORS 
+
+
+/////NOTAS/////
+Cuando se mande a produccion asegurense de setear la variable de entorno > set NODE_ENV=production
+para que la seguridad se active(supongo que los encargados del hosteo y todo eso le saben)
+

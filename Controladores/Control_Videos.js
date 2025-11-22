@@ -2,15 +2,16 @@ import * as ModelVideo from "../Modelos/Modelo_Videos.js"
 
 //crear
 export const crearVideo = async (req,res) => {
+
   const identificador = req.body.identificador;   
   const videoencontrado = await ModelVideo.obtenerPorUrl(identificador);
   const listPalabras = req.body.palabras;
-  let aprobado = false;
+  let aprobado = 0;
     if(videoencontrado){
          res.status(401).json({success: false, mensaje: "Video ya cargado, intente con una url diferente",duplavideo: videoencontrado.identificador });
     }else{ 
       if(req.body.admin){
-        aprobado = true;
+        aprobado = 1;
       }
     const data = {
         titulo: req.body.titulo,
@@ -33,9 +34,9 @@ export const crearVideo = async (req,res) => {
                     })) 
 
         }}
-      const videocreado =  ModelVideo.CrearVideo(data);
+      const videocreado = await ModelVideo.CrearVideo(data);
       if(!videocreado){
-        res.json(401).json({
+        res.status(401).json({
           success: false,
           mensaje: "Error del servidor"
         })
@@ -49,8 +50,8 @@ export const crearVideo = async (req,res) => {
 
 export const EliminarVideo = async (req, res) => {
   try {
-    const url = req.body.url;
-    const eliminado = await ModelVideo.EliminarVideo(url);
+    const id = req.body.id;
+    const eliminado = await ModelVideo.EliminarVideo(id);
 
     if (eliminado) {
       return res.status(200).json({
@@ -72,6 +73,77 @@ export const EliminarVideo = async (req, res) => {
   }
 };
 
+export const ActualizarVideo = async (req,res) => {
+
+
+  const videoencontrado = await ModelVideo.obtenerPorUrl(req.body.identificador);
+    if(videoencontrado){
+        return res.status(401).json({success: false, mensaje: "Video ya cargado, intente con una url diferente",duplavideo: videoencontrado.identificador });
+    }
+
+try{
+const id = Number(req.body.id);
+    if (!Number.isFinite(id)) {
+      return res.status(400).json({ success: false, message: "ID inválido" });
+    }
+
+const titulo      = typeof req.body.titulo === "string" ? req.body.titulo.trim() : undefined;
+const descripcion = typeof req.body.descripcion === "string" ? req.body.descripcion.trim() : undefined;
+const ua_id       = req.body.ua_id !== undefined ? Number(req.body.ua_id) : undefined;
+
+  const identificador = typeof req.body.identificador === "string"
+      ? req.body.identificador.trim()
+      : undefined;
+
+
+   const palabrasIds = Array.isArray(req.body.palabras)
+      ? req.body.palabras.map(n => Number(n)).filter(Number.isFinite)
+      : [];
+
+  const data = {};
+    if (titulo !== undefined && titulo !== "") data.titulo = titulo;
+    if (descripcion !== undefined && descripcion !== "") data.descripcion = descripcion;
+    if (Number.isFinite(ua_id)) {
+      data.ua = { connect: { id: ua_id } };
+    }
+
+    if (identificador !== undefined && identificador !== "") {
+      data.identificador = identificador;
+    }
+
+
+
+data.aprobado = 0;
+if (palabrasIds.length > 0) {
+  data.palabras = {
+    deleteMany: {}, // borra vínculos actuales de este video
+    create: palabrasIds.map(pid => ({
+      palabra_clave: { connect: { id: pid } }
+    }))
+  };
+}
+
+
+ const actualizado = await ModelVideo.Actualizar(id,data);
+     if (actualizado) {
+      return res.status(200).json({
+        success: true,
+        message: "Video actualizado con éxito"
+      });
+    } else {
+      return res.status(404).json({
+        success: false,
+        message: "Video no encontrado o no se pudo actualizar"
+      });
+    }
+}catch(error) {
+    return res.status(500).json({
+      success: false,
+      message: "Error del servidor al intentar editar el video"
+    });
+}
+}
+
 export const ObtenerVideos = async(req,res) => {
 try{
   const page = Math.max(1,parseInt(req.query.page ?? "1",10));
@@ -80,8 +152,9 @@ try{
   const sort_dir =(req.query.sort_dir ?? "desc");
 
   const q = req.query.q?.toString();
-  const aprobado = typeof req.query.aprobado !== "undefined"
-    ? req.query.aprobado === "true"
+const aprobado =
+  (req.query.aprobado !== undefined && req.query.aprobado !== "")
+    ? Number(req.query.aprobado)
     : undefined;
   const ua_id = req.query.ua_id ? parseInt(req.query.ua_id,10): undefined;
   const carrera_id = req.query.carrera_id ? parseInt(req.query.carrera_id,10) : undefined;
@@ -133,7 +206,7 @@ return res.status(200).json({
     page,per_page,total,total_pages,sort_by,sort_dir,
        applied_filters: {
         q: q ?? null,
-        aprobado: typeof aprobado === "boolean" ? aprobado : null,
+       aprobado: (aprobado === undefined ? null : aprobado),
        ua_id: ua_id ?? null,
        carrera_id: carrera_id ?? null,
        facultad_id: facultad_id ?? null,
@@ -155,3 +228,68 @@ return res.status(200).json({
 }
 
 };
+
+export const ObtenerEnEspera = async (req,res) =>{
+  try{
+    const VideosEnEspera = await ModelVideo.obtenerEnEspera();
+  return res.status(201).json({success:true,videos:VideosEnEspera});
+  }
+  catch(error){
+  console.error(error);
+  return res.status(500).json({success: false,mensaje:"Error del servidor al listar videos"});
+  }
+}
+
+
+export const ObtenerVideosPorUsuario = async (req,res) => {
+
+  const VideosEncontrados = await ModelVideo.obtenerPorUsuario(req.body.usuario_id);
+    return res.status(200).json({
+        success: true,
+        videos: VideosEncontrados
+    })
+
+}
+
+export const ActualizarEstado = async (req,res) =>{
+  try {
+    const id = Number(req.body.id);
+    const aprobado = Number(req.body.aprobado);
+    const comentario = typeof req.body.comentario === "string" ? req.body.comentario.trim() : null;
+
+    if (!Number.isFinite(id) || ![1,2].includes(aprobado)) {
+      return res.status(400).json({ success: false, message: "Parámetros inválidos" });
+    }
+
+    const data = { aprobado, comentario: (aprobado === 2 ? comentario : null) };
+    const upd = await ModelVideo.Actualizar(id,data);
+
+    return res.json({ success: true, id: upd.id });
+  } catch (e) {
+    return res.status(500).json({ success: false, message: "Error al actualizar el estado" });
+  }
+}
+
+export const ObtenerPorId = async (req,res) =>{
+  try {
+    const raw = req.body.id;
+    const id = Number(raw);
+    if (!Number.isFinite(id)) {
+      return res.status(400).json({ success: false, message: "ID inválido" });
+    }
+
+    const video = await ModelVideo.obtenerDetallePorId(id);
+    if (!video) {
+      return res.status(404).json({ success: false, message: "Video no encontrado" });
+    }
+
+     if (video.aprobado !== 1) {
+       return res.status(403).json({ success: false, message: "No autorizado" });
+     }
+
+    return res.json({ success: true, video });
+  } catch (e) {
+    console.error("ObtenerPorId:", e);
+    return res.status(500).json({ success: false, message: "Error del servidor" });
+  }
+}

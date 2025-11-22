@@ -17,27 +17,43 @@ model Usuario {
   password          String                
   fecha_de_registro DateTime @default(now())                                  
   admin             Boolean       
-
+  baja              Boolean?
 
   videos            Video[]
   facultad_id       Int?
   facultad          Facultad? @relation(fields: [facultad_id],references: [id])
 
+ sesiones          Session[]
 }
 
+
+model Session {
+  id         String   @id                   
+  usuarioId  Int
+  usuario    Usuario  @relation(fields: [usuarioId], references: [id], onDelete: Cascade)
+  createdAt  DateTime @default(now())  
+
+  @@index([usuarioId])
+}
+
+
+
+
+
+
 model Video {
-  id                 Int      @id @default(autoincrement())  
+  id                 Int        @id @default(autoincrement())  
   titulo             String                                   
   descripcion        String                                  
-  identificador      String   @unique                        
-  fecha_de_registro  DateTime  @default(now())
+  identificador      String     @unique                        
+  fecha_de_registro  DateTime   @default(now())
   fase               String   
-  aprobado           Boolean
+  aprobado           Int
+  comentario         String?
+
 
   usuario_id         Int
   usuario            Usuario @relation(fields: [usuario_id],references: [id])      
-
-
   ua_id             Int
   ua                UA        @relation(fields: [ua_id],references: [id])
 

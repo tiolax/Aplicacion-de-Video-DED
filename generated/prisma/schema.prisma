@@ -1,0 +1,102 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Usuario {
+  id                Int      @id @default(autoincrement())
+  nombre_de_usuario String   @unique
+  password          String
+  fecha_de_registro DateTime @default(now())
+  admin             Boolean
+  baja              Boolean?
+
+  videos      Video[]
+  facultad_id Int?
+  facultad    Facultad? @relation(fields: [facultad_id], references: [id])
+
+  sesiones Session[]
+}
+
+model Session {
+  id        String   @id
+  usuarioId Int
+  usuario   Usuario  @relation(fields: [usuarioId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+
+  @@index([usuarioId])
+}
+
+model Video {
+  id                Int      @id @default(autoincrement())
+  titulo            String
+  descripcion       String
+  identificador     String   @unique
+  fecha_de_registro DateTime @default(now())
+  fase              String
+  aprobado          Int
+  comentario        String?
+
+  usuario_id Int
+  usuario    Usuario @relation(fields: [usuario_id], references: [id])
+  ua_id      Int
+  ua         UA      @relation(fields: [ua_id], references: [id])
+
+  palabras VideoPalabraClave[]
+}
+
+model Facultad {
+  id     Int    @id @default(autoincrement())
+  nombre String @unique
+
+  usuarios Usuario[]
+  carreras Carrera[]
+}
+
+model Carrera {
+  id     Int    @id @default(autoincrement())
+  nombre String @unique
+
+  ua UA[]
+
+  facultad_id Int
+  facultad    Facultad @relation(fields: [facultad_id], references: [id])
+}
+
+model UA {
+  id        Int    @id @default(autoincrement())
+  nombre    String
+  modalidad String
+
+  videos Video[]
+
+  carrera_id Int
+  carrera    Carrera @relation(fields: [carrera_id], references: [id])
+}
+
+model PalabraClave {
+  id     Int    @id @default(autoincrement())
+  nombre String @unique
+
+  videos VideoPalabraClave[]
+}
+
+model VideoPalabraClave {
+  video_id         Int
+  palabra_clave_id Int
+
+  video         Video        @relation(fields: [video_id], references: [id], onDelete: Cascade)
+  palabra_clave PalabraClave @relation(fields: [palabra_clave_id], references: [id], onDelete: Restrict)
+
+  @@id([video_id, palabra_clave_id])
+  @@index([palabra_clave_id])
+  @@index([video_id])
+}

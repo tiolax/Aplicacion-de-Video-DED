@@ -24,9 +24,7 @@ const data = {
 }
 
 export const eliminarPalabra = async (req,res) => {
-    console.log("palabra nombre: ",req.body.palabra);
    const palabraEncontrada = await ModelPalabra.obtenerPalabra(req.body.palabra);
-   console.log("Palabra Encontrda id: ",palabraEncontrada.id);
    ModelPalabra.eliminarPalabra(palabraEncontrada.id)
     return res.status(200).json({
         success: true,
