@@ -22,6 +22,7 @@ export async function crear(req, res) {
 
 export async function actual(req, res) {
   const sesionID = req.body.sesionID;
+
   if (!sesionID) return res.status(401).json({ authenticated: false, error: "Falta Id de sesion" });
   const sesion = await Sesiones.ObtnerSesion(sesionID);
   if (!sesion) return res.status(401).json({ authenticated: false, error: "Sesión inválida" });

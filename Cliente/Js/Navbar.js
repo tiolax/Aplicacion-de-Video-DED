@@ -1,17 +1,44 @@
 import {SesionActual,CerrarSesion} from "./Fetch_Login.js"
 const SESSION_KEY = "SesionIniciada";
 const sesionActual = JSON.parse(localStorage.getItem(SESSION_KEY));
-const DatosUsuario = await SesionActual(sesionActual);
+console.log("sesion actual: ", sesionActual);
 
+const esInicio = /\/login\.html$/i.test(location.pathname);
+const esVideoPublico = /\/Video\.html$/i.test(location.pathname);
 
-window.usuarioActual = DatosUsuario;
-window.usuarioActualPromise = Promise.resolve(DatosUsuario);
+let DatosUsuario = null;
 
-window.addEventListener("pageshow", () => {
-if (!DatosUsuario.usuarioId && !/\/login\.html$/i.test(location.pathname)) {
-  window.location.replace("/Cliente/Html/login.html");
+if(esInicio){
+
+}else if(esVideoPublico){
+    if(sesionActual){
+        DatosUsuario = await SesionActual(sesionActual);
+
+        if(!DatosUsuario.authenticated){
+        localStorage.clear();
+        const navbar = document.getElementById("navbar");
+            if (navbar){
+                navbar.style.display = "none";
+            }
+        }
+    }else{
+         const navbar = document.getElementById("navbar");
+            if (navbar){
+          navbar.style.display = "none";
+          }
+    }
+}else{
+  if(sesionActual){
+     DatosUsuario = await SesionActual(sesionActual);
+        if(!DatosUsuario.authenticated){
+        localStorage.clear();
+         window.location.replace("/Cliente/Html/login.html");
+        }
+  }else{
+    window.location.replace("/Cliente/Html/login.html");
+  }
 }
-});
+
 
 ///Boton Cerrar Sesion///
 document.addEventListener("click", (e) => {
@@ -35,10 +62,12 @@ document.addEventListener("click", (e) => {
 
 
 export function NombredeUsuario_Sesion(){
+  if (!DatosUsuario) return;
     document.getElementById("Nombre_UsuarioSesion").textContent = DatosUsuario.usuarioNombre;
 }
+
 export function FacultadUsuario_Sesion(){
-    
+  if(!DatosUsuario) return;    
     document.getElementById("Facultad_UsuaruiSesion").textContent = DatosUsuario.facultad_nombre;
 
     const navbar = document.getElementById("navbar");

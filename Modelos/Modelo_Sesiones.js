@@ -26,6 +26,8 @@ export async function EliminarSesion(id) {
 }
 
 export async function ObtnerSesion(id) {
+
+    console.log("sesion: ",id);
     if (!id) return null;
     const sesion = await prisma.session.findUnique({
         where: {id}, select: 
@@ -46,6 +48,9 @@ export async function ObtnerSesion(id) {
            },
         },
     });
+
+if(!sesion) return null;
+
   return {
     id: sesion.id,
     createdAt: sesion.createdAt,
