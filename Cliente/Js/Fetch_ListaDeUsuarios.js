@@ -32,7 +32,7 @@ export async function Actualizar(id, nombreUsuario, password, baja) {
   });
 
   const use = await res.json();
-  return use.usuarios;
+  return use;
 }
 
 

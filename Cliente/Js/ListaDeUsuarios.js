@@ -198,8 +198,6 @@ await Actualizar(UsuarioId, nuevoNombre, nuevaPassword);
     }
   });
 }
-
-    // ✅ botón dinámico dentro del modal
     if (btnToggleBaja) {
       btnToggleBaja.addEventListener("click", async () => {
         if (!usuarioSeleccionado) return;
@@ -214,7 +212,8 @@ await Actualizar(UsuarioId, nuevoNombre, nuevaPassword);
         const nuevoEstatus = !enBajaActual;
 
         try { 
-          await Actualizar(usuarioSeleccionado.id, null,null,nuevoEstatus);
+         const usuarioActualizado = await Actualizar(usuarioSeleccionado.id, null,null,nuevoEstatus);
+        if(usuarioActualizado.success){
 
           usuarioSeleccionado.baja = nuevoEstatus;
           if (filaSeleccionada) {
@@ -222,15 +221,15 @@ await Actualizar(UsuarioId, nuevoNombre, nuevaPassword);
             filaSeleccionada.classList.toggle("fila-baja", nuevoEstatus);
           }
 
-          
-      modalElement.addEventListener(
-        "hidden.bs.modal",
-        async () => {
-          modalaviso("El estatus del usuario ha sido modificado");
-        },
-        { once: true }
-      );
-
+            modalElement.addEventListener(
+              "hidden.bs.modal",
+              async () => {
+                modalaviso("El estatus del usuario ha sido modificado");
+              },
+                { once: true }
+            );
+        }
+    
 
           modalDarDeBaja.hide();
         } catch (e) {
