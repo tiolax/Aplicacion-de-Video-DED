@@ -57,7 +57,6 @@ function initDOM() {
   dom.errorNombreUsuario = document.getElementById("error-nombre-usuario");
   dom.btnTogglePassword = document.getElementById("btn-toggle-password");
   dom.iconoPassword = document.getElementById("icono-password");
-  dom.btnAgregarUsuario = document.getElementById("btn-agregar-usuario")
   dom.btnAceptarAviso = document.getElementById("btnaceptar");
 
   if (!dom.tbody) {
@@ -249,11 +248,7 @@ function limpiarErrorNombre() {
   dom.errorNombreUsuario.textContent = "";
   dom.errorNombreUsuario.classList.add("d-none");
 }
-//boton agregar usuario
-if(dom.btnAgregarUsuario)
-    dom.btnAgregarUsuario.addEventListener("click", () => {
-      window.href = "/Cliente/Html/migaleria.html";
-  });
+
 
 //================================================//
 //------ Bloque H: Confirmar actualización --------//
