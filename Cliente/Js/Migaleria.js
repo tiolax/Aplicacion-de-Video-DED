@@ -33,13 +33,13 @@ FacultaddelUsuario = await ObtenerFacultadporId(idFacultadelusuario);
 NombredelaFacultaddelUsusario = FacultaddelUsuario.nombre;
 }
 
-
 function pintarPerfil(totalVideos = 0) {
   contenedorPerfil.innerHTML = "";
   const col = document.createElement("div");
+  console.log("nombre de usuario:", usuarioActual.usuarioNombre);
   col.innerHTML = `
     <div class="p-4">
-      <h1 class="m-0">${usuarioActual?.usuario_nombre ?? "Mi perfil"}</h1>
+      <h1 class="m-0">${usuarioActual?.usuarioNombre ?? "Mi perfil"}</h1>
       <h5 class="m-0">${NombredelaFacultaddelUsusario ?? ""}</h5>
       ${totalVideos} ${totalVideos === 1 ? "Video" : "Videos"}
     </div>
