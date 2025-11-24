@@ -58,6 +58,7 @@ export async function ObtenerTodos() {
 
   return usuarios.map((u) => ({
     id: u.id,
+    admin: u.admin,
     nombreUsuario: u.nombre_de_usuario,
     nombreFacultad: u.facultad?.nombre ?? null,
     fecha_de_registro: u.fecha_de_registro,

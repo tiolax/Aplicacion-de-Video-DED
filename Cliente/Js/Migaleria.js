@@ -39,7 +39,7 @@ function pintarPerfil(totalVideos = 0) {
   const col = document.createElement("div");
   col.innerHTML = `
     <div class="p-4">
-      <h1 class="m-0">${usuarioActual?.nombre ?? "Mi perfil"}</h1>
+      <h1 class="m-0">${usuarioActual?.usuario_nombre ?? "Mi perfil"}</h1>
       <h5 class="m-0">${NombredelaFacultaddelUsusario ?? ""}</h5>
       ${totalVideos} ${totalVideos === 1 ? "Video" : "Videos"}
     </div>
@@ -128,11 +128,10 @@ function plantillaTarjeta(video) {
           </div>
         </a>
          ${etiquetaRevision}
-        <!-- BOTONES EDITAR / BORRAR EN ESQUINA SUPERIOR DERECHA -->
         <div class="position-absolute top-0 end-0 m-2 d-flex gap-1 z-3">
           <button 
             type="button" 
-            class="btn btn-sm btn-light btn-edit" 
+            class="btn btn-sm bg-white btn-outline-dark btn-edit" 
             data-id="${video.id}" 
             title="Editar"
           >
@@ -140,7 +139,7 @@ function plantillaTarjeta(video) {
           </button>
           <button 
             type="button" 
-            class="btn btn-sm btn-danger btn-delete" 
+            class="btn btn-sm bg-white btn-outline-dark btn-delete" 
             data-id="${video.id}" 
             title="Borrar"
           >

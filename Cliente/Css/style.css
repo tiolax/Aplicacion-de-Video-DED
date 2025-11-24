@@ -410,3 +410,16 @@ footer {
     justify-content: center !important;
   }
 }
+
+/* Hover oscuro tipo btn-outline-dark aunque tengan bg-white */
+.btn-outline-dark.bg-white:hover,
+.btn-outline-dark.bg-white:focus {
+  background-color: #212529 !important; /* dark */
+  border-color: #212529 !important;
+  color: #fff !important;               /* texto blanco */
+}
+
+.btn-outline-dark.bg-white:hover i,
+.btn-outline-dark.bg-white:focus i {
+  color: #fff !important;               /* ícono blanco */
+}

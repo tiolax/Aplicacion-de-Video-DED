@@ -5,7 +5,6 @@ export async function ObtenerDatos() {
     fetch(`${window.API_URL}/carreras/info`,   { headers: { "Content-Type": "application/json" } }),
     fetch(`${window.API_URL}/UAs/info`,        { headers: { "Content-Type": "application/json" } })
   ]);
-
   const facultades = (await facultadesRes.json()).Facultades;
   const carreras   = (await carrerasRes.json()).Carreras;
   const uas        = (await uasRes.json()).Uas;
@@ -43,7 +42,6 @@ const res = await fetch(`${window.API_URL}/palabras/editar`, {
   const data = await res.json();
   return data;
 }
-
 
 ///////////Crear Ua///////////
 export async function RegistrarUa(nombre,modalidad,carreraSelecId) {
@@ -163,18 +161,15 @@ headers: { "Content-Type": "application/json" },
 const data = await res.json();
 return data;
 }
-
 export async function ObtenerPalabras() {
  const res = await fetch(`${window.API_URL}/palabras/todos`,{
 method: "GET",
 headers: { "Content-Type": "application/json" }
 });
-
 const data = await res.json();
 return data;
-  
-}
 
+}
 //////Auxiliar Funciones//////
 export function modalaviso(mensaje){
     const modalElement = document.getElementById('modalAviso');
@@ -199,12 +194,10 @@ const res = await fetch(`${window.API_URL}/usuarios/validaradmin`,{
         return data.success;
 
 }
-
 /////Validar Nombre///////
 export function Alfanumerico(texto) {
   const valido = /^[\p{L}\p{N} ]+$/u.test(texto);
   const soloNumeros = /^\d+$/u.test(texto);
-
   return valido && !soloNumeros;
 }
 /////FiltroTabla/////

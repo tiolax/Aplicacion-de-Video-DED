@@ -5,6 +5,7 @@ CargarFacultades();
   if(btnRegistroU) btnRegistroU.addEventListener("click",RegistrarUsuario);
 
 });
+
 let errorDiv = document.getElementById('error-msg');
 async function RegistrarUsuario() 
 {
@@ -27,21 +28,15 @@ async function RegistrarUsuario()
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ nombre, password,facultad}),
             })
-
     const data = await res.json()
-
     if(data.success){
       modalaviso("Usuario Registrado con éxito");
       document.getElementById("btnaceptar").addEventListener("click", () => window.location.href = "/Cliente/Html/inicio.html", { once: true });
-
     }else{
       errorDiv.textContent = data.mensaje;
     }
     }
-
-
 }
-
 async function CargarFacultades() {
     const res = await fetch(`${window.API_URL}/facultades/todos`,{
     method: "GET",
@@ -88,8 +83,6 @@ function validaciones(password,nombre){
   }
   return true;
 }
-
-
 
  function Alfanumerico(texto) {
   const valido = /^[\p{L}\p{N} ]+$/u.test(texto);

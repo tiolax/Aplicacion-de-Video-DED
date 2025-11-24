@@ -11,7 +11,7 @@
     
     <style>
       .fila-baja {
-        background-color: #f8d7da !important;
+        background-color: #dab4b7 !important;
       }
     </style>
 
@@ -31,19 +31,17 @@
   <div class="col-12 d-flex flex-wrap justify-content-start gap-2 acciones-usuarios">
     
     <button id="btn-actualizar"
-      class="btn btn-secondary btn-accion-base btn-accion-actualizar">
+      class="btn btn-outline-dark btn-accion-base btn-accion-actualizar">
       Actualizar
     </button>
 
     <button id="btn-agregar-usuario" type="button"
-      class="btn btn-secondary btn-accion-base btn-accion-agregar">
+      class="btn btn-outline-dark btn-accion-base btn-accion-agregar"   onclick="window.location.href='Registrartusuario.html'"> 
      <i class="bi bi-person-plus-fill me-1"></i> Agregar Usuario
     </button>
 
   </div>
 </div>
-
-      <!-- Tabla responsiva -->
       <div class="table-responsive mt-3">
         <table class="table table-bordered table-hover align-middle bg-dark-subtle" id="tabla-usuarios">
           <thead class="thead-dark">
@@ -58,40 +56,33 @@
             </tr>
           </thead>
           <tbody>
-            <!-- Se llenará dinámicamente desde JS -->
+            <!-- Se llena dinámicamente desde JS -->
           </tbody>
         </table>
       </div>
 
-
     </div>
   </main>
 
-<!-- ✅ Modal Actualizar Usuario -->
+<!--  Modal Actualizar Usuario -->
 <div class="modal fade" id="modalDarDeBaja" tabindex="-1" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
 
       <div class="modal-header">
-        <h5 class="modal-title" id="modalDarDeBajaTitulo">Actualizar usuario</h5>
+        <h5 class="modal-title" id="modalDarDeBajaTitulo"> </h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
       </div>
 
       <div class="modal-body">
-        <!-- Info actual -->
-        <div class="mb-2">
-          Usuario seleccionado: <strong id="modalDarDeBajaUsuarioNombre"></strong><br>
-          Estatus actual: <strong id="modalDarDeBajaUsuarioEstatus"></strong>
-        </div>
 
-        <hr>
-
-        <!-- ✅ Formulario de edición -->
+        <!--  Formulario de edición -->
         <div class="mb-3">
           <label for="input-nombre-usuario" class="form-label">Nombre de usuario</label>
           <input type="text" class="form-control" id="input-nombre-usuario" placeholder="Nombre del usuario">
         </div>
 
+        
 <div class="mb-1">
   <label for="input-password-usuario" class="form-label">Actualizar Contraseña</label>
 
@@ -103,35 +94,30 @@
       placeholder="Deja en blanco para no cambiar">
 
     <button 
-      class="btn btn-outline-secondary" 
+      class="btn btn-outline-dark" 
       type="button" 
       id="btn-toggle-password">
       <i class="bi bi-eye" id="icono-password"></i>
     </button>
   </div>
-
-  <small class="text-muted"></small>
 </div>
-
-
-
-      <!-- ✅ Footer con Baja a la izquierda y Confirmar/Volver a la derecha -->
+<div id="error-nombre-usuario" class="text-danger small d-none mt-1"></div>
+  </div> 
+      <!--  Footer -->
       <div class="modal-footer justify-content-between">
 
-        <!-- IZQUIERDA: Baja / Reactivar -->
         <div>
-          <button type="button" class="btn btn-danger" id="btn-toggle-baja">
+          <button type="button" class="btn btn-outline-danger" id="btn-toggle-baja">
             Baja
           </button>
         </div>
 
-        <!-- DERECHA: Confirmar / Volver -->
         <div class="d-flex gap-2">
-          <button type="button" class="btn btn-primary" id="btn-confirmar-actualizar">
+          <button type="button" class="btn btn-outline-dark" id="btn-confirmar-actualizar">
             Confirmar
           </button>
 
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+          <button type="button" class="btn btn-outline-dark" data-bs-dismiss="modal">
             Volver
           </button>
         </div>
@@ -152,7 +138,7 @@
         </div>
         <div class="modal-body text-center" id="textmodalAviso"></div>
         <div class="modal-footer justify-content-center">
-          <button id="btnaceptar" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Aceptar</button>
+          <button id="btnaceptar" type="button" class="btn btn-outline-dark" data-bs-dismiss="modal">Aceptar</button>
         </div>
       </div>
     </div>

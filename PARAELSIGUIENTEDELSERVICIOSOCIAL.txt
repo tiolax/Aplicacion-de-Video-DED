@@ -8,7 +8,7 @@ Aqui solo se usó html, css y bootstrap
 -Prisma
 -Express
 -Cors
--Cookie-parser
+
 
 //////ARQUITECTURA//////
 ----Datos generales---
@@ -17,21 +17,30 @@ La app está en un modelo MCV(Modelo-Vista-Controlador)
 La base de datos es SQLite (porque no se esperan muchas entradas y es mas facil manejarla)
 
 Los archivos JS estan separados en dos las "Fetchs" y la "logica", la Fecth no es mas que una abreviacion para
-pedir informacion a las rutas.
+pedir informacion a las rutas. (Agunos js no tienen esa separacion)
 
-El flujo es Cliente -> Logica -> Fecth -> Control -> Modelo -> BD (y se regresa)
+El flujo es: Cliente -> Logica -> Fecth -> Control -> Modelo -> BD (y se regresa)
 
 ----Sesiones----
-
 Tenemos una tabla de sesiones en la BD, aqui se van creando las sesiones activas. Cuando un usuario se desconeta
 la fila correspondiente se borra(recuerda que usamos SQlite y no queremos hacer multiples entradas)
 
-Usamos Cookies por seguridad, estas solo se envias en HTTPS, (NO en HTTP)
+Al momento del logeo, se guarda el id de sesion en LocalStorage, en cada cambio de pagina, la navbar hacer una validacion para verificar
+que la sesion siga activa.(Puedes usar Prisma Studio para monitorear la base de datos)
 
-Las cookies necesitan CORS 
+Cuando cierras sesion, la entrada se borra y limpiamos el LocalStorage.
 
+---
 
 /////NOTAS/////
 Cuando se mande a produccion asegurense de setear la variable de entorno > set NODE_ENV=production
 para que la seguridad se active(supongo que los encargados del hosteo y todo eso le saben)
 
+////TRABAJO REMOTO///
+Sí lo vas trabajarlo en otra pc debes tener instalado lo siguiente:
+-Node.js
+-Prisma(Asegurate de generar el cliente en el lugar correcto, revisa la documentacion de la web de prisma)
+-Express
+-Levanta el front en Node(comando http-server), no uses LiveServer porque tiene recargas automaticas en los fomrs.
+
+////RECOMENDACIONES////

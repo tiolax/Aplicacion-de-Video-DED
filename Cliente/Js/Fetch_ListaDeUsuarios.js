@@ -9,33 +9,24 @@ export async function ObtenerUsuarios(){
 
 export async function Actualizar(id, nombreUsuario, password, baja) {
   const data = {};
-
-
   if (nombreUsuario && nombreUsuario.trim() !== "") {
-    data.nombreUsuario = nombreUsuario.trim();
+    data.nombre_de_usuario = nombreUsuario.trim();
   }
-
   if (password && password.trim() !== "") {
     data.password = password.trim();
   }
-
     if (typeof baja === "boolean") {
     data.baja = baja;
   }
-
-
   console.log("Enviando:", { id, data });
   const res = await fetch(`${window.API_URL}/usuarios/actualizar`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ id, data })
   });
-
   const use = await res.json();
   return use;
 }
-
-
 
 export function modalaviso(mensaje){
     const modalElement = document.getElementById('modalAviso');
