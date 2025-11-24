@@ -3,35 +3,28 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-     <link rel="stylesheet" href="/Cliente/Css/style.css">
+    <link rel="stylesheet" href="/Cliente/Css/style.css">
     <link rel="stylesheet" href="/Cliente/Css/footer.css">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
-
     <title>Lista de Usuarios</title>
-
+    
     <style>
-      /* rojo suave para usuarios en baja */
       .fila-baja {
-        background-color: #f8d7da !important; /* similar a table-danger */
+        background-color: #f8d7da !important;
       }
     </style>
+
 </head>
 <body>
   <div id="navbar"></div>
-
   <main class="contenido-principal">
     <div class="container-fluid contenedor p-3">
-
       <div class="row mb-3">
         <div class="col-12">
           <h5 class="mb-0">Lista de Usuarios</h5>
         </div>
       </div>
-
-      <!-- Barra de filtros / acciones -->
-
 
 <!-- Barra de acciones bien contenida -->
 <div class="row g-2 align-items-center bg-dark-subtle p-2 rounded mb-3">
@@ -49,9 +42,6 @@
 
   </div>
 </div>
-
-
-
 
       <!-- Tabla responsiva -->
       <div class="table-responsive mt-3">
@@ -102,12 +92,28 @@
           <input type="text" class="form-control" id="input-nombre-usuario" placeholder="Nombre del usuario">
         </div>
 
-        <div class="mb-1">
-          <label for="input-password-usuario" class="form-label">Nueva contraseña</label>
-          <input type="password" class="form-control" id="input-password-usuario" placeholder="Deja en blanco para no cambiar">
-          <small class="text-muted">Si no deseas cambiarla, déjala vacía.</small>
-        </div>
-      </div>
+<div class="mb-1">
+  <label for="input-password-usuario" class="form-label">Actualizar Contraseña</label>
+
+  <div class="input-group">
+    <input 
+      type="password" 
+      class="form-control" 
+      id="input-password-usuario" 
+      placeholder="Deja en blanco para no cambiar">
+
+    <button 
+      class="btn btn-outline-secondary" 
+      type="button" 
+      id="btn-toggle-password">
+      <i class="bi bi-eye" id="icono-password"></i>
+    </button>
+  </div>
+
+  <small class="text-muted"></small>
+</div>
+
+
 
       <!-- ✅ Footer con Baja a la izquierda y Confirmar/Volver a la derecha -->
       <div class="modal-footer justify-content-between">

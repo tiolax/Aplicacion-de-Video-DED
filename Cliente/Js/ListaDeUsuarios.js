@@ -115,7 +115,7 @@ if (inputPasswordUsuario) {
 
   passwordOriginalSeleccionado = passActual;
 
-  inputPasswordUsuario.type = "text";
+  inputPasswordUsuario.type = "password";
   inputPasswordUsuario.value = passActual;
 }
 
@@ -133,13 +133,25 @@ if (inputPasswordUsuario) {
           btnToggleBaja.classList.remove("btn-success");
           btnToggleBaja.classList.add("btn-danger");
         }
+const inputPassword = document.getElementById('input-password-usuario');
+const btnTogglePassword = document.getElementById('btn-toggle-password');
+const iconoPassword = document.getElementById('icono-password');
+
+if (inputPassword && btnTogglePassword && iconoPassword) {
+  btnTogglePassword.addEventListener('click', () => {
+    const esPassword = inputPassword.type === 'password';
+    inputPassword.type = esPassword ? 'text' : 'password';
+    iconoPassword.classList.toggle('bi-eye');
+    iconoPassword.classList.toggle('bi-eye-slash');
+  });
+}
 
         modalDarDeBaja.show();
       });
     }
 
 
-// ✅ Confirmar cambios de nombre/contraseña
+///bton para actualizar los datos del usuario
 if (btnConfirmarActualizar) {
   btnConfirmarActualizar.addEventListener("click", async () => {
     if (!usuarioSeleccionado) return;
@@ -165,24 +177,14 @@ if (btnConfirmarActualizar) {
   
     try {
 
-let passwordParaEnviar = null;
-if (nuevaPassword && nuevaPassword !== passwordOriginalSeleccionado) {
-  passwordParaEnviar = nuevaPassword;
-}
 
 
 const UsuarioId = usuarioSeleccionado.id;
-
 const nuevoNombre = (inputNombreUsuario?.value ?? "").trim();
 const nuevaPassword = (inputPasswordUsuario?.value ?? "").trim();
 
-
-
-
 await Actualizar(UsuarioId, nuevoNombre, nuevaPassword);
-      // ✅ actualizar UI local
       usuarioSeleccionado.nombreUsuario = nuevoNombre;
-
       if (filaSeleccionada) {
         filaSeleccionada.dataset.nombreUsuario = nuevoNombre;
 
@@ -190,7 +192,6 @@ await Actualizar(UsuarioId, nuevoNombre, nuevaPassword);
         const tdNombre = filaSeleccionada.querySelector("td:nth-child(2)");
         if (tdNombre) tdNombre.textContent = nuevoNombre;
       }
-
       modalDarDeBaja.hide();
     } catch (e) {
       console.error(e);
@@ -262,3 +263,5 @@ function formatearFecha(fechaRaw) {
     day: "2-digit",
   });
 }
+
+
