@@ -43,4 +43,7 @@ Sí lo vas trabajarlo en otra pc debes tener instalado lo siguiente:
 -Express
 -Levanta el front en Node(comando http-server), no uses LiveServer porque tiene recargas automaticas en los fomrs.
 
-////RECOMENDACIONES////
+----Extensiones Recomendadas---
+-EchoAPI for VS Code: Permite testear los endpoints antes de integrarlos
+-Prisma: Ayuda a la sintaxis y escritura de prisma
+-SQLite Viewer: Ayuda a abrir el archivo BD de SQLITE.

@@ -85,12 +85,9 @@ export const crearUsuario = async (req, res) => {
 
 //Actualizar
  export const ActualizarUsuario = async (req,res) => {
-
-    const nombre = req.body.data.nombre_de_usuario;
-    console.log(nombre);
+     const nombre = req.body.data.nombre_de_usuario;
      const usuarioEcontrado = await UsuarioModelo.obtenerPorNombre(nombre);
       if(usuarioEcontrado){
-        console.log("usuario duplicado");
           return  res.status(409).json({success: false, mensaje: "Ya existe un usuario con ese nombre" });
       }
 
