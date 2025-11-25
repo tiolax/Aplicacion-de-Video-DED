@@ -11,6 +11,7 @@ import PalabrasRuta from "./Rutas/Palabras_Rutas.js"
 import SesionesRuta from "./Rutas/Sesion_Rutas.js"
 
 const app = express();
+///cambiar en produccion
 app.use(cors({
     origin: "http://127.0.0.1:8080",
     credentials: true,

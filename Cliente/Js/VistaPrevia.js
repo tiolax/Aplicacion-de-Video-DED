@@ -34,9 +34,7 @@ function normalizePalabras(pals) {
   // 1) payload que venía desde la tabla
   let video = getPreviewFromSession();
   if (!video || Number(video.id) !== Number(id)) {
-    // Fallback opcional: si tienes un fetch por id, úsalo aquí:
-    // video = await safeObtenerVideoPorId(id);
-    // Por ahora, si no hay payload, mostramos error legible:
+
     if (!video) {
       renderError("Abre esta vista desde la lista de videos para ver los detalles.");
       return;

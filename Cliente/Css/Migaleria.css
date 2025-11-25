@@ -1,0 +1,80 @@
+/* ===========================
+   BLOQUE A: Reset y base
+   =========================== */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  font-family: 'Open Sans', sans-serif;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Contenido principal empuja el footer hacia abajo */
+.contenido-principal {
+  flex: 1;
+}
+
+/* Contenedor general para la página de galería */
+.contenedor {
+  padding: 60px 0;
+  width: 100%;
+  max-width: 1700px;
+  margin: auto;
+  overflow: hidden;
+}
+
+/* ===========================
+   BLOQUE B: Tarjetas de video
+   =========================== */
+
+/* Wrapper para recorte 16:9 de miniatura de YouTube */
+.video-img-wrapper {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+}
+
+.video-img-wrapper img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Hover de las tarjetas de video */
+.card-link .card {
+  transition: border 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card-link:hover .card {
+  border: 1px solid #020202;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+  cursor: pointer;
+}
+
+/* ===========================
+   BLOQUE C: Botones de acción
+   =========================== */
+
+/* Hover oscuro tipo btn-outline-dark incluso si tienen bg-white */
+.btn-outline-dark.bg-white:hover,
+.btn-outline-dark.bg-white:focus {
+  background-color: #212529 !important; /* dark */
+  border-color: #212529 !important;
+  color: #fff !important;               /* texto blanco */
+}
+
+.btn-outline-dark.bg-white:hover i,
+.btn-outline-dark.bg-white:focus i {
+  color: #fff !important;               /* ícono blanco */
+}

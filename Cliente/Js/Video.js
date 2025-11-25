@@ -1,26 +1,16 @@
-
-
 import {ObtenerVideoPorId } from "./Fetch_Video.js";
 document.addEventListener("DOMContentLoaded", initVideoPage);
-
 async function initVideoPage() {
   const els = pickEls();
-
-  // 1) leer parámetros
   const id = getParam("id");
   const identificador = getParam("identificador");
-
   if (!id && !identificador) {
     return renderError("Falta el parámetro 'id' o 'identificador'.");
   }
-
   try {
-    // 2) fetch al endpoint ideal
     const data = await fetchVideoDetalle({ id, identificador });
     const v = data?.video;
     if (!v) return renderError("No se encontró el video.");
-
-    // 3) preparar campos
     const titulo      = v.titulo ?? "Sin título";
     const descripcion = v.descripcion ?? "Sin descripción";
     const fechaDMY    = isoToDMY(v.fecha_de_registro) ?? "—";
@@ -30,12 +20,9 @@ async function initVideoPage() {
     const facNom      = v.ua?.carrera?.facultad?.nombre ?? "—";
     const palabras    = Array.isArray(v.palabras) ? v.palabras : [];
     const embedUrl    = buildYouTubeEmbed(v.identificador ?? identificador);
-
-    // 4) pintar
     els.videoTitulo.textContent     = titulo;
     els.videoDescripcion.textContent = descripcion;
     els.videoFecha.textContent      = fechaDMY;
-
     els.usuarioNombre.textContent   = usuarioNom;
     els.uaNombre.textContent        = uaNom;
     els.carreraNombre.textContent   = carrNom;
@@ -53,7 +40,6 @@ async function initVideoPage() {
       </div>`;
     }
 
-    // 5) copiar enlace
     const btnCopy = document.getElementById("btnCopyLink");
     btnCopy?.addEventListener("click", async () => {
       try {
@@ -69,24 +55,11 @@ async function initVideoPage() {
     renderError("Ocurrió un error al cargar el video.");
   }
 }
-
 /* ---------------- helpers de datos ---------------- */
 async function fetchVideoDetalle({ id, identificador }) {
-
-
-
 const data = ObtenerVideoPorId(id);
 return data;
- /* const base = (window.API_URL || "").replace(/\/+$/, "");
-  const url = id
-    ? `${base}/videos/obtener-por-id?id=${id}`
-    : null;
-
-  const res = await fetch(url, { headers: { "Accept": "application/json" } });
-  if (!res.ok) throw new Error("Fetch error");
-  return await res.json();*/
 }
-
 /* ---------------- helpers visuales ---------------- */
 function pickEls() {
   return {
@@ -111,7 +84,7 @@ function renderPalabras(container, palabras) {
   container.innerHTML = "";
   if (!palabras || !palabras.length) return;
   palabras.forEach(p => {
-    // backend ya devuelve [{id,nombre}]
+
     const label = p?.nombre ?? "";
     const pill = document.createElement("div");
     pill.className = "p-2";
@@ -119,7 +92,6 @@ function renderPalabras(container, palabras) {
     container.appendChild(pill);
   });
 }
-
 /* ---------------- utilidades ---------------- */
 function getParam(k) {
   return new URL(location.href).searchParams.get(k);

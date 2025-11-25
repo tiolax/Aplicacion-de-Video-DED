@@ -44,3 +44,12 @@ export async function EditarVideos(id,titulo,descripcion,ua_id,palabras,identifi
             const data = await res.json();
             return data;
 }
+export async function EliminarVideo(id) {
+            const res = await fetch(`${window.API_URL}/videos/eliminar-por-id`,{
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({id}),
+            })
+            const data = await res.json();
+            return data;
+}
