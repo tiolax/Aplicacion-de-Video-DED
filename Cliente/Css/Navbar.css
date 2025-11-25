@@ -1,0 +1,66 @@
+/* ==========================================
+   NAVBAR: estilos específicos
+   ========================================== */
+
+@media (min-width: 992px) {
+  #navbar-search .input-group {
+    max-width: 560px;       /* ancho máximo cómodo */
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
+
+#navbar-search-btn i {
+  pointer-events: none;
+}
+
+/* --- Dropdown del perfil --- */
+.dropdown-menu .dropdown-item.active,
+.dropdown-menu .dropdown-item:active {
+  background-color: #000000;
+  color: #ffffff;
+}
+
+.dropdown-menu .dropdown-item:hover {
+  background-color: #343a40;
+  color: #ffffff;
+}
+
+.dropdown-item:hover{
+    color: #ffffff;
+}
+/* ==========================================
+   NAVBAR: layout compacto en pantallas pequeñas
+   ========================================== */
+
+@media (max-width: 576px) {
+  #navbar .container-fluid {
+    flex-wrap: nowrap;
+  }
+
+  #navbar .navbar-brand {
+    font-size: 0.9rem;
+    margin-right: 0.25rem;
+    padding-right: 0.5rem;
+  }
+
+  /* El buscador ocupa solo una parte del ancho */
+  #navbar-search {
+    max-width: 45%;
+    margin: 0 0.25rem;
+  }
+
+  #navbar-search-input {
+    font-size: 0.8rem;
+    padding: 0.25rem 0.5rem;
+  }
+
+  #navbar .btn-secondary.rounded-circle {
+    width: 32px;
+    height: 32px;
+  }
+
+  #navbar .dropdown-toggle .bi-person-circle {
+    font-size: 1.4rem;
+  }
+}
