@@ -1,6 +1,7 @@
 import express from "express";
 import cors from "cors";
-import cookieParser from "cookie-parser";
+
+
 
 import UsuarioRutas from "./Rutas/Usuario_Rutas.js"
 import FacultadRutas from "./Rutas/Facultades_Rutas.js"
@@ -19,7 +20,6 @@ app.use(cors({
 
 ));
 app.use(express.json());
-app.use(cookieParser());
 
 app.use("/palabras",PalabrasRuta);
 app.use("/usuarios",UsuarioRutas);

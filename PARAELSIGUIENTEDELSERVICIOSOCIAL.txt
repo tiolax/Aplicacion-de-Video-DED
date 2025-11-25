@@ -21,6 +21,27 @@ pedir informacion a las rutas. (Agunos js no tienen esa separacion)
 
 El flujo es: Cliente -> Logica -> Fecth -> Control -> Modelo -> BD (y se regresa)
 
+---Modelos-----
+Los modelos son funciones que manipulan directamente la base de datos, como Crear, Editar,Eliminar,etc.
+Prisma sustituye el uso de Querys con funciones prisma para facilitar su uso.
+
+En este nivel solo harás consultas, (Es posible que tenga una que otra validacion extra por ahí, puedes modificarla
+sí te sientes determinado).
+
+---Controladores---
+Los controladores son el paso intermedio entre el cliente y los modelos, Aquí es donde harás todo tipo de validaciones y middlewares
+
+Asegurate de enviar correctamente los datos al modelo.  
+Cada modelo tiene su propio controlador, pero si llegaras a necesitar de dos o mas modelos, he creado una "Capa de Servicio"
+
+En la capa de servicio donde puedes combinar modelos, miralo como un controlador que usa varios modelos.
+
+---Fetch----
+Esto es del lado del cliente, En este nivel hacemos las validaciones del cliente (campos vacios, errores alfanumericos,etc..)
+Idealmente cada .js tiene su propia coleccion de Fetchs, pero durante el desarrollo me di cuenta que mucho codigo se repetía,
+así que verás un par de js que reciclan fetchs. Sí quieres organizarlo y agruparlo puedes hacerlo.
+
+
 ----Sesiones----
 Tenemos una tabla de sesiones en la BD, aqui se van creando las sesiones activas. Cuando un usuario se desconeta
 la fila correspondiente se borra(recuerda que usamos SQlite y no queremos hacer multiples entradas)
@@ -30,7 +51,13 @@ que la sesion siga activa.(Puedes usar Prisma Studio para monitorear la base de 
 
 Cuando cierras sesion, la entrada se borra y limpiamos el LocalStorage.
 
----
+----Css----
+Al principio de la creacion todo era un solo archivo llamado "style.css" pero llegando al final sentí la necesidad
+de organizarlo, así que comencé a separarlo, pero no lo terminé. Todo es funcional, pero puedes separarlo para 
+que se organice mejor
+
+---html---
+Realmente aqui no hay mucho que moverle, si quieres meter mano, quita los comentarios verdes y organiza a tu gusto
 
 /////NOTAS/////
 Cuando se mande a produccion asegurense de setear la variable de entorno > set NODE_ENV=production
@@ -47,3 +74,42 @@ Sí lo vas trabajarlo en otra pc debes tener instalado lo siguiente:
 -EchoAPI for VS Code: Permite testear los endpoints antes de integrarlos
 -Prisma: Ayuda a la sintaxis y escritura de prisma
 -SQLite Viewer: Ayuda a abrir el archivo BD de SQLITE.
+
+
+Parte del codigo está Chatgepetiado, te darás cuenta, no pasa nada. solo asegurate de saber lo que está haciendo 
+y como funciona para poder ajustarlo a lo que se tiene.
+
+////RETOS////
+¿Quieres moverle a algo más? aqui te dejo mi lista de pendientes:
+
+1.Busca colores agradables, sin perder profesionalismo (te recomiendo azules), y modifica los colores,
+puedes crear variables globales que almacenen el color y solo llamarlas en cada archivo que lo necesite
+
+2.Dale coherencia al estilo de la página
+
+3.Agrega un modo oscuro, te lo agradecerán enormemente
+
+4.Organiza todos los Fetch, éxito con eso
+
+5.Agrega validaciones de contraseña
+
+6.Mueve las validaciones que no deberian ir en los modelos.
+
+7.Agrega una limpieza automatica de sesiones viejas para no saturar la base de datos (Que se borren despues de 7 dias).
+
+8.Agrega paginacion a la vista de "Mis Videos"
+
+
+/////Versiones////
+Node.js     22.17.0
+npm         10.9.2
+Prisma      6.11.1
+SQlite      3.46.0
+Express     5.1.0
+
+
+///////
+Mucho exito
+
+-Carlos Gomez (Lax)
+@tiolax <---github

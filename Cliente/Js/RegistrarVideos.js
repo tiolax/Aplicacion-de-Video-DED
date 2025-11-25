@@ -11,7 +11,7 @@ const SESSION_KEY = "SesionIniciada";
 const sesionActual = JSON.parse(localStorage.getItem(SESSION_KEY));
 const DatosUsuario =  await SesionActual(sesionActual);
 usuarioActual = DatosUsuario;
-console.log("Datos del usuario: ",DatosUsuario);
+
 
 GenerarFacultades();
 GenerarPalabras();
@@ -104,7 +104,7 @@ async function ValidarVideo() {
   if (usuarioActual.admin) {
     FuncionesAuxiliares.modalaviso("Video cargado con exito");
   } else {
-    const msg = 'Video subido para su revision de forma correcta, puede revisar si estatus en la ventana de "Videos Pendientes"';
+    const msg = 'Video subido para su revision de forma correcta, puede revisar su estatus en la ventana de "Videos en espera"';
     // pone el texto en el modal
     FuncionesAuxiliares.modalaviso(msg);
 

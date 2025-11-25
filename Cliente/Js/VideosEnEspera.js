@@ -1,9 +1,30 @@
 import { ObtenerVideosPorUsuario, EliminarVideoPorId, EditarVideos,ObtenerUaporId } from "./Fetch_VideosEnEspera.js";
 import { ObtenerPalabras, ObtenerUas,ObtenerCarreras } from "./Fetch_RegistrarVideos.js";
 import {SesionActual} from "./Fetch_Login.js"
+
 const SESSION_KEY = "SesionIniciada";
-const sesionActual = JSON.parse(localStorage.getItem(SESSION_KEY));
-const usuarioActual = await SesionActual(sesionActual);
+let usuarioActual = null;  // ahora la llenamos más tarde
+
+async function initSesion() {
+  try {
+    const raw = localStorage.getItem(SESSION_KEY);
+    console.log("Valor crudo en localStorage[SesionIniciada]:", raw);
+
+    const sesionActual = raw ? JSON.parse(raw) : null;
+
+    if (!sesionActual) {
+      console.warn("No hay SesionIniciada en localStorage");
+      usuarioActual = null;
+      return;
+    }
+
+    usuarioActual = await SesionActual(sesionActual);
+    console.log("Usuario desde SesionActual:", usuarioActual);
+  } catch (err) {
+    console.error("Error inicializando sesión:", err);
+    usuarioActual = null;
+  }
+}
 
 /* =========================================================
     ESTADO GLOBAL
@@ -11,15 +32,26 @@ const usuarioActual = await SesionActual(sesionActual);
 let pendingDeleteId = null;
 let pendingDeleteBtn = null;
 
-let editingVideo = null;   // objeto del video que se edita
-let editingTr = null;      // <tr> asociado en la tabla
+let editingVideo = null;   
+let editingTr = null;     
 
 /* =========================================================s
     UTILIDADES
    ========================================================= */
 const $  = (sel, root = document) => root.querySelector(sel);
 const $$ = (sel, root = document) => Array.from(root.querySelectorAll(sel));
+function escapeHtml(str) {
+  if (str === null || str === undefined) return "";
+  return String(str)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#39;");
+}
+
 function setHeader(name, faculty, count) {
+
   const $ = (sel) => document.getElementById(sel);
   const n = $("hdrUserName");
   const f = $("hdrUserFaculty");
@@ -37,6 +69,10 @@ function renderHeaderForUser(count) {
     u?.facultad?.nombre ??
     u?.carrera?.facultad?.nombre ??
     "—";
+
+    console.log("nombre del usuario:",name);
+    console.log("nombre de la facultad:",faculty);
+    
   setHeader(name, faculty, count);
 }
 
@@ -49,23 +85,45 @@ const getTbody = () =>
   $("tbody");
 
 function getUsuario() {
-  try { return JSON.parse(localStorage.getItem("Usuario_SesionIniciada")); }
-  catch { return null; }
+  if (!usuarioActual) return null;
+
+  const id =
+    usuarioActual.id ??
+    usuarioActual.id_usuario ??
+    usuarioActual.idUsuario ??
+    usuarioActual.usuario_id ??
+    usuarioActual.usuarioId ??
+    null;
+
+  const facultad_id =
+    usuarioActual.facultad_id ??
+    usuarioActual.id_facultad ??
+    usuarioActual.facultadId ??
+    usuarioActual.facultad?.id ??
+    usuarioActual.carrera?.facultad?.id ??
+    null;
+
+  const normalizado = {
+    ...usuarioActual,
+    id,
+    facultad_id,
+  };
+
+  console.log("Usuario normalizado:", normalizado);
+  return normalizado;
 }
 
 function getUserFacultyId() {
-  try {
-    const u = JSON.parse(localStorage.getItem("Usuario_SesionIniciada"));
-    return u?.facultad_id ?? u?.facultadId ?? u?.facultadid ?? null;
-  } catch { return null; }
-}
-function escapeHtml(s) {
-  return String(s ?? "")
-    .replaceAll("&", "&amp;")
-    .replaceAll("<", "&lt;")
-    .replaceAll(">", "&gt;")
-    .replaceAll('"', "&quot;")
-    .replaceAll("'", "&#039;");
+const u = getUsuario();
+  if (!u) return null;
+  return (
+    u.facultad_id ??
+    u.facultadId ??
+    u.facultadid ??
+    u.facultad?.id ??
+    u.carrera?.facultad?.id ??
+    null
+  );
 }
 
 function getThumb(v) {
@@ -94,8 +152,6 @@ async function getUaInfo(ua_id) {
   uaCache.set(ua_id, info);
   return info;
 }
-
-
 
 
 /* =========================================================
@@ -127,7 +183,7 @@ function badgeFor(aprobado) {
 function editBtn(id, title) {
   return `
     <button type="button"
-            class="btn btn-outline-primary btn-sm"
+            class="btn btn-outline-dark btn-sm"
             data-action="edit"
             data-id="${String(id)}"
             data-title="${escapeHtml(title)}"
@@ -138,6 +194,7 @@ function editBtn(id, title) {
       <span class="ms-1">Editar</span>
     </button>`;
 }
+
 
 function deleteBtn(id, title) {
   return `
@@ -167,34 +224,53 @@ function rowTemplate(video, index) {
     id: video.id,
     titulo: video.titulo,
     descripcion: video.descripcion,
-    ua_id: video.ua_id,                 // 👈
-    ua_nombre: video.ua_nombre,         // 👈 (útil para mostrar)
-    carrera_id: video.carrera_id,       // 👈
-    carrera_nombre: video.carrera_nombre, // 👈
+    ua_id: video.ua_id,
+    ua_nombre: video.ua_nombre,
+    carrera_id: video.carrera_id,
+    carrera_nombre: video.carrera_nombre,
     palabras: video.palabras || []
   }))}'>
   <th scope="row">${index}</th>
+
+  <!-- Columna RECURSO: thumbnail + título + botones debajo -->
   <td class="align-middle">
     <div class="d-flex align-items-center gap-3">
-      <img src="${thumb}" class="rounded" style="width:120px;height:auto;object-fit:cover" alt="Video">
-      <div class="fw-semibold">${escapeHtml(titulo)}</div>
+      <img src="${thumb}"
+           class="rounded"
+           style="width:120px;height:auto;object-fit:cover"
+           alt="Video">
+
+      <div class="d-flex flex-column">
+        <div class="fw-semibold mb-2">
+          ${escapeHtml(titulo)}
+        </div>
+
+        <div class="d-flex flex-wrap gap-2">
+          ${editBtn(video.id, titulo)}
+          ${deleteBtn(video.id, titulo)}
+        </div>
+      </div>
     </div>
   </td>
-  <td class="align-middle">${escapeHtml(comentario)}</td>
+
+  <!-- Columna COMENTARIO -->
   <td class="align-middle">
-    <div class="d-flex align-items-center gap-2">
-      ${badgeFor(aprobado)}
-      ${editBtn(video.id, titulo)}
-      ${deleteBtn(video.id, titulo)}
-    </div>
+    ${escapeHtml(comentario)}
+  </td>
+
+  <!-- Columna ESTATUS: solo badge -->
+  <td class="align-middle">
+    ${badgeFor(aprobado)}
   </td>
 </tr>`;
 }
+
 
 /* =========================================================
     RENDER DE LISTA + ENGANCHES
    ========================================================= */
 async function initVideosPendientes() {
+      console.log("Entramos al InitVideos");
   const tbody = getTbody();
   if (!tbody) return;
 
@@ -202,14 +278,17 @@ async function initVideosPendientes() {
 
   try {
     const usuario = getUsuario();
+    console.log("usuario buscado:",usuario);
     if (!usuario?.id) { renderEmpty(tbody, "No se encontró el usuario en la sesión."); return; }
+      renderHeaderForUser(0);
     const resp  = await ObtenerVideosPorUsuario(usuario.id);
     const lista = resp?.videos ?? resp?.data ?? resp?.items ?? resp ?? [];
     const videos = lista.filter(v => Number(v.aprobado) === 0 || Number(v.aprobado) === 2);
     renderHeaderForUser(videos.length);
     if (!videos.length) { renderEmpty(tbody, "No tienes videos en revisión o rechazados."); return; }
 
-    // ... ya tienes 'videos' filtrados por aprobado 0/2
+
+
 
 // precarga UA únicas
 const uaIds = [...new Set(videos.map(v => v.ua_id).filter(Boolean))];
@@ -257,7 +336,6 @@ $$('button[data-action="edit"]', tbody).forEach(btn => {
       editingTr    = tr;
       editingVideo = JSON.parse(tr.getAttribute("data-video") || "{}");
 
-      // Prefill de campos base
       $("#editVideoId").value      = editingVideo.id || "";
       $("#editTitulo").value       = editingVideo.titulo || "";
       $("#editDescripcion").value  = editingVideo.descripcion || "";
@@ -458,9 +536,6 @@ async function renderUasEnModal(uaActualId, carreraId) {
 
 
 
-
-
-
 /* =========================================================
     CONFIRMAR EDICIÓN
    ========================================================= */
@@ -533,10 +608,9 @@ $("#btnConfirmEdit")?.addEventListener("click", async () => {
         ...JSON.parse(editingTr.getAttribute("data-video") || "{}"),
         titulo:          editingVideo.titulo,
         descripcion:     editingVideo.descripcion,
-        ua_id,           // la UA guardada
-        carrera_id,      // si decides persistirla o al menos conservarla en la fila
-        carrera_nombre:  selCarr?.selectedOptions?.[0]?.text ?? editingVideo.carrera_nombre ?? null,
-        // ua_nombre:     selUa?.selectedOptions?.[0]?.text ?? editingVideo.ua_nombre ?? null, // si lo quieres
+        ua_id,           
+        carrera_id,      
+        carrera_nombre:  selCarr?.selectedOptions?.[0]?.text ?? editingVideo.carrera_nombre ?? null, 
         palabras:        editingVideo.palabras,
       };
       editingTr.setAttribute("data-video", JSON.stringify(nuevoDataVideo));
@@ -553,7 +627,9 @@ $("#btnConfirmEdit")?.addEventListener("click", async () => {
 /* =========================================================
     ARRANQUE
    ========================================================= */
-document.addEventListener("DOMContentLoaded", () => {
-  initVideosPendientes();
+document.addEventListener("DOMContentLoaded", async () => {
+  console.log("arrancamos el dom");
+  await initSesion();
+  await initVideosPendientes();
   wireDeleteModal();
 });

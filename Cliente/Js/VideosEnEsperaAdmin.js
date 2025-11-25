@@ -35,7 +35,7 @@ async function initTablaAdmin() {
   renderLoading(tbody);
 
   try {
-    // 1) Trae videos en espera (pendientes/rechazados según tu backend)
+    // 1) Trae videos en espera 
     const lista = await ObtenerVideosEnEspera(); // ← await al fetch
     const videos = Array.isArray(lista) ? lista : [];
     renderHeader(videos.length);
@@ -45,7 +45,7 @@ async function initTablaAdmin() {
     }
 
     // 2) Enriquecer con UA → Carrera usando caché
-    const uaCache = new Map(); // ua_id -> { ua_nombre, carrera_nombre }
+    const uaCache = new Map(); 
     const uaIds = [...new Set(videos.map(v => v.ua_id).filter(Boolean))];
 
     await Promise.all(uaIds.map(async (uaId) => {
@@ -58,7 +58,7 @@ async function initTablaAdmin() {
     }));
 
 // 2.1) Enriquecer USUARIO con caché por id
-const userCache = new Map(); // usuario_id -> nombre
+const userCache = new Map(); 
 const userIds = [...new Set(videos.map(v => v.usuario_id).filter(Boolean))];
 
 await Promise.all(userIds.map(async (uid) => {

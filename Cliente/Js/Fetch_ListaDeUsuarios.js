@@ -18,7 +18,7 @@ export async function Actualizar(id, nombreUsuario, password, baja) {
     if (typeof baja === "boolean") {
     data.baja = baja;
   }
-  console.log("Enviando:", { id, data });
+
   const res = await fetch(`${window.API_URL}/usuarios/actualizar`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },

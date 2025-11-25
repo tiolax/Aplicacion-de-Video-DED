@@ -162,7 +162,6 @@ function seleccionarFila(tr, usuario) {
   usuarioSeleccionado = usuario;
   filaSeleccionada = tr;
 
-  console.log("Usuario seleccionado:", usuarioSeleccionado);
 }
 
 function mostrarFilaMensaje(mensaje, esError = false) {

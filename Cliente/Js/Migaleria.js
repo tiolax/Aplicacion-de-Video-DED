@@ -437,7 +437,7 @@ if (formEditar) {
     renderSkeleton(8);
 
     const idUsuario = usuarioActual?.usuarioId ?? 1;
-    console.log("Id del usuario: ", idUsuario);
+
 
     const respuesta = await ObtenerVideosPorUsuario(idUsuario);
     const videos = respuesta?.videos ?? respuesta ?? [];

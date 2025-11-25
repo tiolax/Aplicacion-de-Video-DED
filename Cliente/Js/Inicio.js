@@ -7,7 +7,7 @@ const searchBanner = document.getElementById("SearchBanner");
 
   const state = {
     page: 1,
-    per_page: 10,
+    per_page: 16,
     sort_by: "fecha_de_registro",
     sort_dir: "desc",
      q: null,
@@ -252,3 +252,6 @@ resetBtn?.addEventListener("click", (e) => {
   e.preventDefault();
   resetFiltrosYBusqueda();
 });
+
+
+

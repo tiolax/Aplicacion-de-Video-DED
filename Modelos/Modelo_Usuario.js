@@ -78,6 +78,7 @@ export  function obtenerPorNombre(nombre_de_usuario){
          id:true,
          password: true,
          admin:true,
+         baja:true,
          facultad_id:true,
          facultad:{
             select:{

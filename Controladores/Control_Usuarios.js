@@ -6,6 +6,8 @@ export const ValidarUsuario = async (req,res) => {
        let nombre_facultad =null; 
        if(!usuarioEcontrado){
             res.status(401).json({success: false, mensaje: "Usuario no encontrado" });
+       }else if(usuarioEcontrado.baja){
+            res.status(401).json({success: false, mensaje: "Usuario desactivado, Contacte a su administrador" });
        }else{
         if(req.body.password == usuarioEcontrado.password){
           
@@ -25,7 +27,7 @@ export const ValidarUsuario = async (req,res) => {
         }
       });
         }else{
-            return res.status(401).json({
+            return res.status(401).json({ 
         success: false,
         mensaje: "Contraseña incorrecta",
       });
@@ -86,10 +88,13 @@ export const crearUsuario = async (req, res) => {
 //Actualizar
  export const ActualizarUsuario = async (req,res) => {
      const nombre = req.body.data.nombre_de_usuario;
-     const usuarioEcontrado = await UsuarioModelo.obtenerPorNombre(nombre);
+     if(nombre){
+      const usuarioEcontrado = await UsuarioModelo.obtenerPorNombre(nombre);
       if(usuarioEcontrado){
           return  res.status(409).json({success: false, mensaje: "Ya existe un usuario con ese nombre" });
       }
+     }
+  
 
   const Usuario = await UsuarioModelo.Actualizar(req.body.id,req.body.data);
   if(Usuario){

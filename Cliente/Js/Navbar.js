@@ -1,7 +1,7 @@
 import {SesionActual,CerrarSesion} from "./Fetch_Login.js"
 const SESSION_KEY = "SesionIniciada";
 const sesionActual = JSON.parse(localStorage.getItem(SESSION_KEY));
-console.log("sesion actual: ", sesionActual);
+
 
 const esInicio = /\/login\.html$/i.test(location.pathname);
 const esVideoPublico = /\/Video\.html$/i.test(location.pathname);

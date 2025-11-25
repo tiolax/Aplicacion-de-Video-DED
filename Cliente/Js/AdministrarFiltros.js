@@ -76,9 +76,9 @@ async function cargarFiltros() {
 }
 async function cargarPalabras(){
 const data = await FuncionesAuxiliares.ObtenerPalabras();
-console.log(data);
+
 palabras = Array.isArray(data.palabras) ? data.palabras.map(p => p.nombre).filter(Boolean) : [];
-console.log(palabras);
+
 const listaPalabras = document.getElementById('listaPalabras');
 const emptyBankMsg  = document.getElementById('emptyBankMsg');
 
@@ -669,7 +669,6 @@ async function ValidarEditarFacu() {
       return;
    }
     const data = await FuncionesAuxiliares.EditarFacultad(nombre,id);
-   console.log(data);
   if (data.success) {
     document.getElementById('TitulomodalEditarFacultad').value = "";
     const modal = bootstrap.Modal.getInstance(document.getElementById('modalEditarFacultad'));
@@ -692,7 +691,6 @@ async function ValidarEditarCarrera(){
       return;
    }
     const data = await FuncionesAuxiliares.EditarCarrera(nombre,id,);
-   console.log(data);
   if (data.success) {
     document.getElementById('nombreEditarPrograma').value = "";
     const modal = bootstrap.Modal.getInstance(document.getElementById('modalEditarPrograma'));
